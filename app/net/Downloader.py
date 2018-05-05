@@ -5,11 +5,11 @@ from app.values.Constants import DOWNLOAD_LENGTH
 class Downloader:
     def __init__(self, url, version):
         try:
-            from pathlib import Path
+            from app.utils import getHomeDir
             import datetime
             self.url = url
             self.version = version
-            self.HOME = str(Path.home())
+            self.HOME = getHomeDir()
             self.date = datetime.date.today().strftime("%d%m%y")
         except ModuleNotFoundError as e:
             raiserModuleNotFound(e)
