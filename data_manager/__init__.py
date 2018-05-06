@@ -39,13 +39,13 @@ class Compiler:
     def __init__(self, kernel_folder, new_kernel_version, current_date):
         returnToHomeDir()
         home_dir = getHomeDir()
-        self.__kernel_path = "{}/Downloads/linux_{}_{}/{}".format(home_dir,
-                                                                  new_kernel_version,
-                                                                  current_date,
-                                                                  kernel_folder)
-        self.__decompressed_path = "{}/Downloads/linux_{}_{}/".format(home_dir,
-                                                                      new_kernel_version,
-                                                                      current_date)
+        self.__kernel_path = "{}/linux_{}_{}/{}".format(home_dir,
+                                                        new_kernel_version,
+                                                        current_date,
+                                                        kernel_folder)
+        self.__decompressed_path = "{}/linux_{}_{}/".format(home_dir,
+                                                            new_kernel_version,
+                                                            current_date)
         self.__log = Log.instance()
         removeOldKernels()
 
@@ -81,7 +81,7 @@ class Compiler:
             self.__log.finish()
             raise CopyConfigError("No boot configuration was found for the current kernel version. Searching a "
                                   "config for version \"" + kernel_version.rstrip() + "\" for these files in \"/boot/\" "
-                                                                                  "partition\n" + str(files_found))
+                                                                                      "partition\n" + str(files_found))
 
     def adaptOldConfig(self):
         from values.Constants import ADAPT_OLD_CONFIG

@@ -1,7 +1,6 @@
 from exceptions import raiserModuleNotFound, raiserContentNotAvailable
 from values.Constants import DOWNLOAD_LENGTH
 from utils import Log
-# from Application import __log
 
 
 class Downloader:
@@ -29,7 +28,7 @@ class Downloader:
             import requests
             path = urlparse(self.__url).path
             filename = os.path.basename(path)
-            partial_path = self.__HOME + "/Downloads/linux_{}_{}/".format(self.__version, self.__date)
+            partial_path = self.__HOME + "/linux_{}_{}/".format(self.__version, self.__date)
             if not os.path.exists(partial_path):
                 os.makedirs(partial_path)
             download_path = partial_path + filename
@@ -42,17 +41,6 @@ class Downloader:
                     self.__log.e("The kernel is not available actually for download")
                     raiserContentNotAvailable(response.content)
                 else:
-                    """bytes_downloaded = 0
-                    total_length = int(total_length)
-                    for data_obtained in response.iter_content(chunk_size=4096):
-                        bytes_downloaded += len(data_obtained)
-                        download.write(data_obtained)
-                        completed = int(50 * bytes_downloaded / total_length)
-                        sys.stdout.__write("\r[%s%s]" % ('=' * completed, ' ' * (50 - completed)))
-                        sys.stdout.flush()
-                    download.flush()
-                    download.close()
-                    length_in_mb = total_length / 1000000"""
                     for chunk in progress.bar(response.iter_content(chunk_size=1024),
                                               expected_size=(int(total_length) / 1024) + 1):
                         if chunk:
