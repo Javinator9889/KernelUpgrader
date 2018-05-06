@@ -59,7 +59,7 @@ class Downloader:
                             download.write(chunk)
                             download.flush()
                     download.close()
-                    length_in_mb = total_length / 1000000
+                    length_in_mb = int(total_length) / 1000000
                     self.__log.i("Downloaded " + str(total_length) + " bytes (" + str("%.2f" % length_in_mb) + " MB)")
             return download_path, self.__date
         except ImportError as e:
