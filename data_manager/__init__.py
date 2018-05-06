@@ -15,6 +15,7 @@ class UnZipper:
         self.__dir = os.path.dirname(filename)
         file_tar, file_tar_ext = os.path.splitext(filename)
         self.__file_unzip, file_unzip_ext = os.path.splitext(file_tar)
+        print(self.__filename + " " + self.__dir + " " + self.__file_unzip + " " + file_tar + " " + file_tar_ext)
         self.__log = Log.instance()
 
     def unzip(self):
