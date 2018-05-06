@@ -79,6 +79,7 @@ def cleanupOldLogs():
 
 def isRunningLinux():
     import platform
+    print(platform.system())
     return platform.system() != "Linux"
 
 
