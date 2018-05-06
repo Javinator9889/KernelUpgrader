@@ -3,11 +3,13 @@ from threading import Thread, enumerate
 
 
 def getHomeDir():
+    # type: () -> str
     from pathlib import Path
     return str(Path.home())
 
 
 def getLinuxVersion():
+    # type: () -> str
     import subprocess
     from app.values.Constants import UNAME
 
@@ -16,6 +18,7 @@ def getLinuxVersion():
 
 
 def getCPUCount():
+    # type: () -> int
     from psutil import cpu_count
     return cpu_count()
 
@@ -28,6 +31,7 @@ def returnToHomeDir():
 
 
 def isDEBSystem():
+    # type: () -> bool
     import subprocess
     from app.values.Constants import RPM_OR_DEB
 
@@ -76,6 +80,15 @@ def isRunningLinux():
     return platform.system() != "Linux"
 
 
+def isUserAdmin():
+    import os
+    # type: () -> bool
+    try:
+        return os.getuid() == 0
+    except AttributeError:
+        return False
+
+
 class Log:
     def __init__(self):
         from app.values.Constants import FILE_PATH, FILENAME
@@ -86,33 +99,33 @@ class Log:
         """log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [DEBUG]: ")
         self.fileLog.write(log_date + message)
         self.fileLog.flush()"""
-        thread = Thread(target=self.write, args=("DEBUG", message,))
+        thread = Thread(target=self.__write, args=("DEBUG", message,))
         thread.start()
 
     def i(self, message=None):
         """log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [INFO]: ")
         self.fileLog.write(log_date + message)
         self.fileLog.flush()"""
-        thread = Thread(target=self.write, args=("INFO", message,))
+        thread = Thread(target=self.__write, args=("INFO", message,))
         thread.start()
 
     def e(self, message=None):
         """log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [ERROR]: ")
         self.fileLog.write(log_date + message)
         self.fileLog.flush()"""
-        thread = Thread(target=self.write, args=("ERROR", message,))
+        thread = Thread(target=self.__write, args=("ERROR", message,))
         thread.start()
 
     def w(self, message=None):
         """log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [WARNING]: ")
         self.fileLog.write(log_date + message)
         self.fileLog.flush()"""
-        thread = Thread(target=self.write, args=("WARNING", message,))
+        thread = Thread(target=self.__write, args=("WARNING", message,))
         thread.start()
 
-    def write(self, typo=None, message=None):
+    def __write(self, typo=None, message=None):
         log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [" + typo + "]: ")
-        self.fileLog.write(log_date + message)
+        self.fileLog.write(log_date + message + "\n")
         self.fileLog.flush()
 
     def finish(self):
@@ -132,12 +145,12 @@ class Log:
             self.fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
 
         def add(self, message):
-            thread = Thread(target=self.write, args=(message,))
+            thread = Thread(target=self.__write, args=(message,))
             thread.start()
 
-        def write(self, message):
+        def __write(self, message):
             log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [COMPILER]: ")
-            self.fileLog.write(log_date + message)
+            self.fileLog.write(log_date + message + "\n")
             self.fileLog.flush()
 
         def finish(self):
