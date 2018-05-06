@@ -93,7 +93,7 @@ def main(arg):
                             print(Colors.OKBLUE + "Starting kernel compilation..." + Colors.ENDC)
                             print(Colors.WARNING + "This process will take a long time to finish. You can do it "
                                                    "in background by pressing \"Ctrl + Z\" and then, type \"bg\" at "
-                                                   "your terminal" + Colors.ENDC)
+                                                   "your terminal. To resume, just type \"fg\"." + Colors.ENDC)
                             compiler.compileKernel()
                             __log.d("Kernel compilation finished")
                             __log.d("Starting kernel installation...")
