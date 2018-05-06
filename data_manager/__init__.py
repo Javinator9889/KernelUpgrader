@@ -108,7 +108,7 @@ class Compiler:
                                        cwd=self.__kernel_path)
             compiler_log = CompilerLog()
             for stdout_line in iter(process.stdout.readline, ""):
-                compiler_log.add(stdout_line)
+                compiler_log.add((yield stdout_line))
             process.stdout.close()
             return_code = process.wait()
             compiler_log.finish()
