@@ -14,18 +14,17 @@ __program_name = """Kernel Upgrader for Linux"""
 __program_description = """Download, compile and install the latest stable kernel for your Linux system. Automate
  this tool for upgrading your kernel periodically"""
 __program_version = "Current running version: 0.9d - " + REPO_URL
-__log = None
 
 
 def main(arg):
     usage = arg.usage
     if usage:
         # __log.d("Showing usage")
-        print(Colors.HEADER + __program_name + Colors.ENDC + "\nUse this tool for upgrading your Linux kernel" +
-              Colors.UNDERLINE + " automatically" + Colors.ENDC + " with no user interaction. For this purpose," +
+        print(Colors.HEADER + __program_name + Colors.ENDC + "\nUse this tool for upgrading your Linux kernel " +
+              Colors.UNDERLINE + "automatically" + Colors.ENDC + " with no user interaction. For this purpose," +
               " the tool needs " + Colors.OKGREEN + "admin rights" + Colors.ENDC + " in order to install required" +
               " dependencies and the kernel when everything has finished.\nYou can find " + Colors.BOLD + "the" +
-              " program logs" + Colors.ENDC + "at the following location: " + Colors.OKBLUE +
+              " program logs" + Colors.ENDC + " at the following location: " + Colors.OKBLUE +
               "\n\t - " + FILE_PATH + FILENAME + Colors.ENDC + ": all program logs\n\t - " + Colors.OKBLUE +
               FILE_PATH + COMPILER_FILENAME + Colors.ENDC + ": kernel compiler logs\n\nYou can find more information" +
               " about this program at the following URL: " + Colors.UNDERLINE + REPO_URL + Colors.ENDC)
@@ -37,7 +36,7 @@ def main(arg):
             raise RootPrivilegesNotGiven("This application needs root rights in order to work properly. Run with"
                                          " \"-u\" option to get more information")
         else:
-            initLog()
+            __log = Log.instance()
             if not isRunningLinux():
                 __log.e("OS is not under a Linux installation. Aborting kernel upgrade...")
                 __log.finish()
@@ -93,10 +92,6 @@ def main(arg):
                         print(Colors.OKGREEN + "Kernel completely installed. Now you should reboot in order to apply"
                                                " changes. New version: " + new_version + Colors.ENDC)
                         exit(0)
-
-
-def initLog():
-    __log = Log.instance()
 
 
 if __name__ == '__main__':
