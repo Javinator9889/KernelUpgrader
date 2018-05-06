@@ -41,13 +41,16 @@ def isDEBSystem():
     import subprocess
     from values.Constants import RPM_OR_DEB
 
-    process = subprocess.Popen(RPM_OR_DEB.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    process.communicate()
-    return_code = process.returncode
-    if return_code != 0:
+    try:
+        process = subprocess.Popen(RPM_OR_DEB.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process.communicate()
+        return_code = process.returncode
+        if return_code != 0:
+            return True
+        else:
+            return False
+    except FileNotFoundError:
         return True
-    else:
-        return False
 
 
 def removeOldKernels():
