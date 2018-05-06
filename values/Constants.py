@@ -1,6 +1,8 @@
 # Kernel download parameters
 KERNEL_PAGE = "https://www.kernel.org/"
 PARSER = "lxml"
+FEATURED_ID = "featured"
+TABLE_ID = "latest"
 LATEST_LINK_ID = "latest_link"
 
 # Download parameters
