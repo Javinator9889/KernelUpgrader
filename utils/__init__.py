@@ -6,8 +6,9 @@ from utils.Singleton import Singleton
 
 def getHomeDir():
     # type: () -> str
-    from pathlib import Path
-    return str(Path.home())
+    # from pathlib import Path
+    # return str(Path.home())
+    return "/home/kernel_upgrader"
 
 
 def getLinuxVersion():
@@ -89,6 +90,13 @@ def isUserAdmin():
         return os.getuid() == 0
     except AttributeError:
         return False
+
+
+def getFreeSpaceAvailable():
+    # type: () -> float
+    import os
+    st = os.statvfs(getHomeDir())
+    return "%.2f" % (st.f_bavail * st.f_frsize / 1024 / 1024 / 1024)
 
 
 @Singleton

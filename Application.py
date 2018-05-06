@@ -1,9 +1,9 @@
 import argparse
 
-from utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion
+from utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion, getFreeSpaceAvailable
 from utils.colors import OutputColors as Colors
 from values.Constants import REPO_URL, FILE_PATH, FILENAME, COMPILER_FILENAME
-from exceptions import LinuxSystemNotFound, RootPrivilegesNotGiven, raiserModuleNotFound
+from exceptions import LinuxSystemNotFound, RootPrivilegesNotGiven, raiserModuleNotFound, NotEnoughFreeSpaceAvailable
 from net.PageInfo import Connection
 from net.Downloader import Downloader
 from net.DependenciesInstaller import Dependencies
@@ -44,6 +44,14 @@ def main(arg):
                     "Your OS is not running under a Linux installation. It is not possible to update"
                     " the kernel")
             else:
+                __log.i("Checking for free space available...")
+                free_space = getFreeSpaceAvailable()
+                if free_space < 20:
+                    __log.e("There is not enough free space available. Current free space (in GB): " + str(free_space))
+                    __log.finish()
+                    raise NotEnoughFreeSpaceAvailable("There is not enough free space available on drive which mounts"
+                                                      " \"/home\"  20GB are needed at least")
+                __log.i("There is enough free space available. Current free space: " + str(free_space) + " GB")
                 __log.i("Starting kernel compiling")
                 __log.d("Checking versions")
                 current_version = getLinuxVersion()
@@ -52,12 +60,15 @@ def main(arg):
                 try:
                     from packaging import version
                     if version.parse(current_version) >= version.parse(new_version):
-                        __log.d("The version installed is the same or greater than the available one. Current version: " +
-                                current_version + " | Available version: " + new_version)
+                        __log.d("The version installed is the same or greater than the available one. Current version: "
+                                + current_version + " | Available version: " + new_version)
                         print(Colors.WARNING + "You already have the latest version" + Colors.ENDC)
                         exit(1)
                     else:
-                        print(Colors.OKBLUE + "Downloading new version... " + Colors.ENDC + "| New version: " + new_version)
+                        print(Colors.OKGREEN + "There is a new version available. New version: " + new_version +
+                              Colors.ENDC)
+                        print(Colors.OKBLUE + "Downloading new version... " + Colors.ENDC + "| New version: " +
+                              new_version)
                         __log.d("Starting new version download... | New version: " + new_version)
                         version_url = info.getLatestVersionURL()
                         downloader = Downloader(version_url, new_version)
@@ -81,8 +92,8 @@ def main(arg):
                             __log.d("Performing kernel compilation...")
                             print(Colors.OKBLUE + "Starting kernel compilation..." + Colors.ENDC)
                             print(Colors.WARNING + "This process will take a long time to finish. You can do it "
-                                                   "in background by pressing \"Ctrl + Z\" and then, type \"bg\" at your"
-                                                   " terminal" + Colors.ENDC)
+                                                   "in background by pressing \"Ctrl + Z\" and then, type \"bg\" at "
+                                                   "your terminal" + Colors.ENDC)
                             compiler.compileKernel()
                             __log.d("Kernel compilation finished")
                             __log.d("Starting kernel installation...")
@@ -90,8 +101,8 @@ def main(arg):
                             compiler.installKernel()
                             __log.d("Finished correctly kernel installation. New version installed: " + new_version)
                             __log.finish()
-                            print(Colors.OKGREEN + "Kernel completely installed. Now you should reboot in order to apply"
-                                                   " changes. New version: " + new_version + Colors.ENDC)
+                            print(Colors.OKGREEN + "Kernel completely installed. Now you should reboot in order to "
+                                                   "apply changes. New version: " + new_version + Colors.ENDC)
                             exit(0)
                 except ImportError as e:
                     raiserModuleNotFound(e)
