@@ -28,9 +28,10 @@ def getCPUCount():
 
 def returnToHomeDir():
     import subprocess
-    from values.Constants import GOTO_HOME
+    from values.Constants import GOTO
 
-    subprocess.run(GOTO_HOME.split())
+    command = GOTO.format(getHomeDir())
+    subprocess.run(command.split())
 
 
 def isDEBSystem():
