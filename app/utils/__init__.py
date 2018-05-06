@@ -11,7 +11,7 @@ def getHomeDir():
 def getLinuxVersion():
     # type: () -> str
     import subprocess
-    from app.values.Constants import UNAME
+    from values import UNAME
 
     command_execution = subprocess.run(UNAME.split(), stdout=subprocess.PIPE)
     return command_execution.stdout.decode("utf-8")
@@ -25,7 +25,7 @@ def getCPUCount():
 
 def returnToHomeDir():
     import subprocess
-    from app.values.Constants import GOTO_HOME
+    from values import GOTO_HOME
 
     subprocess.run(GOTO_HOME.split())
 
@@ -33,7 +33,7 @@ def returnToHomeDir():
 def isDEBSystem():
     # type: () -> bool
     import subprocess
-    from app.values.Constants import RPM_OR_DEB
+    from values import RPM_OR_DEB
 
     process = subprocess.Popen(RPM_OR_DEB.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     process.communicate()
@@ -46,13 +46,13 @@ def isDEBSystem():
 
 def removeOldKernels():
     import subprocess
-    from app.values.Constants import CLEAN_KERNELS
+    from values import CLEAN_KERNELS
 
     subprocess.run(CLEAN_KERNELS.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
 
 
 def cleanupOldLogs():
-    from app.values.Constants import FILE_PATH, FILENAME, COMPILER_FILENAME, TARFILE_FILENAME, TARFILE_COMPILER_FILENAME
+    from values import FILE_PATH, FILENAME, COMPILER_FILENAME, TARFILE_FILENAME, TARFILE_COMPILER_FILENAME
     import tarfile
     import os
 
@@ -91,7 +91,7 @@ def isUserAdmin():
 
 class Log:
     def __init__(self):
-        from app.values.Constants import FILE_PATH, FILENAME
+        from values import FILE_PATH, FILENAME
         cleanupOldLogs()
         self.fileLog = open(FILE_PATH + FILENAME, "w")
 
@@ -140,7 +140,7 @@ class Log:
 
     class CompilerLog:
         def __init__(self):
-            from app.values.Constants import FILE_PATH, COMPILER_FILENAME
+            from values import FILE_PATH, COMPILER_FILENAME
             cleanupOldLogs()
             self.fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
 

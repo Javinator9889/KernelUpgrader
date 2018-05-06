@@ -1,6 +1,6 @@
-from app.values.Constants import KERNEL_PAGE, PARSER, LATEST_LINK_ID
-from app.exceptions import raiserModuleNotFound
-from app.Application import getLog
+from values import KERNEL_PAGE, PARSER, LATEST_LINK_ID
+from exceptions import raiserModuleNotFound
+from Application import getLog
 
 
 class Connection:
