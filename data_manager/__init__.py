@@ -15,19 +15,19 @@ class UnZipper:
         self.__dir = os.path.dirname(filename)
         file_tar, file_tar_ext = os.path.splitext(filename)
         self.__file_unzip, file_unzip_ext = os.path.splitext(file_tar)
-        print(self.__filename + " " + self.__dir + " " + self.__file_unzip + " " + file_tar + " " + file_tar_ext)
         self.__log = Log.instance()
 
     def unzip(self):
         # type: () -> str
         import tarfile
+        import os.path as path
 
         returnToHomeDir()
         opened_tar_file = tarfile.open(self.__filename, "r:*")
         opened_tar_file.extractall(path=self.__dir)
         opened_tar_file.close()
         if os.path.exists(self.__file_unzip) and os.path.isdir(self.__file_unzip):
-            return self.__file_unzip
+            return path.basename(path.normpath(self.__file_unzip))
         else:
             self.__log.e("There was an error while decompressing 'tar' file located at: " + self.__filename)
             self.__log.finish()
