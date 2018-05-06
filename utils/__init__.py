@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from threading import Thread, enumerate
 
 from utils.Singleton import Singleton
@@ -147,7 +147,7 @@ class Log:
         thread.start()
 
     def __write(self, typo=None, message=None):
-        log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [" + typo + "]: ")
+        log_date = datetime.now().strftime("%H:%M:%S@%d/%m/%Y [" + typo + "]: ")
         self.__fileLog.write(log_date + message + "\n")
         self.__fileLog.flush()
 
@@ -172,7 +172,7 @@ class Log:
             thread.start()
 
         def __write(self, message):
-            log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [COMPILER]: ")
+            log_date = datetime.now().strftime("%H:%M:%S@%d/%m/%Y [COMPILER]: ")
             self.__fileLog.write(log_date + message + "\n")
             self.__fileLog.flush()
 
