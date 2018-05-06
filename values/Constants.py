@@ -23,7 +23,7 @@ TARFILE_FILENAME = "kernel_upgrader.latest.tar.gz"
 TARFILE_COMPILER_FILENAME = "kernel_upgrader.compiler.tar.gz"
 
 # Compilation commands
-COPY_BOOT_CONFIG = "cp -v /boot/{} {}/.config"
+COPY_BOOT_CONFIG = "cp -v /boot/config-{} {}/.config"
 ADAPT_OLD_CONFIG = "make olddefconfig"
 # GOTO = "cd {}"
 RPM_OR_DEB = "/usr/bin/rpm -q -f /usr/bin/dpkg"
