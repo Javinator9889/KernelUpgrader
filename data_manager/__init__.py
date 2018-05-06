@@ -106,12 +106,13 @@ class Compiler:
             command = COMPILE_NEW_KERNEL.format(number_of_cores, "deb-pkg")
             process = subprocess.Popen(command.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE,
                                        cwd=self.__kernel_path)
-            compiler_log = CompilerLog()
+            """compiler_log = CompilerLog()
             for stdout_line in iter(process.stdout.readline, ""):
                 compiler_log.add((yield stdout_line))
-            process.stdout.close()
+            process.stdout.close()"""
+            process.communicate()
             return_code = process.wait()
-            compiler_log.finish()
+            # compiler_log.finish()
             if return_code != 0:
                 err = process.stderr.read()
                 self.__log.e("There was an error while compiling the new kernel. Error output: " + err)
