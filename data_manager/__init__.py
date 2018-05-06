@@ -104,7 +104,7 @@ class Compiler:
         number_of_cores = getCPUCount()
         if isDEBSystem():
             command = COMPILE_NEW_KERNEL.format(number_of_cores, "deb-pkg")
-            process = subprocess.Popen(command.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE,
+            process = subprocess.Popen(command.split(), stderr=subprocess.PIPE,
                                        cwd=self.__kernel_path)
             """compiler_log = CompilerLog()
             for stdout_line in iter(process.stdout.readline, ""):
