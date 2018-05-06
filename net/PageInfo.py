@@ -1,6 +1,7 @@
 from values.Constants import KERNEL_PAGE, PARSER, LATEST_LINK_ID
 from exceptions import raiserModuleNotFound
-from Application import log
+from utils import Log
+# from Application import log
 
 
 class Connection:
@@ -12,8 +13,8 @@ class Connection:
             saved_page_content = requests.get(KERNEL_PAGE).content
             self.__soupObject = BeautifulSoup(saved_page_content, PARSER)
         except ModuleNotFoundError as e:
-            log().e("Modules not found. " + str(e))
-            log().finish()
+            Log.instance().e("Modules not found. " + str(e))
+            Log.instance().finish()
             raiserModuleNotFound(e)
 
     def getLatestVersionCode(self):

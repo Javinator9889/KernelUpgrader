@@ -1,6 +1,8 @@
 from datetime import date
 from threading import Thread, enumerate
 
+from utils.Singleton import Singleton
+
 
 def getHomeDir():
     # type: () -> str
@@ -89,11 +91,12 @@ def isUserAdmin():
         return False
 
 
+@Singleton
 class Log:
     def __init__(self):
         from values.Constants import FILE_PATH, FILENAME
         cleanupOldLogs()
-        self.fileLog = open(FILE_PATH + FILENAME, "w")
+        self.__fileLog = open(FILE_PATH + FILENAME, "w")
 
     def d(self, message=None):
         """log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [DEBUG]: ")
@@ -125,8 +128,8 @@ class Log:
 
     def __write(self, typo=None, message=None):
         log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [" + typo + "]: ")
-        self.fileLog.write(log_date + message + "\n")
-        self.fileLog.flush()
+        self.__fileLog.write(log_date + message + "\n")
+        self.__fileLog.flush()
 
     def finish(self):
         current_threads = enumerate()
@@ -136,13 +139,13 @@ class Log:
                     active_thread.join()
                 except RuntimeError:
                     continue
-        self.fileLog.close()
+        self.__fileLog.close()
 
     class CompilerLog:
         def __init__(self):
             from values.Constants import FILE_PATH, COMPILER_FILENAME
             cleanupOldLogs()
-            self.fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
+            self.__fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
 
         def add(self, message):
             thread = Thread(target=self.__write, args=(message,))
@@ -150,8 +153,8 @@ class Log:
 
         def __write(self, message):
             log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [COMPILER]: ")
-            self.fileLog.write(log_date + message + "\n")
-            self.fileLog.flush()
+            self.__fileLog.write(log_date + message + "\n")
+            self.__fileLog.flush()
 
         def finish(self):
             current_threads = enumerate()
@@ -161,4 +164,4 @@ class Log:
                         active_thread.join()
                     except RuntimeError:
                         continue
-            self.fileLog.close()
+            self.__fileLog.close()
