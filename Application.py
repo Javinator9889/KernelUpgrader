@@ -45,7 +45,7 @@ def main(arg):
                     " the kernel")
             else:
                 __log.i("Checking for free space available...")
-                free_space = getFreeSpaceAvailable()
+                free_space = float(getFreeSpaceAvailable())
                 if free_space < 20:
                     __log.e("There is not enough free space available. Current free space (in GB): " + str(free_space))
                     __log.finish()
