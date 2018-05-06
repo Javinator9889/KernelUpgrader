@@ -54,7 +54,7 @@ class Downloader:
                     download.close()
                     length_in_mb = total_length / 1000000"""
                     for chunk in progress.bar(response.iter_content(chunk_size=1024),
-                                              expected_size=int(total_length / 1024) + 1):
+                                              expected_size=(int(total_length) / 1024) + 1):
                         if chunk:
                             download.write(chunk)
                             download.flush()
