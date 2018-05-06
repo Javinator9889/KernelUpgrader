@@ -2,11 +2,11 @@ import argparse
 
 from utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion
 from utils.colors import OutputColors as Colors
-from values import REPO_URL, FILE_PATH, FILENAME, COMPILER_FILENAME
+from values.Constants import REPO_URL, FILE_PATH, FILENAME, COMPILER_FILENAME
 from exceptions import LinuxSystemNotFound, RootPrivilegesNotGiven
 from net.PageInfo import Connection
 from net import Downloader
-from net import Dependencies
+from net.DependenciesInstaller import Dependencies
 from data_manager import UnZipper, Compiler
 
 
