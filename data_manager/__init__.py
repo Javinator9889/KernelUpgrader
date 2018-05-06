@@ -60,7 +60,7 @@ class Compiler:
             if fnmatch(entry, pattern):
                 files_found.append(entry)
         self.__log.d("Files found: " + str(files_found))
-        any_found = next((config for config in files_found if str(kernel_version) in config), None)
+        any_found = next((config for config in files_found if kernel_version.rstrip() in config), None)
         if any_found is not None:
             # if any(substring in files_found for substring in kernel_version):
             from values.Constants import COPY_BOOT_CONFIG
@@ -79,7 +79,7 @@ class Compiler:
             self.__log.e("No boot configuration found for the current kernel version")
             self.__log.finish()
             raise CopyConfigError("No boot configuration was found for the current kernel version. Searching a "
-                                  "config for version \"" + str(kernel_version) + "\" for these files in \"/boot/\" "
+                                  "config for version \"" + kernel_version.rstrip() + "\" for these files in \"/boot/\" "
                                                                                   "partition\n" + str(files_found))
 
     def adaptOldConfig(self):
