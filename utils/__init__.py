@@ -65,17 +65,20 @@ def cleanupOldLogs():
     kernel_log_filename = FILE_PATH + FILENAME
     compiler_log_filename = FILE_PATH + COMPILER_FILENAME
 
+    tar_log_filename = FILE_PATH + TARFILE_FILENAME
+    tar_compiler_log_filename = FILE_PATH + TARFILE_COMPILER_FILENAME
+
     if os.path.exists(kernel_log_filename):
-        if os.path.exists(TARFILE_FILENAME):
-            os.remove(TARFILE_FILENAME)
-        with tarfile.open(TARFILE_FILENAME, "w:gz") as tar:
+        if os.path.exists(tar_log_filename):
+            os.remove(tar_log_filename)
+        with tarfile.open(tar_log_filename, "w:gz") as tar:
             tar.add(kernel_log_filename, arcname=os.path.basename(kernel_log_filename))
             tar.close()
             os.remove(kernel_log_filename)
     if os.path.exists(compiler_log_filename):
-        if os.path.exists(TARFILE_COMPILER_FILENAME):
-            os.remove(TARFILE_COMPILER_FILENAME)
-        with tarfile.open(TARFILE_COMPILER_FILENAME, "w:gz") as tar:
+        if os.path.exists(tar_compiler_log_filename):
+            os.remove(tar_compiler_log_filename)
+        with tarfile.open(tar_compiler_log_filename, "w:gz") as tar:
             tar.add(compiler_log_filename, arcname=os.path.basename(compiler_log_filename))
             tar.close()
             os.remove(compiler_log_filename)
