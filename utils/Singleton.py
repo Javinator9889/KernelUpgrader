@@ -16,7 +16,6 @@ class Singleton:
 
     def __init__(self, decorated):
         self._decorated = decorated
-        self._instance = None
 
     def instance(self):
         """
