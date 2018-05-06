@@ -95,7 +95,10 @@ def isUserAdmin():
 def getFreeSpaceAvailable():
     # type: () -> float
     import os
-    st = os.statvfs(getHomeDir())
+    home_dir = getHomeDir()
+    if not os.path.exists(home_dir):
+        os.makedirs(home_dir)
+    st = os.statvfs(home_dir)
     return "%.2f" % (st.f_bavail * st.f_frsize / 1024 / 1024 / 1024)
 
 
