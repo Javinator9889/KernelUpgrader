@@ -84,8 +84,8 @@ class Compiler:
         from values.Constants import ADAPT_OLD_CONFIG
 
         returnToHomeDir()
-        command = ADAPT_OLD_CONFIG.format(self.__kernel_path)
-        terminal_process = subprocess.run(command.split(), stderr=subprocess.PIPE)
+        # command = ADAPT_OLD_CONFIG.format(self.__kernel_path)
+        terminal_process = subprocess.run(ADAPT_OLD_CONFIG.split(), stderr=subprocess.PIPE, cwd=self.__kernel_path)
         if terminal_process.returncode != 0:
             self.__log.e("It was impossible to update the old config. Error output: " + terminal_process.stderr
                          .decode("utf-8"))
@@ -101,8 +101,9 @@ class Compiler:
         returnToHomeDir()
         number_of_cores = getCPUCount()
         if isDEBSystem():
-            command = COMPILE_NEW_KERNEL.format(self.__kernel_path, number_of_cores, "deb-pkg")
-            process = subprocess.Popen(command.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+            command = COMPILE_NEW_KERNEL.format(number_of_cores, "deb-pkg")
+            process = subprocess.Popen(command.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE,
+                                       cwd=self.__kernel_path)
             compiler_log = Log.CompilerLog()
             for stdout_line in iter(process.stdout.readline, ""):
                 compiler_log.add(stdout_line)
@@ -126,8 +127,7 @@ class Compiler:
         from values.Constants import INSTALL_NEW_KERNEL
 
         returnToHomeDir()
-        command = INSTALL_NEW_KERNEL.format(self.__decompressed_path)
-        process = subprocess.run(command.split(), stderr=subprocess.PIPE)
+        process = subprocess.run(INSTALL_NEW_KERNEL.split(), stderr=subprocess.PIPE, cwd=self.__decompressed_path)
         if process.returncode != 0:
             self.__log.e("There was an error while installing kernel. Error: " + process.stderr.decode("utf-8"))
             self.__log.finish()

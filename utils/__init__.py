@@ -27,11 +27,13 @@ def getCPUCount():
 
 
 def returnToHomeDir():
-    import subprocess
+    """import subprocess
     from values.Constants import GOTO
 
     command = GOTO.format(getHomeDir())
-    subprocess.run(command.split())
+    subprocess.run(command.split())"""
+    import os
+    os.chdir(getHomeDir())
 
 
 def isDEBSystem():

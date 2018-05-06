@@ -24,11 +24,11 @@ TARFILE_COMPILER_FILENAME = "kernel_upgrader.compiler.tar.gz"
 
 # Compilation commands
 COPY_BOOT_CONFIG = "cp -v /boot/config-{} {}/.config"
-ADAPT_OLD_CONFIG = "cd {} && make olddefconfig"
-GOTO = "cd {}"
+ADAPT_OLD_CONFIG = "make olddefconfig"
+# GOTO = "cd {}"
 RPM_OR_DEB = "/usr/bin/rpm -q -f /usr/bin/dpkg"
-COMPILE_NEW_KERNEL = "cd {} && make -j{} {}"
-INSTALL_NEW_KERNEL = "cd {} && dpkg -i linux-*.deb"
+COMPILE_NEW_KERNEL = "make -j{} {}"
+INSTALL_NEW_KERNEL = "dpkg -i linux-*.deb"
 
 # Other params
 REPO_URL = "https://goo.gl/ZJ4zP9"
