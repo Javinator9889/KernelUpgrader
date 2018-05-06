@@ -4,7 +4,7 @@ import subprocess
 from exceptions import ExtractionError, CopyConfigError, OldConfigAdaptationError, CompilationError,\
     RPMNotSupported, InstallationError
 from utils import *
-from Application import getLog
+from Application import log
 from utils import Log
 
 
@@ -15,7 +15,7 @@ class UnZipper:
         self.__dir = os.path.dirname(filename)
         file_tar, file_tar_ext = os.path.splitext(filename)
         self.__file_unzip, file_unzip_ext = os.path.splitext(file_tar)
-        self.__log = getLog()
+        self.__log = log()
 
     def unzip(self):
         # type: () -> str
@@ -45,7 +45,7 @@ class Compiler:
         self.__decompressed_path = "{}/Downloads/linux_{}_{}/".format(home_dir,
                                                                       new_kernel_version,
                                                                       current_date)
-        self.__log = getLog()
+        self.__log = log()
         removeOldKernels()
 
     def copy_latest_config(self):
