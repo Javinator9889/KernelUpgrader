@@ -1,4 +1,4 @@
-from values import KERNEL_PAGE, PARSER, LATEST_LINK_ID
+from values.Constants import KERNEL_PAGE, PARSER, LATEST_LINK_ID
 from exceptions import raiserModuleNotFound
 from Application import getLog
 

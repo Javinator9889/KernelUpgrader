@@ -1,5 +1,5 @@
 from exceptions import raiserModuleNotFound, raiserContentNotAvailable
-from values import DOWNLOAD_LENGTH
+from values.Constants import DOWNLOAD_LENGTH
 from Application import getLog
 
 

@@ -2,7 +2,7 @@ class Dependencies:
     @staticmethod
     def installRequiredDependencies():
         import subprocess
-        from values import DEPENDENCIES
+        from values.Constants import DEPENDENCIES
         from exceptions import UnableToInstallDependencies
         from Application import getLog
         process = subprocess.run(DEPENDENCIES.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
