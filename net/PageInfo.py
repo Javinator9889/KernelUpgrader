@@ -12,7 +12,7 @@ class Connection:
             import requests
             saved_page_content = requests.get(KERNEL_PAGE).content
             self.__soupObject = BeautifulSoup(saved_page_content, PARSER)
-        except ModuleNotFoundError as e:
+        except ImportError as e:
             Log.instance().e("Modules not found. " + str(e))
             Log.instance().finish()
             raiserModuleNotFound(e)

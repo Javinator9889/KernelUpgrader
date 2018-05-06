@@ -14,7 +14,7 @@ class Downloader:
             self.__version = version
             self.__HOME = getHomeDir()
             self.__date = datetime.date.today().strftime("%d%m%y")
-        except ModuleNotFoundError as e:
+        except ImportError as e:
             self.__log.e("Module needed not found -> " + str(e))
             self.__log.finish()
             raiserModuleNotFound(e)
