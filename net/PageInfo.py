@@ -1,4 +1,4 @@
-from values.Constants import KERNEL_PAGE, PARSER, FEATURED_ID, TABLE_ID, LATEST_LINK_ID
+from values.Constants import KERNEL_PAGE, PARSER, ASSIDE_ID, TABLE_ID, LATEST_LINK_ID
 from exceptions import raiserModuleNotFound
 from utils import Log
 # from Application import log
@@ -18,9 +18,17 @@ class Connection:
             raiserModuleNotFound(e)
 
     def getLatestVersionCode(self):
-        html_latest_version = self.__soupObject.find(id=FEATURED_ID).find(id=TABLE_ID).find(LATEST_LINK_ID).a
+        aside = self.__soupObject.find(id=ASSIDE_ID)
+        table = aside.find(id=TABLE_ID)
+        td = table.find(id=LATEST_LINK_ID)
+        html_latest_version = td.a
+        # html_latest_version = self.__soupObject.find(id=FEATURED_ID).find(id=TABLE_ID).find(LATEST_LINK_ID).a
         return html_latest_version.get_text()
 
     def getLatestVersionURL(self):
-        html_latest_link = self.__soupObject.find(id=FEATURED_ID).find(id=TABLE_ID).find(LATEST_LINK_ID).a
+        aside = self.__soupObject.find(id=ASSIDE_ID)
+        table = aside.find(id=TABLE_ID)
+        td = table.find(id=LATEST_LINK_ID)
+        html_latest_link = td.a
+        # html_latest_link = self.__soupObject.find(id=FEATURED_ID).find(id=TABLE_ID).find(LATEST_LINK_ID).a
         return html_latest_link.get('href')
