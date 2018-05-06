@@ -1,11 +1,11 @@
 import os
 import subprocess
 
-from app.exceptions import ExtractionError, CopyConfigError, OldConfigAdaptationError, CompilationError,\
+from exceptions import ExtractionError, CopyConfigError, OldConfigAdaptationError, CompilationError,\
     RPMNotSupported, InstallationError
-from app.utils import *
-from app.Application import getLog
-from app.utils import Log
+from utils import *
+from Application import getLog
+from utils import Log
 
 
 class UnZipper:
@@ -61,7 +61,7 @@ class Compiler:
                 files_found.append(entry)
         self.__log.d("Files found: " + str(files_found))
         if any(substring in files_found for substring in kernel_version):
-            from app.values import COPY_BOOT_CONFIG
+            from values import COPY_BOOT_CONFIG
 
             command = COPY_BOOT_CONFIG.format(kernel_version, self.__kernel_path)
             terminal_process = subprocess.run(command.split(), stderr=subprocess.PIPE)
@@ -81,7 +81,7 @@ class Compiler:
                                                                                   "partition\n" + str(files_found))
 
     def adaptOldConfig(self):
-        from app.values import ADAPT_OLD_CONFIG
+        from values import ADAPT_OLD_CONFIG
 
         returnToHomeDir()
         command = ADAPT_OLD_CONFIG.format(self.__kernel_path)
@@ -96,7 +96,7 @@ class Compiler:
                                            + terminal_process.stderr.decode("utf'8"))
 
     def compileKernel(self):
-        from app.values import COMPILE_NEW_KERNEL, REPO_URL
+        from values import COMPILE_NEW_KERNEL, REPO_URL
 
         returnToHomeDir()
         number_of_cores = getCPUCount()
@@ -123,7 +123,7 @@ class Compiler:
                                   " is included in the new upgrade. Check it on: \"" + REPO_URL + "\")")
 
     def installKernel(self):
-        from app.values import INSTALL_NEW_KERNEL
+        from values import INSTALL_NEW_KERNEL
 
         returnToHomeDir()
         command = INSTALL_NEW_KERNEL.format(self.__decompressed_path)
