@@ -28,6 +28,8 @@ class Downloader:
         path = urlparse(self.__url).path
         filename = os.path.basename(path)
         partial_path = "/Downloads/linux_{}_{}/".format(self.__version, self.__date)
+        if not os.path.exists(partial_path):
+            os.makedirs(partial_path)
         download_path = self.__HOME + partial_path + filename
         self.__log.d("Downloading to: " + download_path)
         with open(download_path, "wb") as download:

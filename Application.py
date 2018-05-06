@@ -95,7 +95,7 @@ def main(arg):
                             exit(0)
                 except ImportError as e:
                     raiserModuleNotFound(e)
-                    
+
 
 if __name__ == '__main__':
     arguments = argparse.ArgumentParser(prog=__program_name,

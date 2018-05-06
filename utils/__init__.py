@@ -94,8 +94,11 @@ def isUserAdmin():
 @Singleton
 class Log:
     def __init__(self):
+        import os
         from values.Constants import FILE_PATH, FILENAME
         cleanupOldLogs()
+        if not os.path.exists(FILE_PATH):
+            os.makedirs(FILE_PATH)
         self.__fileLog = open(FILE_PATH + FILENAME, "w")
 
     def d(self, message=None):
