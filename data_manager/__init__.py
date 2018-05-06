@@ -4,8 +4,6 @@ import subprocess
 from exceptions import ExtractionError, CopyConfigError, OldConfigAdaptationError, CompilationError, \
     RPMNotSupported, InstallationError
 from utils import *
-# from Application import __log
-from utils import Log
 
 
 class UnZipper:
@@ -108,7 +106,7 @@ class Compiler:
             command = COMPILE_NEW_KERNEL.format(number_of_cores, "deb-pkg")
             process = subprocess.Popen(command.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE,
                                        cwd=self.__kernel_path)
-            compiler_log = Log.CompilerLog()
+            compiler_log = CompilerLog()
             for stdout_line in iter(process.stdout.readline, ""):
                 compiler_log.add(stdout_line)
             process.stdout.close()

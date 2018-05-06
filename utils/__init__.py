@@ -164,27 +164,28 @@ class Log:
                     continue
         self.__fileLog.close()
 
-    class CompilerLog:
-        def __init__(self):
-            from values.Constants import FILE_PATH, COMPILER_FILENAME
-            cleanupOldLogs()
-            self.__fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
 
-        def add(self, message):
-            thread = Thread(target=self.__write, args=(message,))
-            thread.start()
+class CompilerLog:
+    def __init__(self):
+        from values.Constants import FILE_PATH, COMPILER_FILENAME
+        cleanupOldLogs()
+        self.__fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
 
-        def __write(self, message):
-            log_date = datetime.now().strftime("%H:%M:%S@%d/%m/%Y [COMPILER]: ")
-            self.__fileLog.write(log_date + message + "\n")
-            self.__fileLog.flush()
+    def add(self, message):
+        thread = Thread(target=self.__write, args=(message,))
+        thread.start()
 
-        def finish(self):
-            current_threads = enumerate()
-            if len(current_threads) != 1:
-                for active_thread in current_threads:
-                    try:
-                        active_thread.join()
-                    except RuntimeError:
-                        continue
-            self.__fileLog.close()
+    def __write(self, message):
+        log_date = datetime.now().strftime("%H:%M:%S@%d/%m/%Y [COMPILER]: ")
+        self.__fileLog.write(log_date + message + "\n")
+        self.__fileLog.flush()
+
+    def finish(self):
+        current_threads = enumerate()
+        if len(current_threads) != 1:
+            for active_thread in current_threads:
+                try:
+                    active_thread.join()
+                except RuntimeError:
+                    continue
+        self.__fileLog.close()
