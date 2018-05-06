@@ -1,8 +1,9 @@
 import os
 import subprocess
 
-from app.exceptions import ExtractionError, CopyConfigError, OldConfigAdaptationError
-from app.utils import getLinuxVersion, getHomeDir, returnToHomeDir
+from app.exceptions import ExtractionError, CopyConfigError, OldConfigAdaptationError, CompilationError,\
+    RPMNotSupported, InstallationError
+from app.utils import *
 
 
 class UnZipper:
@@ -14,8 +15,9 @@ class UnZipper:
         self.file_unzip, file_unzip_ext = os.path.splitext(file_tar)
 
     def unzip(self):
-        returnToHomeDir()
         import tarfile
+
+        returnToHomeDir()
         opened_tar_file = tarfile.open(self.filename, "r:*")
         opened_tar_file.extractall(path=self.dir)
         opened_tar_file.close()
@@ -29,13 +31,20 @@ class UnZipper:
 class Compiler:
     def __init__(self, kernel_folder, new_kernel_version, date):
         returnToHomeDir()
-        self.kernel_folder = kernel_folder
-        self.new_kernel_version = new_kernel_version
-        self.date = date
+        home_dir = getHomeDir()
+        self.kernel_path = "{}/Downloads/linux_{}_{}/{}".format(home_dir,
+                                                                new_kernel_version,
+                                                                date,
+                                                                kernel_folder)
+        self.decompressed_path = "{}/Downloads/linux_{}_{}/".format(home_dir,
+                                                                    new_kernel_version,
+                                                                    date)
+        removeOldKernels()
 
     def copy_latest_config(self):
-        returnToHomeDir()
         from fnmatch import fnmatch
+
+        returnToHomeDir()
         kernel_version = getLinuxVersion()
         configs = os.listdir("/boot/")
         pattern = "config-*"
@@ -46,11 +55,7 @@ class Compiler:
         if any(substring in files_found for substring in kernel_version):
             from app.values.Constants import COPY_BOOT_CONFIG
 
-            download_path = "{}/Downloads/linux_{}_{}/{}".format(getHomeDir(),
-                                                                 self.new_kernel_version,
-                                                                 self.date,
-                                                                 self.kernel_folder)
-            command = COPY_BOOT_CONFIG.format(kernel_version, download_path)
+            command = COPY_BOOT_CONFIG.format(kernel_version, self.kernel_path)
             terminal_process = subprocess.run(command.split(), stderr=subprocess.PIPE)
             if terminal_process.returncode != 0:
                 raise CopyConfigError("No configuration was found or an error occurred while copying latest kernel"
@@ -63,13 +68,10 @@ class Compiler:
                                                                                   "partition\n" + str(files_found))
 
     def adaptOldConfig(self):
-        returnToHomeDir()
         from app.values.Constants import ADAPT_OLD_CONFIG
-        kernel_path = "{}/Downloads/linux_{}_{}/{}".format(getHomeDir(),
-                                                           self.new_kernel_version,
-                                                           self.date,
-                                                           self.kernel_folder)
-        command = ADAPT_OLD_CONFIG.format(kernel_path)
+
+        returnToHomeDir()
+        command = ADAPT_OLD_CONFIG.format(self.kernel_path)
         terminal_process = subprocess.run(command.split(), stderr=subprocess.PIPE)
         if terminal_process.returncode != 0:
             raise OldConfigAdaptationError("There was a problem while trying to update the old configuration for the"
@@ -77,3 +79,29 @@ class Compiler:
                                            " updating manually. Error output: "
                                            + terminal_process.stderr.decode("utf'8"))
 
+    def compileKernel(self):
+        from app.values.Constants import COMPILE_NEW_KERNEL, REPO_URL
+
+        returnToHomeDir()
+        number_of_cores = getCPUCount()
+        if isDEBSystem():
+            command = COMPILE_NEW_KERNEL.format(self.kernel_path, number_of_cores, "deb-pkg")
+            process = subprocess.run(command.split(), stderr=subprocess.PIPE)
+            if process.returncode != 0:
+                raise CompilationError("There was an error while compiling the new kernel. Error output: " +
+                                       process.stderr.decode("utf-8"))
+        else:
+            raise RPMNotSupported("RPM systems are not supported by this tool right now: it works only on DEB ones."
+                                  "\nMaybe doing an upgrade of this program solve this problem (if RPM kernel upgrade"
+                                  " is included in the new upgrade. Check it on: \"" + REPO_URL + "\")")
+
+    def installKernel(self):
+        from app.values.Constants import INSTALL_NEW_KERNEL
+
+        returnToHomeDir()
+        command = INSTALL_NEW_KERNEL.format(self.decompressed_path)
+        process = subprocess.run(command.split(), stderr=subprocess.PIPE)
+        if process.returncode != 0:
+            raise InstallationError("There was an error while installing the new kernel module. Do not reboot your "
+                                    "computer as errors can happen and make your PC unbootable. Error output: " +
+                                    process.stderr.decode("utf-8"))

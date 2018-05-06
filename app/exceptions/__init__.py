@@ -28,6 +28,30 @@ class OldConfigAdaptationError(RuntimeError):
         super.__init__(message)
 
 
+class CompilationError(RuntimeError):
+    def __init__(self, message=None):
+        self.message = message
+        super.__init__(message)
+
+
+class RPMNotSupported(RuntimeError):
+    def __init__(self, message=None):
+        self.message = message
+        super.__init__(message)
+
+
+class InstallationError(RuntimeError):
+    def __init__(self, message=None):
+        self.message = message
+        super.__init__(message)
+
+
+class LinuxSystemNotFound(RuntimeError):
+    def __init__(self, message=None):
+        self.message = message
+        super.__init__(message)
+
+
 def raiserModuleNotFound(exception):
     raise ModuleNeededNotFound("This app requires some modules that were not found on this device. More info:"
                                " " + str(exception))
