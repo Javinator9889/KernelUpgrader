@@ -1,13 +1,13 @@
 import argparse
 
-from utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion
-from utils.colors import OutputColors as Colors
-from values import REPO_URL, FILE_PATH, FILENAME, COMPILER_FILENAME
-from exceptions import LinuxSystemNotFound, RootPrivilegesNotGiven
-from net.PageInfo import Connection
-from net import Downloader
-from net import Dependencies
-from data_manager import UnZipper, Compiler
+from app.utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion
+from app.utils.colors import OutputColors as Colors
+from app.values import REPO_URL, FILE_PATH, FILENAME, COMPILER_FILENAME
+from app.exceptions import LinuxSystemNotFound, RootPrivilegesNotGiven
+from app.net.PageInfo import Connection
+from app.net import Downloader
+from app.net import Dependencies
+from app.data_manager import UnZipper, Compiler
 
 
 __program_name = """Kernel Upgrader for Linux"""

@@ -1,13 +1,13 @@
-from exceptions import raiserModuleNotFound, raiserContentNotAvailable
-from values import DOWNLOAD_LENGTH
-from Application import getLog
+from app.exceptions import raiserModuleNotFound, raiserContentNotAvailable
+from app.values import DOWNLOAD_LENGTH
+from app.Application import getLog
 
 
 class Downloader:
     def __init__(self, url, version):
         self.__log = getLog()
         try:
-            from utils import getHomeDir
+            from app.utils import getHomeDir
             import datetime
             self.__url = url
             self.__version = version
