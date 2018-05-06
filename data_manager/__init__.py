@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from exceptions import ExtractionError, CopyConfigError, OldConfigAdaptationError, CompilationError,\
+from exceptions import ExtractionError, CopyConfigError, OldConfigAdaptationError, CompilationError, \
     RPMNotSupported, InstallationError
 from utils import *
 # from Application import __log
@@ -60,7 +60,9 @@ class Compiler:
             if fnmatch(entry, pattern):
                 files_found.append(entry)
         self.__log.d("Files found: " + str(files_found))
-        if any(substring in files_found for substring in kernel_version):
+        any_found = next((config for config in files_found if kernel_version in config), None)
+        if any_found is not None:
+            # if any(substring in files_found for substring in kernel_version):
             from values.Constants import COPY_BOOT_CONFIG
 
             command = COPY_BOOT_CONFIG.format(kernel_version, self.__kernel_path)
