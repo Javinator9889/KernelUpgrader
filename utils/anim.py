@@ -1,18 +1,18 @@
 from threading import Event
 
+stop_event = Event()
+
 
 class Animation:
     __animation_values = "|/-\\"
-    __stop_event = Event()
 
     def __init__(self, duration):
         self.__duration = duration
-        self.__stop_event.clear()
-        # self.__continueAnimation = True
 
     def animate(self, text, color=None):
         from threading import Thread
 
+        stop_event.clear()
         animation_thread = Thread(target=self.__animation, args=(text, color,))
         animation_thread.start()
 
@@ -26,11 +26,11 @@ class Animation:
             color = ""
         else:
             end_color = OutputColors.ENDC
-        while not self.__stop_event.is_set():
+        while not stop_event.is_set():
             print(text + " " + color + self.__animation_values[idx % len(self.__animation_values)] + end_color,
                   end="\r")
             idx += 1
             time.sleep(self.__duration)
 
     def stop(self):
-        self.__stop_event.set()
+        stop_event.set()
