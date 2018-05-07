@@ -7,11 +7,13 @@ class Animation:
     def __init__(self, duration):
         self.__duration = duration
         self.__stop_event = Event()
+        self.__force_stop_event = Event()
 
     def animate(self, text, color=None):
         from threading import Thread
 
         self.__stop_event.clear()
+        self.__force_stop_event.clear()
         animation_thread = Thread(target=self.__animation, args=(text, color,))
         animation_thread.setDaemon(True)
         animation_thread.start()
@@ -31,8 +33,15 @@ class Animation:
                   + end_color, end="\r")
             idx += 1
             time.sleep(self.__duration)
-        print(text + " " + OutputColors.OKGREEN + "[OK]" + end_color, end="\r")
+        if self.__force_stop_event.is_set():
+            print(text + " " + OutputColors.FAIL + "[FAIL]" + end_color, end="\r")
+        else:
+            print(text + " " + OutputColors.OKGREEN + "[OK]" + end_color, end="\r")
         print("\n")
 
     def stop(self):
+        self.__stop_event.set()
+
+    def force_stop(self):
+        self.__force_stop_event.set()
         self.__stop_event.set()

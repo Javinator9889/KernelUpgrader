@@ -130,7 +130,7 @@ def main(arg):
             except ImportError as e:
                 raiserModuleNotFound(e)
             except KeyboardInterrupt:
-                animator.stop()
+                animator.force_stop()
                 print("\n")
                 print(Colors.FAIL + "User pressed Ctrl + C - stopping..." + Colors.ENDC)
                 __log.e("User pressed keyboard interrupt. Stopping program...")
