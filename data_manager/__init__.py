@@ -119,14 +119,13 @@ class Compiler:
             compiler_log = CompilerLog()
             compiler_log.add("Compiling kernel with " + str(number_of_cores) + " cores")
             compiler_log.add("Compiling kernel available in folder: \"" + self.__kernel_path + "\"")
-            # for stdout_line in iter(process.stdout.readline, ""):
-            #     compiler_log.add((yield stdout_line))
-            # process.stdout.close()
-            # process.communicate()
-            process.communicate()
-            for stdout_line in iter(process.stdout.readline, ""):
-                compiler_log.add((yield stdout_line))
-            return_code = process.wait()
+            while True:
+                current_output = process.stdout.readline()
+                if current_output == '' and process.poll() is not None:
+                    break
+                if current_output:
+                    compiler_log.add(current_output.strip())
+            return_code = process.poll()
             # compiler_log.finish()
             if return_code != 0:
                 err = process.stderr.read()
