@@ -128,6 +128,8 @@ def main(arg):
                                 __log.finish()
                     except ImportError as e:
                         raiserModuleNotFound(e)
+                    except KeyboardInterrupt:
+                        raise KeyboardInterrupt
             except KeyboardInterrupt:
                 print(Colors.FAIL + "User pressed Ctrl + C - stopping..." + Colors.ENDC)
                 __log.e("User pressed keyboard interrupt. Stopping program...")
