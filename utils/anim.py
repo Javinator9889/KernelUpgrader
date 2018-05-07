@@ -26,7 +26,9 @@ class Animation:
             color = ""
         else:
             end_color = OutputColors.ENDC
-        while not stop_event.is_set():
+        while True:
+            if stop_event.is_set():
+                break
             print(text + " " + color + self.__animation_values[idx % len(self.__animation_values)] + end_color,
                   end="\r")
             idx += 1
