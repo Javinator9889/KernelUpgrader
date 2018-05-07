@@ -29,8 +29,8 @@ class Animation:
         while True:
             if stop_event.is_set():
                 break
-            print(text + " " + color + self.__animation_values[idx % len(self.__animation_values)] + end_color,
-                  end="\r")
+            print(text + " " + color + "[" + self.__animation_values[idx % len(self.__animation_values)] + "]"
+                  + end_color, end="\r")
             idx += 1
             time.sleep(self.__duration)
 
