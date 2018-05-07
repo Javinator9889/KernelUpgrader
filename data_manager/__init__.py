@@ -78,8 +78,8 @@ class Compiler:
             self.__log.e("No boot configuration found for the current kernel version")
             self.__log.finish()
             raise CopyConfigError("No boot configuration was found for the current kernel version. Searching a "
-                                  "config for version \"" + kernel_version.rstrip() + "\" for these files in \"/boot/\" "
-                                                                                      "partition\n" + str(files_found))
+                                  "config for version \"" + kernel_version.rstrip() + "\" for these files in \"/boot/\""
+                                                                                      " partition\n" + str(files_found))
 
     def adaptOldConfig(self):
         from values.Constants import ADAPT_OLD_CONFIG
@@ -103,14 +103,14 @@ class Compiler:
         returnToHomeDir()
         number_of_cores = getCPUCount()
         if isDEBSystem():
-            command = COMPILE_NEW_KERNEL.format(number_of_cores, "deb-pkg")
+            command = COMPILE_NEW_KERNEL.format(number_of_cores)
             process = subprocess.Popen(command.split(), stderr=subprocess.PIPE,
                                        cwd=self.__kernel_path)
-            """compiler_log = CompilerLog()
+            compiler_log = CompilerLog()
             for stdout_line in iter(process.stdout.readline, ""):
                 compiler_log.add((yield stdout_line))
-            process.stdout.close()"""
-            process.communicate()
+            process.stdout.close()
+            # process.communicate()
             return_code = process.wait()
             # compiler_log.finish()
             if return_code != 0:

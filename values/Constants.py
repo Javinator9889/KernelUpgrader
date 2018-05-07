@@ -10,7 +10,7 @@ DOWNLOAD_LENGTH = "content-length"
 
 # Other commands
 UNAME = "uname -r"
-DEPENDENCIES = "apt-get install -y build-essential libncurses5-dev gcc libssl-dev bc flex bison"
+DEPENDENCIES = "apt-get install -y build-essential libncurses5-dev gcc libssl-dev bc flex bison libelf-dev"
 CLEAN_KERNELS = "dpkg -l 'linux-*' | sed '/^ii/!d;/'\"$(uname -r " \
                 "| sed \"s/\(.*\)-\([^0-9]\+\)/\1/\")\"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' " \
                 "| xargs apt-get -y purge"
@@ -27,7 +27,7 @@ COPY_BOOT_CONFIG = "cp -v /boot/config-{} {}/.config"
 ADAPT_OLD_CONFIG = "make olddefconfig"
 # GOTO = "cd {}"
 RPM_OR_DEB = "/usr/bin/rpm -q -f /usr/bin/dpkg"
-COMPILE_NEW_KERNEL = "make -j{} {}"
+COMPILE_NEW_KERNEL = "make -j{} deb-pkg"
 INSTALL_NEW_KERNEL = "dpkg -i linux-*.deb"
 
 # Other params
