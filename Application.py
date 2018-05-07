@@ -85,8 +85,8 @@ def main(arg):
                                          Colors.OKBLUE)
                         unzipper = UnZipper(download_path)
                         kernel_folder = unzipper.unzip()
-                        __log.d("Finished kernel decompression")
                         animator.stop()
+                        __log.d("Finished kernel decompression")
                         __log.d("Starting kernel compilation...")
                         print(Colors.OKBLUE + "Copying old configuration..." + Colors.ENDC)
                         compiler = Compiler(kernel_folder, new_version, current_date)
@@ -97,8 +97,8 @@ def main(arg):
                             animator.animate(Colors.OKBLUE + "Adapting old configuration to the new kernel..."
                                              + Colors.ENDC, Colors.OKBLUE)
                             compiler.adaptOldConfig()
-                            __log.d("Adapted old kernel configuration to the newer version")
                             animator.stop()
+                            __log.d("Adapted old kernel configuration to the newer version")
                             __log.d("Performing kernel compilation...")
                             print(Colors.OKBLUE + "Starting kernel compilation..." + Colors.ENDC)
                             print(Colors.WARNING + "This process will take a long time to finish. You can do it "
@@ -107,14 +107,14 @@ def main(arg):
                             animator.animate(Colors.BOLD + "Performing kernel compilation..." + Colors.ENDC,
                                              Colors.BOLD)
                             compiler.compileKernel()
-                            __log.d("Kernel compilation finished")
                             animator.stop()
+                            __log.d("Kernel compilation finished")
                             __log.d("Starting kernel installation...")
                             animator.animate(Colors.OKBLUE + "Installing the new kernel..." + Colors.ENDC,
                                              Colors.OKBLUE)
                             compiler.installKernel()
-                            __log.d("Finished correctly kernel installation. New version installed: " + new_version)
                             animator.stop()
+                            __log.d("Finished correctly kernel installation. New version installed: " + new_version)
                             __log.finish()
                             print(Colors.OKGREEN + "Kernel completely installed. Now you should reboot in order to "
                                                    "apply changes. New version: " + new_version + Colors.ENDC)

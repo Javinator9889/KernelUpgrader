@@ -31,6 +31,7 @@ class Animation:
                   + end_color, end="\r")
             idx += 1
             time.sleep(self.__duration)
+        print(text + " " + OutputColors.OKGREEN + "[OK]" + end_color, end="\r")
         print("\n")
 
     def stop(self):
