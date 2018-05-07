@@ -129,8 +129,8 @@ def main(arg):
                 print(Colors.FAIL + "User pressed Ctrl + C - stopping..." + Colors.ENDC)
                 __log.e("User pressed keyboard interrupt. Stopping program...")
                 __log.finish()
-                animator.stop()
                 exit(2)
+                animator.stop()
 
 
 if __name__ == '__main__':
