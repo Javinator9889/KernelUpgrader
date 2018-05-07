@@ -1,4 +1,5 @@
 import argparse
+import time
 
 from utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion, getFreeSpaceAvailable
 from utils.colors import OutputColors as Colors
@@ -87,6 +88,7 @@ def main(arg):
                         kernel_folder = unzipper.unzip()
                         animator.stop()
                         __log.d("Finished kernel decompression")
+                        time.sleep(1)
                         __log.d("Starting kernel compilation...")
                         print(Colors.OKBLUE + "Copying old configuration..." + Colors.ENDC)
                         compiler = Compiler(kernel_folder, new_version, current_date)
@@ -99,6 +101,7 @@ def main(arg):
                             compiler.adaptOldConfig()
                             animator.stop()
                             __log.d("Adapted old kernel configuration to the newer version")
+                            time.sleep(1)
                             __log.d("Performing kernel compilation...")
                             print(Colors.OKBLUE + "Starting kernel compilation..." + Colors.ENDC)
                             print(Colors.WARNING + "This process will take a long time to finish. You can do it "
@@ -109,12 +112,14 @@ def main(arg):
                             compiler.compileKernel()
                             animator.stop()
                             __log.d("Kernel compilation finished")
+                            time.sleep(1)
                             __log.d("Starting kernel installation...")
                             animator.animate(Colors.OKBLUE + "Installing the new kernel..." + Colors.ENDC,
                                              Colors.OKBLUE)
                             compiler.installKernel()
                             animator.stop()
                             __log.d("Finished correctly kernel installation. New version installed: " + new_version)
+                            time.sleep(1)
                             __log.finish()
                             print(Colors.OKGREEN + "Kernel completely installed. Now you should reboot in order to "
                                                    "apply changes. New version: " + new_version + Colors.ENDC)
