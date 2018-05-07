@@ -114,15 +114,16 @@ class Compiler:
         number_of_cores = getCPUCount()
         if isDEBSystem():
             command = COMPILE_NEW_KERNEL.format(number_of_cores)
-            process = subprocess.Popen(command.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE,
+            process = subprocess.Popen(command.split(),
                                        cwd=self.__kernel_path)
             compiler_log = CompilerLog()
             compiler_log.add("Compiling kernel with " + str(number_of_cores) + " cores")
             compiler_log.add("Compiling kernel available in folder: \"" + self.__kernel_path + "\"")
-            for stdout_line in iter(process.stdout.readline, ""):
-                compiler_log.add((yield stdout_line))
-            process.stdout.close()
+            # for stdout_line in iter(process.stdout.readline, ""):
+            #     compiler_log.add((yield stdout_line))
+            # process.stdout.close()
             # process.communicate()
+            process.communicate()
             return_code = process.wait()
             # compiler_log.finish()
             if return_code != 0:

@@ -168,7 +168,7 @@ class Log:
 class CompilerLog:
     def __init__(self):
         from values.Constants import FILE_PATH, COMPILER_FILENAME
-        cleanupOldLogs()
+        # cleanupOldLogs()
         self.__fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
 
     def add(self, message):
