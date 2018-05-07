@@ -58,78 +58,72 @@ def main(arg):
                     __log.i("Current version detected: " + current_version)
                     info = Connection()
                     new_version = info.getLatestVersionCode()
-                    try:
-                        from packaging import version
-                        if version.parse(current_version) >= version.parse(new_version):
-                            __log.d("The version installed is the same or greater than the available one. "
-                                    "Current version: " + current_version + " | Available version: " + new_version)
-                            print(Colors.WARNING + "You already have the latest version" + Colors.ENDC)
-                            exit(1)
-                        else:
-                            __log.d("There is a new version available - new kernel upgrade process started")
-                            print(Colors.OKGREEN + "There is a new version available." +
-                                  Colors.ENDC)
-                            print(Colors.OKBLUE + "Downloading new version... " + Colors.ENDC + "| New version: " +
-                                  new_version)
-                            __log.d("Starting new version download... | New version: " + new_version)
-                            version_url = info.getLatestVersionURL()
-                            __log.i("Downloading from: " + version_url)
-                            downloader = Downloader(version_url, new_version)
-                            download_path, current_date = downloader.startDownload()
-                            __log.i("Downloaded to path: \"" + download_path + "\"")
-                            __log.d("Starting dependencies installation...")
-                            print(Colors.OKBLUE + "Installing required dependencies... " + Colors.ENDC)
-                            Dependencies.installRequiredDependencies()
-                            __log.d("Required dependencies installed/satisfied")
-                            __log.d("Starting kernel decompression")
-                            animator.animate(Colors.OKBLUE + "Decompressing downloaded kernel..." + Colors.ENDC,
-                                             Colors.OKBLUE)
-                            # print(Colors.OKBLUE + "Decompressing downloaded kernel..." + Colors.ENDC)
-                            unzipper = UnZipper(download_path)
-                            kernel_folder = unzipper.unzip()
-                            __log.d("Finished kernel decompression")
+                    from packaging import version
+                    if version.parse(current_version) >= version.parse(new_version):
+                        __log.d("The version installed is the same or greater than the available one. "
+                                "Current version: " + current_version + " | Available version: " + new_version)
+                        print(Colors.FAIL + "You already have the latest version" + Colors.ENDC)
+                        exit(1)
+                    else:
+                        __log.d("There is a new version available - new kernel upgrade process started")
+                        print(Colors.OKGREEN + "There is a new version available." +
+                              Colors.ENDC)
+                        print(Colors.OKBLUE + "Downloading new version... " + Colors.ENDC + "| New version: " +
+                              new_version)
+                        __log.d("Starting new version download... | New version: " + new_version)
+                        version_url = info.getLatestVersionURL()
+                        __log.i("Downloading from: " + version_url)
+                        downloader = Downloader(version_url, new_version)
+                        download_path, current_date = downloader.startDownload()
+                        __log.i("Downloaded to path: \"" + download_path + "\"")
+                        __log.d("Starting dependencies installation...")
+                        print(Colors.OKBLUE + "Installing required dependencies... " + Colors.ENDC)
+                        Dependencies.installRequiredDependencies()
+                        __log.d("Required dependencies installed/satisfied")
+                        __log.d("Starting kernel decompression")
+                        animator.animate(Colors.OKBLUE + "Decompressing downloaded kernel..." + Colors.ENDC,
+                                         Colors.OKBLUE)
+                        unzipper = UnZipper(download_path)
+                        kernel_folder = unzipper.unzip()
+                        __log.d("Finished kernel decompression")
+                        animator.stop()
+                        __log.d("Starting kernel compilation...")
+                        print(Colors.OKBLUE + "Copying old configuration..." + Colors.ENDC)
+                        compiler = Compiler(kernel_folder, new_version, current_date)
+                        __log.d("Copying old kernel boot config")
+                        if compiler.copy_latest_config():
+                            __log.d("Copied old kernel boot configuration")
+                            __log.d("Adapting latest config for the new kernel version")
+                            animator.animate(Colors.OKBLUE + "Adapting old configuration to the new kernel..."
+                                             + Colors.ENDC, Colors.OKBLUE)
+                            compiler.adaptOldConfig()
+                            __log.d("Adapted old kernel configuration to the newer version")
                             animator.stop()
-                            __log.d("Starting kernel compilation...")
-                            print(Colors.OKBLUE + "Copying old configuration..." + Colors.ENDC)
-                            compiler = Compiler(kernel_folder, new_version, current_date)
-                            __log.d("Copying old kernel boot config")
-                            if compiler.copy_latest_config():
-                                __log.d("Copied old kernel boot configuration")
-                                __log.d("Adapting latest config for the new kernel version")
-                                # print(Colors.OKBLUE + "Adapting old configuration to the new kernel..." + Colors.ENDC)
-                                animator.animate(Colors.OKBLUE + "Adapting old configuration to the new kernel..."
-                                                 + Colors.ENDC, Colors.OKBLUE)
-                                compiler.adaptOldConfig()
-                                __log.d("Adapted old kernel configuration to the newer version")
-                                animator.stop()
-                                __log.d("Performing kernel compilation...")
-                                print(Colors.OKBLUE + "Starting kernel compilation..." + Colors.ENDC)
-                                print(Colors.WARNING + "This process will take a long time to finish. You can do it "
-                                                       "in background by pressing \"Ctrl + Z\" and then, type \"bg\" at"
-                                                       " your terminal. To resume, just type \"fg\"." + Colors.ENDC)
-                                animator.animate(Colors.BOLD + "Performing kernel compilation..." + Colors.ENDC,
-                                                 Colors.BOLD)
-                                compiler.compileKernel()
-                                __log.d("Kernel compilation finished")
-                                animator.stop()
-                                __log.d("Starting kernel installation...")
-                                # print(Colors.OKBLUE + "Installing the new kernel..." + Colors.ENDC)
-                                animator.animate(Colors.OKBLUE + "Installing the new kernel..." + Colors.ENDC,
-                                                 Colors.OKBLUE)
-                                compiler.installKernel()
-                                __log.d("Finished correctly kernel installation. New version installed: " + new_version)
-                                animator.stop()
-                                __log.finish()
-                                print(Colors.OKGREEN + "Kernel completely installed. Now you should reboot in order to "
-                                                       "apply changes. New version: " + new_version + Colors.ENDC)
-                                exit(0)
-                            else:
-                                __log.e("Impossible to copy latest kernel configuration. Aborting...")
-                                __log.finish()
-                    except ImportError as e:
-                        raiserModuleNotFound(e)
-                    except KeyboardInterrupt:
-                        raise KeyboardInterrupt
+                            __log.d("Performing kernel compilation...")
+                            print(Colors.OKBLUE + "Starting kernel compilation..." + Colors.ENDC)
+                            print(Colors.WARNING + "This process will take a long time to finish. You can do it "
+                                                   "in background by pressing \"Ctrl + Z\" and then, type \"bg\" at"
+                                                   " your terminal. To resume, just type \"fg\"." + Colors.ENDC)
+                            animator.animate(Colors.BOLD + "Performing kernel compilation..." + Colors.ENDC,
+                                             Colors.BOLD)
+                            compiler.compileKernel()
+                            __log.d("Kernel compilation finished")
+                            animator.stop()
+                            __log.d("Starting kernel installation...")
+                            animator.animate(Colors.OKBLUE + "Installing the new kernel..." + Colors.ENDC,
+                                             Colors.OKBLUE)
+                            compiler.installKernel()
+                            __log.d("Finished correctly kernel installation. New version installed: " + new_version)
+                            animator.stop()
+                            __log.finish()
+                            print(Colors.OKGREEN + "Kernel completely installed. Now you should reboot in order to "
+                                                   "apply changes. New version: " + new_version + Colors.ENDC)
+                            exit(0)
+                        else:
+                            __log.e("Impossible to copy latest kernel configuration. Aborting...")
+                            __log.finish()
+            except ImportError as e:
+                raiserModuleNotFound(e)
             except KeyboardInterrupt:
                 print(Colors.FAIL + "User pressed Ctrl + C - stopping..." + Colors.ENDC)
                 __log.e("User pressed keyboard interrupt. Stopping program...")
@@ -147,7 +141,4 @@ if __name__ == '__main__':
                            action="store_true",
                            help="Show full usage of this program")
     args = arguments.parse_args()
-    try:
-        main(args)
-    except KeyboardInterrupt:
-        exit(2)
+    main(args)
