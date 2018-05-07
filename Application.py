@@ -135,6 +135,7 @@ def main(arg):
                 __log.e("User pressed keyboard interrupt. Stopping program...")
                 __log.finish()
                 animator.stop()
+                exit(2)
 
 
 if __name__ == '__main__':
@@ -146,4 +147,7 @@ if __name__ == '__main__':
                            action="store_true",
                            help="Show full usage of this program")
     args = arguments.parse_args()
-    main(args)
+    try:
+        main(args)
+    except KeyboardInterrupt:
+        exit(2)
