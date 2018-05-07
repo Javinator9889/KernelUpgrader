@@ -19,7 +19,6 @@ __program_version = "Current running version: 0.9d - " + REPO_URL
 def main(arg):
     usage = arg.usage
     if usage:
-        # __log.d("Showing usage")
         print(Colors.HEADER + __program_name + Colors.ENDC + "\nUse this tool for upgrading your Linux kernel " +
               Colors.UNDERLINE + "automatically" + Colors.ENDC + " with no user interaction. For this purpose," +
               " the tool needs " + Colors.OKGREEN + "admin rights" + Colors.ENDC + " in order to install required" +
@@ -28,11 +27,8 @@ def main(arg):
               "\n\t - " + FILE_PATH + FILENAME + Colors.ENDC + ": all program logs\n\t - " + Colors.OKBLUE +
               FILE_PATH + COMPILER_FILENAME + Colors.ENDC + ": kernel compiler logs\n\nYou can find more information" +
               " about this program at the following URL: " + Colors.UNDERLINE + REPO_URL + Colors.ENDC)
-        # __log.finish()
     else:
         if not isUserAdmin():
-            # __log.e("Running without root privileges")
-            # __log.finish()
             raise RootPrivilegesNotGiven("This application needs root rights in order to work properly. Run with"
                                          " \"-u\" option to get more information")
         else:
@@ -55,6 +51,7 @@ def main(arg):
                 __log.i("Starting kernel compiling")
                 __log.d("Checking versions")
                 current_version = getLinuxVersion()
+                __log.i("Current version detected: " + current_version)
                 info = Connection()
                 new_version = info.getLatestVersionCode()
                 try:
@@ -65,17 +62,21 @@ def main(arg):
                         print(Colors.WARNING + "You already have the latest version" + Colors.ENDC)
                         exit(1)
                     else:
-                        print(Colors.OKGREEN + "There is a new version available. New version: " + new_version +
+                        __log.d("There is a new version available - new kernel upgrade process started")
+                        print(Colors.OKGREEN + "There is a new version available." +
                               Colors.ENDC)
                         print(Colors.OKBLUE + "Downloading new version... " + Colors.ENDC + "| New version: " +
                               new_version)
                         __log.d("Starting new version download... | New version: " + new_version)
                         version_url = info.getLatestVersionURL()
+                        __log.i("Downloading from: " + version_url)
                         downloader = Downloader(version_url, new_version)
                         download_path, current_date = downloader.startDownload()
+                        __log.i("Downloaded to path: \"" + download_path + "\"")
                         __log.d("Starting dependencies installation...")
                         print(Colors.OKBLUE + "Installing required dependencies... " + Colors.ENDC)
                         Dependencies.installRequiredDependencies()
+                        __log.d("Required dependencies installed/satisfied")
                         __log.d("Starting kernel decompression")
                         print(Colors.OKBLUE + "Decompressing downloaded kernel..." + Colors.ENDC)
                         unzipper = UnZipper(download_path)
@@ -86,9 +87,11 @@ def main(arg):
                         compiler = Compiler(kernel_folder, new_version, current_date)
                         __log.d("Copying old kernel boot config")
                         if compiler.copy_latest_config():
+                            __log.d("Copied old kernel boot configuration")
                             __log.d("Adapting latest config for the new kernel version")
                             print(Colors.OKBLUE + "Adapting old configuration to the new kernel..." + Colors.ENDC)
                             compiler.adaptOldConfig()
+                            __log.d("Adapted old kernel configuration to the newer version")
                             __log.d("Performing kernel compilation...")
                             print(Colors.OKBLUE + "Starting kernel compilation..." + Colors.ENDC)
                             print(Colors.WARNING + "This process will take a long time to finish. You can do it "
@@ -104,6 +107,9 @@ def main(arg):
                             print(Colors.OKGREEN + "Kernel completely installed. Now you should reboot in order to "
                                                    "apply changes. New version: " + new_version + Colors.ENDC)
                             exit(0)
+                        else:
+                            __log.e("Impossible to copy latest kernel configuration. Aborting...")
+                            __log.finish()
                 except ImportError as e:
                     raiserModuleNotFound(e)
 

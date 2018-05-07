@@ -24,8 +24,8 @@ class Downloader:
             from urllib.parse import urlparse
             from clint.textui import progress
             import os
-            # import sys
             import requests
+
             path = urlparse(self.__url).path
             filename = os.path.basename(path)
             partial_path = self.__HOME + "/linux_{}_{}/".format(self.__version, self.__date)

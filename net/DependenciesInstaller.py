@@ -4,8 +4,8 @@ class Dependencies:
         import subprocess
         from values.Constants import DEPENDENCIES
         from exceptions import UnableToInstallDependencies
-        # from Application import __log
         from utils import Log
+
         __log = Log.instance()
         process = subprocess.run(DEPENDENCIES.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if process.returncode != 0:
