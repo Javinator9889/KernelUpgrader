@@ -14,6 +14,7 @@ class Animation:
 
         stop_event.clear()
         animation_thread = Thread(target=self.__animation, args=(text, color,))
+        animation_thread.setDaemon(True)
         animation_thread.start()
 
     def __animation(self, text, color=None):
