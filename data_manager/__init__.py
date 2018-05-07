@@ -124,9 +124,7 @@ class Compiler:
                 if current_output == '' and process.poll() is not None:
                     break
                 if current_output:
-                    print(current_output.strip())
-                    print(current_output.strip().decode("utf-8"))
-                    # compiler_log.add(current_output.strip())
+                    compiler_log.add(current_output.strip().decode("utf-8"))
 
             return_code = process.poll()
             # compiler_log.finish()
