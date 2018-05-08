@@ -1,6 +1,11 @@
 # KernelUpgrader
 A Python tool for upgrade your kernel safetly from https://kernel.org
 
+
+[![PyPi](https://img.shields.io/badge/Package%20-PyPi-green.svg)](https://pypi.org/project/KernelUpgrader/)
+[![ZIP](https://img.shields.io/badge/Package%20-Zip-green.svg)](https://github.com/Javinator9889/KernelUpgrader/archive/master.zip)
+[![GIT](https://img.shields.io/badge/Package%20-Git-green.svg)](https://github.com/Javinator9889/KernelUpgrader.git)
+
 ## How it works?
 First of all, I designed this tool for *speed-up* kernel installation process, as the user has to perform a lot of commands and be careful (the process can crash your system if any step is not correctly completed).
 
