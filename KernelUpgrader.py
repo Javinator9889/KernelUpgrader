@@ -4,7 +4,7 @@ import time
 from utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion, getFreeSpaceAvailable
 from utils.colors import OutputColors as Colors
 from utils.anim import Animation
-from values.Constants import REPO_URL, FILE_PATH, FILENAME, COMPILER_FILENAME, USAGE
+from values.Constants import REPO_URL, USAGE
 from exceptions import LinuxSystemNotFound, RootPrivilegesNotGiven, raiserModuleNotFound, NotEnoughFreeSpaceAvailable
 from net.PageInfo import Connection
 from net.Downloader import Downloader
@@ -15,10 +15,10 @@ from data_manager import UnZipper, Compiler
 __program_name = """Kernel Upgrader for Linux"""
 __program_description = """Download, compile and install the latest stable kernel for your Linux system. Automate
  this tool for upgrading your kernel periodically"""
-__program_version = "Current running version: 0.9d - " + REPO_URL
+__program_version = "Current running version: 1.0 - " + REPO_URL
 
 
-def main(arg):
+def application(arg):
     usage = arg.usage
     if usage:
         print(USAGE)
@@ -131,7 +131,7 @@ def main(arg):
                 exit(2)
 
 
-if __name__ == '__main__':
+def main():
     arguments = argparse.ArgumentParser(prog=__program_name,
                                         description=__program_description,
                                         epilog=__program_version)
@@ -140,4 +140,8 @@ if __name__ == '__main__':
                            action="store_true",
                            help="Show full usage of this program")
     args = arguments.parse_args()
-    main(args)
+    application(args)
+
+
+if __name__ == '__main__':
+    main()
