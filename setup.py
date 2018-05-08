@@ -1,4 +1,4 @@
-from setuptools import setup
+from distutils.core import setup
 from sys import version
 
 if version < '3':
