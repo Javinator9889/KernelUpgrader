@@ -14,12 +14,12 @@ setup(
     author_email='javialonso007@hotmail.es',
     description='Download, compile and install the latest stable kernel for your Linux system',
     include_package_data=True,
+    zip_safe=False,
     entry_points={
         'console_scripts': [
             'kernel_upgrader=KernelUpgrader:main'
         ]
     }, install_requires=['packaging', 'psutil', 'beautifulsoup4', 'lxml', 'requests', 'clint'],
-    zip_safe=False,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Programming Language :: Python',
@@ -28,5 +28,12 @@ setup(
         'Operating System :: POSIX :: Linux',
         'Natural Language :: English'
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.1',
+        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ]
 )
