@@ -113,6 +113,20 @@ def getFreeSpaceAvailable():
     return "%.2f" % (st.f_bavail * st.f_frsize / 1024 / 1024 / 1024)
 
 
+def isRunningInBackground():
+    # type: () -> bool
+    import os
+    import sys
+
+    try:
+        if os.getpgrp() == os.tcgetpgrp(sys.stdout.fileno()):
+            return False
+        else:
+            return True
+    except OSError:
+        return True
+
+
 @Singleton
 class Log:
     def __init__(self):

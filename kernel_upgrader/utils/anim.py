@@ -21,6 +21,7 @@ class Animation:
     def __animation(self, text, color=None):
         import time
         from kernel_upgrader.utils.colors import OutputColors
+        from kernel_upgrader.utils import isRunningInBackground
 
         idx = 0
         if color is None:
@@ -29,9 +30,10 @@ class Animation:
         else:
             end_color = OutputColors.ENDC
         while not self.__stop_event.is_set():
-            print(text + " " + color + "[" + self.__animation_values[idx % len(self.__animation_values)] + "]"
-                  + end_color, end="\r")
-            idx += 1
+            if not isRunningInBackground():
+                print(text + " " + color + "[" + self.__animation_values[idx % len(self.__animation_values)] + "]"
+                      + end_color, end="\r")
+                idx += 1
             time.sleep(self.__duration)
         if self.__force_stop_event.is_set():
             print(text + " " + OutputColors.FAIL + "[FAIL]" + end_color, end="\r")

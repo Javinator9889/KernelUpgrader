@@ -6,7 +6,7 @@ if version < '3':
 
 setup(
     name='KernelUpgrader',
-    version='1.11',
+    version='1.12',
     packages=find_packages(),
     url='https://goo.gl/ZJ4zP9',
     license='GPL-3.0',
