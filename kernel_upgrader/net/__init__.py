@@ -1,3 +1,3 @@
-from .Downloader import *
-from .PageInfo import *
-from .DependenciesInstaller import *
+import kernel_upgrader.net.PageInfo
+import kernel_upgrader.net.Downloader
+import kernel_upgrader.net.DependenciesInstaller

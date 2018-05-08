@@ -20,7 +20,7 @@ class Animation:
 
     def __animation(self, text, color=None):
         import time
-        from ..utils.colors import OutputColors
+        from kernel_upgrader.utils.colors import OutputColors
 
         idx = 0
         if color is None:

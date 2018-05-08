@@ -1,10 +1,10 @@
 from datetime import datetime
 from threading import Thread, enumerate
 
-from ..utils.Singleton import Singleton
-from .colors import *
-from .anim import *
-from .Singleton import *
+from kernel_upgrader.utils.Singleton import Singleton
+from kernel_upgrader.utils.colors import *
+from kernel_upgrader.utils.anim import *
+from kernel_upgrader.utils.Singleton import *
 
 
 def getHomeDir():
@@ -15,7 +15,7 @@ def getHomeDir():
 def getLinuxVersion():
     # type: () -> str
     import subprocess
-    from ..values.Constants import UNAME
+    from kernel_upgrader.values.Constants import UNAME
 
     command_execution = subprocess.run(UNAME.split(), stdout=subprocess.PIPE)
     return command_execution.stdout.decode("utf-8")
@@ -40,7 +40,7 @@ def returnToHomeDir():
 def isDEBSystem():
     # type: () -> bool
     import subprocess
-    from ..values.Constants import RPM_OR_DEB
+    from kernel_upgrader.values.Constants import RPM_OR_DEB
 
     try:
         process = subprocess.Popen(RPM_OR_DEB.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -56,13 +56,13 @@ def isDEBSystem():
 
 def removeOldKernels():
     import subprocess
-    from ..values.Constants import CLEAN_KERNELS
+    from kernel_upgrader.values.Constants import CLEAN_KERNELS
 
     subprocess.run(CLEAN_KERNELS.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
 
 
 def cleanupOldLogs():
-    from ..values.Constants import FILE_PATH, FILENAME, COMPILER_FILENAME, TARFILE_FILENAME,\
+    from kernel_upgrader.values.Constants import FILE_PATH, FILENAME, COMPILER_FILENAME, TARFILE_FILENAME,\
         TARFILE_COMPILER_FILENAME
     import tarfile
     import os
@@ -117,7 +117,7 @@ def getFreeSpaceAvailable():
 class Log:
     def __init__(self):
         import os
-        from ..values.Constants import FILE_PATH, FILENAME
+        from kernel_upgrader.values.Constants import FILE_PATH, FILENAME
         cleanupOldLogs()
         if not os.path.exists(FILE_PATH):
             os.makedirs(FILE_PATH)
@@ -157,7 +157,7 @@ class Log:
 
 class CompilerLog:
     def __init__(self):
-        from ..values.Constants import FILE_PATH, COMPILER_FILENAME
+        from kernel_upgrader.values.Constants import FILE_PATH, COMPILER_FILENAME
         self.__fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
 
     def add(self, message):
