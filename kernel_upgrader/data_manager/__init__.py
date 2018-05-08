@@ -1,9 +1,9 @@
 import os
 import subprocess
 
-from exceptions import ExtractionError, CopyConfigError, OldConfigAdaptationError, CompilationError, \
+from kernel_upgrader.exceptions import ExtractionError, CopyConfigError, OldConfigAdaptationError, CompilationError, \
     RPMNotSupported, InstallationError
-from utils import *
+from kernel_upgrader.utils import *
 
 
 class UnZipper:
@@ -65,7 +65,7 @@ class Compiler:
         self.__log.d("Files found: " + str(files_found))
         any_found = next((config for config in files_found if kernel_version.rstrip() in config), None)
         if any_found is not None:
-            from values.Constants import COPY_BOOT_CONFIG
+            from kernel_upgrader.values.Constants import COPY_BOOT_CONFIG
 
             self.__log.d("Found old boot config - copying to: \"" + self.__kernel_path + "\"")
             command = COPY_BOOT_CONFIG.format(kernel_version, self.__kernel_path)
@@ -88,7 +88,7 @@ class Compiler:
                                                                                       " partition\n" + str(files_found))
 
     def adaptOldConfig(self):
-        from values.Constants import ADAPT_OLD_CONFIG
+        from kernel_upgrader.values.Constants import ADAPT_OLD_CONFIG
 
         returnToHomeDir()
         self.__log.d("Adapting old config copied in folder \"" + self.__kernel_path + "\"")
@@ -107,7 +107,7 @@ class Compiler:
                          + terminal_process.stdout.decode("utf-8"))
 
     def compileKernel(self):
-        from values.Constants import COMPILE_NEW_KERNEL, REPO_URL
+        from kernel_upgrader.values.Constants import COMPILE_NEW_KERNEL, REPO_URL
 
         returnToHomeDir()
         self.__log.d("Starting kernel compilation - log available on \"kernel_upgrader.compiler.log\"")
@@ -145,7 +145,7 @@ class Compiler:
                                   " is included in the new upgrade. Check it on: \"" + REPO_URL + "\")")
 
     def installKernel(self):
-        from values.Constants import INSTALL_NEW_KERNEL
+        from kernel_upgrader.values.Constants import INSTALL_NEW_KERNEL
 
         returnToHomeDir()
         self.__log.d("Starting kernel installation | Kernel source installation path: " + self.__decompressed_path)

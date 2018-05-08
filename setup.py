@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 from sys import version
 
 if version < '3':
@@ -7,14 +7,13 @@ if version < '3':
 setup(
     name='KernelUpgrader',
     version='1.0',
-    packages=['net', 'utils', 'values', 'exceptions', 'data_manager'],
-    scripts=['KernelUpgrader.py'],
+    packages=['kernel_upgrader.net', 'kernel_upgrader.utils', 'kernel_upgrader.values', 'kernel_upgrader.exceptions',
+              'kernel_upgrader.data_manager'],
     url='https://goo.gl/ZJ4zP9',
     license='GPL-3.0',
     author='Javinator9889',
     author_email='javialonso007@hotmail.es',
     description='Download, compile and install the latest stable kernel for your Linux system',
-    py_modules=['KernelUpgrader'],
     include_package_data=True,
     entry_points={
         'console_scripts': [
