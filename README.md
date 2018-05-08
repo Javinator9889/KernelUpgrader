@@ -33,7 +33,7 @@ python3 -m pip install KernelUpgrader
 ```
 + Using the `setup.py` file:
 First, you have to *obtain* the correspondant version. You can get it via `wget` or using `git` (as shown below):
-```shell
+```bash
 apt-get install wget unzip # If "wget" and "unzip" is not installed
 wget https://github.com/Javinator9889/KernelUpgrader/archive/master.zip
 unzip master.zip
