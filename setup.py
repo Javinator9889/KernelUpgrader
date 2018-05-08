@@ -17,7 +17,7 @@ setup(
     zip_safe=False,
     entry_points={
         'console_scripts': [
-            'kernel_upgrader=KernelUpgrader:main'
+            'kernel_upgrader=kernel_upgrader.__init__:main'
         ]
     }, install_requires=['packaging', 'psutil', 'beautifulsoup4', 'lxml', 'requests', 'clint'],
     classifiers=[
