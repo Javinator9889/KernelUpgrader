@@ -4,10 +4,10 @@ import time
 from utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion, getFreeSpaceAvailable
 from utils.colors import OutputColors as Colors
 from utils.anim import Animation
-from values import REPO_URL, USAGE
+from values.Constants import REPO_URL, USAGE
 from exceptions import LinuxSystemNotFound, RootPrivilegesNotGiven, raiserModuleNotFound, NotEnoughFreeSpaceAvailable
-from net import Connection
-from net import Downloader
+from net.PageInfo import Connection
+from net.Downloader import Downloader
 from net.DependenciesInstaller import Dependencies
 from data_manager import UnZipper, Compiler
 
