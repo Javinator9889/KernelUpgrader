@@ -35,8 +35,9 @@ class UnZipper:
         else:
             self.__log.e("There was an error while decompressing 'tar' file located at: " + self.__filename)
             self.__log.finish()
-            raise ExtractionError("There was a problem while decompressing 'tar' file (file does not exists or"
-                                  " is not a dir)")
+            raise ExtractionError(
+                OutputColors.FAIL + "There was a problem while decompressing 'tar' file (file does not "
+                                    "exists or is not a dir)" + OutputColors.ENDC)
 
 
 class Compiler:
@@ -80,8 +81,10 @@ class Compiler:
                 self.__log.e("An error occurred while copying latest kernel. Error output: " + terminal_process.stderr
                              .decode("utf-8"))
                 self.__log.finish()
-                raise CopyConfigError("No configuration was found or an error occurred while copying latest kernel"
-                                      " boot configuration. Error output: " + terminal_process.stderr.decode("utf-8"))
+                # from kernel_upgrader.utils.colors import OutputColors as Colors
+                raise CopyConfigError(OutputColors.FAIL + "No configuration was found or an error occurred while "
+                                                          "copying latest kernel boot configuration. Error output: "
+                                      + terminal_process.stderr.decode("utf-8") + OutputColors.ENDC)
             else:
                 self.__log.d("Correctly copied old boot config | STDOUT log: "
                              + terminal_process.stdout.decode("utf-8"))
@@ -89,9 +92,9 @@ class Compiler:
         else:
             self.__log.e("No boot configuration found for the current kernel version")
             self.__log.finish()
-            raise CopyConfigError("No boot configuration was found for the current kernel version. Searching a "
-                                  "config for version \"" + kernel_version.rstrip() + "\" for these files in \"/boot/\""
-                                                                                      " partition\n" + str(files_found))
+            raise CopyConfigError(OutputColors.FAIL + "No boot configuration was found for the current kernel version."
+                                                      " Searching a config for version \"" + kernel_version.rstrip() +
+                                  "\" for these files in \"/boot/\" partition\n" + str(files_found) + OutputColors.ENDC)
 
     def adaptOldConfig(self):
         from kernel_upgrader.values.Constants import ADAPT_OLD_CONFIG
@@ -104,10 +107,11 @@ class Compiler:
             self.__log.e("It was impossible to update the old config. Error output: " + terminal_process.stderr
                          .decode("utf-8"))
             self.__log.finish()
-            raise OldConfigAdaptationError("There was a problem while trying to update the old configuration for the"
-                                           " new kernel. Please, go to kernel dir and run \"make menuconfig\" for"
-                                           " updating manually. Error output: "
-                                           + terminal_process.stderr.decode("utf'8"))
+            raise OldConfigAdaptationError(OutputColors.FAIL + "There was a problem while trying to update the old "
+                                                               "configuration for the new kernel. Please, go to kernel "
+                                                               "dir and run \"make menuconfig\" for"
+                                                               " updating manually. Error output: "
+                                           + terminal_process.stderr.decode("utf'8") + OutputColors.ENDC)
         else:
             self.__log.d("Correctly adapted old kernel configuration | STDOUT log: "
                          + terminal_process.stdout.decode("utf-8"))
@@ -137,8 +141,8 @@ class Compiler:
                 compiler_log.finish()
                 self.__log.e("There was an error while compiling the new kernel. Error output: " + err)
                 self.__log.finish()
-                raise CompilationError("There was an error while compiling the new kernel. Error output: " +
-                                       err)
+                raise CompilationError(OutputColors.FAIL + "There was an error while compiling the new kernel. "
+                                                           "Error output: " + err + OutputColors.ENDC)
             else:
                 compiler_log.add("Correctly compiled kernel")
                 compiler_log.finish()
@@ -146,9 +150,11 @@ class Compiler:
         else:
             self.__log.e("RPM systems are not supported by this tool")
             self.__log.finish()
-            raise RPMNotSupported("RPM systems are not supported by this tool right now: it works only on DEB ones."
-                                  "\nMaybe doing an upgrade of this program solve this problem (if RPM kernel upgrade"
-                                  " is included in the new upgrade. Check it on: \"" + REPO_URL + "\")")
+            raise RPMNotSupported(OutputColors.FAIL + "RPM systems are not supported by this tool right now: it works"
+                                                      " only on DEB ones.\nMaybe doing an upgrade of this program solve"
+                                                      " this problem (if RPM kernel upgrade is included in the new"
+                                                      " upgrade. Check it on: \"" + REPO_URL + "\")"
+                                  + OutputColors.ENDC)
 
     def installKernel(self):
         from kernel_upgrader.values.Constants import INSTALL_NEW_KERNEL
@@ -160,8 +166,9 @@ class Compiler:
         if process.returncode != 0:
             self.__log.e("There was an error while installing kernel. Error: " + process.stderr.decode("utf-8"))
             self.__log.finish()
-            raise InstallationError("There was an error while installing the new kernel module. Do not reboot your "
-                                    "computer as errors can happen and make your PC unbootable. Error output: " +
-                                    process.stderr.decode("utf-8"))
+            raise InstallationError(OutputColors.FAIL + "There was an error while installing the new kernel module."
+                                                        " Do not reboot your computer as errors can happen and make "
+                                                        "your PC unbootable. Error output: " +
+                                    process.stderr.decode("utf-8") + OutputColors.ENDC)
         else:
             self.__log.d("Installed new kernel")

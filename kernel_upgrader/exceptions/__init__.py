@@ -71,10 +71,13 @@ class NotEnoughFreeSpaceAvailable(RuntimeError):
 
 
 def raiserModuleNotFound(exception):
-    raise ModuleNeededNotFound("This app requires some modules that were not found on this device. More info:"
-                               " " + str(exception))
+    from kernel_upgrader.utils.colors import OutputColors as Colors
+    raise ModuleNeededNotFound(Colors.FAIL + "This app requires some modules that were not found on this device."
+                                             " More info: " + str(exception) + Colors.ENDC)
 
 
 def raiserContentNotAvailable(exception):
-    raise ContentNotAvailable("The content is not available to download. Please, try again later or check your Internet"
-                              " connection. More info: " + str(exception))
+    from kernel_upgrader.utils.colors import OutputColors as Colors
+    raise ContentNotAvailable(Colors.FAIL + "The content is not available to download. Please, try again later or "
+                                            "check your Internet connection. More info: "
+                              + str(exception) + Colors.ENDC)

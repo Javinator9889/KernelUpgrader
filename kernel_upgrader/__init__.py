@@ -15,11 +15,10 @@ from .net.Downloader import Downloader
 from .net.DependenciesInstaller import Dependencies
 from .data_manager import UnZipper, Compiler
 
-
 __program_name = """Kernel Upgrader for Linux"""
 __program_description = """Download, compile and install the latest stable kernel for your Linux system. Automate
  this tool for upgrading your kernel periodically"""
-__program_version = "Current running version: 1.0 - " + REPO_URL
+__program_version = "Current running version: 1.1 - " + REPO_URL
 
 
 def application(arg):
@@ -28,8 +27,8 @@ def application(arg):
         print(USAGE)
     else:
         if not isUserAdmin():
-            raise RootPrivilegesNotGiven("This application needs root rights in order to work properly. Run with"
-                                         " \"-u\" option to get more information")
+            raise RootPrivilegesNotGiven(Colors.FAIL + "This application needs root rights in order to work properly."
+                                                       " Run with \"-u\" option to get more information" + Colors.ENDC)
         else:
             __log = Log.instance()
             animator = Animation(0.1)
@@ -37,9 +36,9 @@ def application(arg):
                 if not isRunningLinux():
                     __log.e("OS is not under a Linux installation. Aborting kernel upgrade...")
                     __log.finish()
-                    raise LinuxSystemNotFound(
-                        "Your OS is not running under a Linux installation. It is not possible to update"
-                        " the kernel")
+                    raise LinuxSystemNotFound(Colors.FAIL +
+                                              "Your OS is not running under a Linux installation. It is not possible"
+                                              " to update the kernel" + Colors.ENDC)
                 else:
                     __log.i("Checking for free space available...")
                     free_space = float(getFreeSpaceAvailable())
@@ -47,8 +46,9 @@ def application(arg):
                         __log.e("There is not enough free space available. Current free space (in GB): "
                                 + str(free_space))
                         __log.finish()
-                        raise NotEnoughFreeSpaceAvailable("There is not enough free space available on drive which "
-                                                          "mounts \"/home\"  20GB are needed at least")
+                        raise NotEnoughFreeSpaceAvailable(Colors.FAIL + "There is not enough free space available on "
+                                                                        "drive which mounts \"/home\"  20GB are needed "
+                                                                        "at least" + Colors.ENDC)
                     __log.i("There is enough free space available. Current free space: " + str(free_space) + " GB")
                     __log.i("Starting kernel compiling")
                     __log.d("Checking versions")
