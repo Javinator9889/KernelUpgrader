@@ -7,9 +7,14 @@ if version < '3':
 
 def longDescription():
     # type: () -> str
-    with open("README.md", "r") as readme:
-        contents = readme.read()
-    return contents
+    try:
+        import codecs
+        readme = codecs.open("README.md", encoding="utf-8")
+        long_description = readme.read()
+        readme.close()
+        return long_description
+    except:
+        return ''
 
 
 setup(
