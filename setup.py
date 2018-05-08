@@ -1,4 +1,8 @@
 from setuptools import setup
+from sys import version
+
+if version < '3':
+    raise RuntimeError("Python v3 at least needed")
 
 setup(
     name='KernelUpgrader',
@@ -9,7 +13,7 @@ setup(
     author='Javinator9889',
     author_email='javialonso007@hotmail.es',
     description='Download, compile and install the latest stable kernel for your Linux system',
-    py_modules=['KernelUpgrader.py'],
+    py_modules=['KernelUpgrader'],
     entry_points={
         'console_scripts': [
             'kernel_upgrader=KernelUpgrader:main'
