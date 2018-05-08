@@ -10,8 +10,8 @@ A Python tool for upgrade your kernel safetly from https://kernel.org
          :target: https://github.com/Javinator9889/KernelUpgrader/archive/master.zip
          :alt: ZIP
 .. image :: https://img.shields.io/badge/Package%20-Git-green.svg
-         :target:https://github.com/Javinator9889/KernelUpgrader.git
-         :alt:Git
+         :target: https://github.com/Javinator9889/KernelUpgrader.git
+         :alt: Git
 
 How it works?
 -------------
