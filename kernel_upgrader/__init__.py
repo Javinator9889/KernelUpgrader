@@ -136,6 +136,7 @@ def application(arg):
                 __log.finish()
                 exit(2)
             except Exception as e:
+                print(e)
                 animator.force_stop()
                 __log.e("Exception catch | " + str(e))
                 __log.finish()
