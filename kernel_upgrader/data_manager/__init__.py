@@ -34,7 +34,7 @@ class UnZipper:
             return path.basename(path.normpath(self.__file_unzip))
         else:
             self.__log.e("There was an error while decompressing 'tar' file located at: " + self.__filename)
-            self.__log.finish()
+            # self.__log.finish()
             raise ExtractionError(
                 OutputColors.FAIL + "There was a problem while decompressing 'tar' file (file does not "
                                     "exists or is not a dir)" + OutputColors.ENDC)
@@ -80,7 +80,7 @@ class Compiler:
             if terminal_process.returncode != 0:
                 self.__log.e("An error occurred while copying latest kernel. Error output: " + terminal_process.stderr
                              .decode("utf-8"))
-                self.__log.finish()
+                # self.__log.finish()
                 # from kernel_upgrader.utils.colors import OutputColors as Colors
                 raise CopyConfigError(OutputColors.FAIL + "No configuration was found or an error occurred while "
                                                           "copying latest kernel boot configuration. Error output: "
@@ -91,7 +91,7 @@ class Compiler:
                 return True
         else:
             self.__log.e("No boot configuration found for the current kernel version")
-            self.__log.finish()
+            # self.__log.finish()
             raise CopyConfigError(OutputColors.FAIL + "No boot configuration was found for the current kernel version."
                                                       " Searching a config for version \"" + kernel_version.rstrip() +
                                   "\" for these files in \"/boot/\" partition\n" + str(files_found) + OutputColors.ENDC)
@@ -106,7 +106,7 @@ class Compiler:
         if terminal_process.returncode != 0:
             self.__log.e("It was impossible to update the old config. Error output: " + terminal_process.stderr
                          .decode("utf-8"))
-            self.__log.finish()
+            # self.__log.finish()
             raise OldConfigAdaptationError(OutputColors.FAIL + "There was a problem while trying to update the old "
                                                                "configuration for the new kernel. Please, go to kernel "
                                                                "dir and run \"make menuconfig\" for"
@@ -140,7 +140,7 @@ class Compiler:
                 err = process.stderr.read().decode("utf-8")
                 compiler_log.finish()
                 self.__log.e("There was an error while compiling the new kernel. Error output: " + err)
-                self.__log.finish()
+                # self.__log.finish()
                 raise CompilationError(OutputColors.FAIL + "There was an error while compiling the new kernel. "
                                                            "Error output: " + err + OutputColors.ENDC)
             else:
@@ -149,7 +149,7 @@ class Compiler:
                 self.__log.d("Correctly compiled log")
         else:
             self.__log.e("RPM systems are not supported by this tool")
-            self.__log.finish()
+            # self.__log.finish()
             raise RPMNotSupported(OutputColors.FAIL + "RPM systems are not supported by this tool right now: it works"
                                                       " only on DEB ones.\nMaybe doing an upgrade of this program solve"
                                                       " this problem (if RPM kernel upgrade is included in the new"
@@ -165,7 +165,7 @@ class Compiler:
                                  cwd=self.__decompressed_path)
         if process.returncode != 0:
             self.__log.e("There was an error while installing kernel. Error: " + process.stderr.decode("utf-8"))
-            self.__log.finish()
+            # self.__log.finish()
             raise InstallationError(OutputColors.FAIL + "There was an error while installing the new kernel module."
                                                         " Do not reboot your computer as errors can happen and make "
                                                         "your PC unbootable. Error output: " +

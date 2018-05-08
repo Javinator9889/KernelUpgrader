@@ -15,7 +15,7 @@ class Downloader:
             self.__date = datetime.date.today().strftime("%d%m%y")
         except ImportError as e:
             self.__log.e("Module needed not found -> " + str(e))
-            self.__log.finish()
+            # self.__log.finish()
             raiserModuleNotFound(e)
 
     def startDownload(self):

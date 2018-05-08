@@ -11,7 +11,7 @@ class Dependencies:
         process = subprocess.run(DEPENDENCIES.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if process.returncode != 0:
             __log.e("Impossible to install dependencies. Error output: " + process.stderr.decode("utf-8"))
-            __log.finish()
+            # __log.finish()
             raise UnableToInstallDependencies(Colors.FAIL + "There was a problem while trying to install required "
                                                             "dependencies. Please, install them manually: "
                                               + DEPENDENCIES + "\nError output: " + process.stderr.decode("utf-8") +

@@ -35,7 +35,7 @@ def application(arg):
             try:
                 if not isRunningLinux():
                     __log.e("OS is not under a Linux installation. Aborting kernel upgrade...")
-                    __log.finish()
+                    # __log.finish()
                     raise LinuxSystemNotFound(Colors.FAIL +
                                               "Your OS is not running under a Linux installation. It is not possible"
                                               " to update the kernel" + Colors.ENDC)
@@ -45,7 +45,7 @@ def application(arg):
                     if free_space < 20:
                         __log.e("There is not enough free space available. Current free space (in GB): "
                                 + str(free_space))
-                        __log.finish()
+                        # __log.finish()
                         raise NotEnoughFreeSpaceAvailable(Colors.FAIL + "There is not enough free space available on "
                                                                         "drive which mounts \"/home\"  20GB are needed "
                                                                         "at least" + Colors.ENDC)
@@ -136,7 +136,7 @@ def application(arg):
                 __log.finish()
                 exit(2)
             except Exception as e:
-                print(e)
+                # print(e)
                 animator.force_stop()
                 __log.e("Exception catch | " + str(e))
                 __log.finish()
