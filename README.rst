@@ -22,7 +22,7 @@ process, as the user has to perform a lot of commands and be careful
 completed).
 
 So for this reason, I decided to **implement** a
-*`Python <https://www.python.org>`__* version of this process. The idea
+*`Python`* version of this process. The idea
 is simple: *download, compile and install a new kernel (if available)
 without user interaction, but showing warnings and errors*.
 
