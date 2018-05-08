@@ -1,3 +1,5 @@
+from utils.colors import OutputColors as Colors
+
 # Kernel download parameters
 KERNEL_PAGE = "https://www.kernel.org/"
 PARSER = "lxml"
@@ -25,10 +27,25 @@ TARFILE_COMPILER_FILENAME = "kernel_upgrader.compiler.tar.gz"
 # Compilation commands
 COPY_BOOT_CONFIG = "cp -v /boot/config-{} {}/.config"
 ADAPT_OLD_CONFIG = "make olddefconfig"
-# GOTO = "cd {}"
 RPM_OR_DEB = "/usr/bin/rpm -q -f /usr/bin/dpkg"
 COMPILE_NEW_KERNEL = "make -j{} deb-pkg"
 INSTALL_NEW_KERNEL = "dpkg -i linux-*.deb"
 
 # Other params
 REPO_URL = "https://goo.gl/ZJ4zP9"
+
+# Program extended usage
+__program_name = """Kernel Upgrader for Linux"""
+USAGE = Colors.HEADER + __program_name + Colors.ENDC + "\nUse this tool for upgrading your Linux kernel " + \
+        Colors.UNDERLINE + "automatically" + Colors.ENDC + " with no user interaction. For this purpose," + \
+        " the tool needs " + Colors.OKGREEN + "admin rights" + Colors.ENDC + " in order to install required" + \
+        " dependencies and the kernel when everything has finished.\nYou can find " + Colors.BOLD + "the" + \
+        " program logs" + Colors.ENDC + " at the following location: " + Colors.OKBLUE + \
+        "\n\t - " + FILE_PATH + FILENAME + Colors.ENDC + ": all program logs\n\t - " + Colors.OKBLUE + \
+        FILE_PATH + COMPILER_FILENAME + Colors.ENDC + \
+        ": kernel compiler logs\n\nYou can find more information about this program at the following URL: " + \
+        Colors.UNDERLINE + REPO_URL + Colors.ENDC + "\nModules that you will need to install: \n" + Colors.OKBLUE + \
+        "\t- pip install beautifulsoup4\n\t- pip install lxml\n\t- pip install requests\n\t- pip install clint\n\t" \
+        "- pip install psutil" + Colors.ENDC + Colors.BOLD + "\n\nIf you find any module required that is not " \
+                                                             "mentioned above, please submit it at the given URL" + \
+        Colors.ENDC

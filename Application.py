@@ -4,7 +4,7 @@ import time
 from utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion, getFreeSpaceAvailable
 from utils.colors import OutputColors as Colors
 from utils.anim import Animation
-from values.Constants import REPO_URL, FILE_PATH, FILENAME, COMPILER_FILENAME
+from values.Constants import REPO_URL, FILE_PATH, FILENAME, COMPILER_FILENAME, USAGE
 from exceptions import LinuxSystemNotFound, RootPrivilegesNotGiven, raiserModuleNotFound, NotEnoughFreeSpaceAvailable
 from net.PageInfo import Connection
 from net.Downloader import Downloader
@@ -21,14 +21,7 @@ __program_version = "Current running version: 0.9d - " + REPO_URL
 def main(arg):
     usage = arg.usage
     if usage:
-        print(Colors.HEADER + __program_name + Colors.ENDC + "\nUse this tool for upgrading your Linux kernel " +
-              Colors.UNDERLINE + "automatically" + Colors.ENDC + " with no user interaction. For this purpose," +
-              " the tool needs " + Colors.OKGREEN + "admin rights" + Colors.ENDC + " in order to install required" +
-              " dependencies and the kernel when everything has finished.\nYou can find " + Colors.BOLD + "the" +
-              " program logs" + Colors.ENDC + " at the following location: " + Colors.OKBLUE +
-              "\n\t - " + FILE_PATH + FILENAME + Colors.ENDC + ": all program logs\n\t - " + Colors.OKBLUE +
-              FILE_PATH + COMPILER_FILENAME + Colors.ENDC + ": kernel compiler logs\n\nYou can find more information" +
-              " about this program at the following URL: " + Colors.UNDERLINE + REPO_URL + Colors.ENDC)
+        print(USAGE)
     else:
         if not isUserAdmin():
             raise RootPrivilegesNotGiven("This application needs root rights in order to work properly. Run with"

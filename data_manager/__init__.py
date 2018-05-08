@@ -125,11 +125,10 @@ class Compiler:
                     break
                 if current_output:
                     compiler_log.add(current_output.strip().decode("utf-8"))
-
             return_code = process.poll()
-            # compiler_log.finish()
             if return_code != 0:
-                err = process.stderr.read()
+                err = process.stderr.read().decode("utf-8")
+                compiler_log.finish()
                 self.__log.e("There was an error while compiling the new kernel. Error output: " + err)
                 self.__log.finish()
                 raise CompilationError("There was an error while compiling the new kernel. Error output: " +

@@ -6,8 +6,6 @@ from utils.Singleton import Singleton
 
 def getHomeDir():
     # type: () -> str
-    # from pathlib import Path
-    # return str(Path.home())
     return "/home/kernel_upgrader"
 
 
@@ -122,30 +120,18 @@ class Log:
         self.__fileLog = open(FILE_PATH + FILENAME, "w")
 
     def d(self, message=None):
-        """log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [DEBUG]: ")
-        self.fileLog.write(log_date + message)
-        self.fileLog.flush()"""
         thread = Thread(target=self.__write, args=("DEBUG", message,))
         thread.start()
 
     def i(self, message=None):
-        """log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [INFO]: ")
-        self.fileLog.write(log_date + message)
-        self.fileLog.flush()"""
         thread = Thread(target=self.__write, args=("INFO", message,))
         thread.start()
 
     def e(self, message=None):
-        """log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [ERROR]: ")
-        self.fileLog.write(log_date + message)
-        self.fileLog.flush()"""
         thread = Thread(target=self.__write, args=("ERROR", message,))
         thread.start()
 
     def w(self, message=None):
-        """log_date = date.today().strftime("%H:%M:%S@%d/%m/%Y [WARNING]: ")
-        self.fileLog.write(log_date + message)
-        self.fileLog.flush()"""
         thread = Thread(target=self.__write, args=("WARNING", message,))
         thread.start()
 
@@ -168,7 +154,6 @@ class Log:
 class CompilerLog:
     def __init__(self):
         from values.Constants import FILE_PATH, COMPILER_FILENAME
-        # cleanupOldLogs()
         self.__fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
 
     def add(self, message):
