@@ -8,7 +8,7 @@ setup(
     name='KernelUpgrader',
     version='1.0',
     packages=['net', 'utils', 'values', 'exceptions', 'data_manager'],
-    scripts=['KernelUprader.py'],
+    scripts=['KernelUpgrader.py'],
     url='https://goo.gl/ZJ4zP9',
     license='GPL-3.0',
     author='Javinator9889',
