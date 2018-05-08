@@ -4,15 +4,25 @@ from sys import version
 if version < '3':
     raise RuntimeError("Python v3 at least needed")
 
+
+def longDescription():
+    # type: () -> str
+    with open("README.md", "r") as readme:
+        contents = readme.read()
+    return contents
+
+
 setup(
     name='KernelUpgrader',
-    version='1.14',
+    version='1.15',
     packages=find_packages(),
     url='https://goo.gl/ZJ4zP9',
     license='GPL-3.0',
     author='Javinator9889',
     author_email='javialonso007@hotmail.es',
     description='Download, compile and install the latest stable kernel for your Linux system',
+    long_description=longDescription(),
+    long_description_content_type='text/markdown',
     include_package_data=True,
     zip_safe=False,
     download_url="https://github.com/Javinator9889/KernelUpgrader/archive/master.zip",
