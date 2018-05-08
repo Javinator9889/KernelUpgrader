@@ -15,6 +15,7 @@ setup(
     description='Download, compile and install the latest stable kernel for your Linux system',
     include_package_data=True,
     zip_safe=False,
+    download_url="https://github.com/Javinator9889/KernelUpgrader/archive/master.zip",
     entry_points={
         'console_scripts': [
             'kernel_upgrader=kernel_upgrader.__init__:main'
