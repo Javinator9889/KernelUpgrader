@@ -8,12 +8,14 @@ setup(
     name='KernelUpgrader',
     version='1.0',
     packages=['net', 'utils', 'values', 'exceptions', 'data_manager'],
+    scripts=['KernelUprader.py'],
     url='https://goo.gl/ZJ4zP9',
     license='GPL-3.0',
     author='Javinator9889',
     author_email='javialonso007@hotmail.es',
     description='Download, compile and install the latest stable kernel for your Linux system',
     py_modules=['KernelUpgrader'],
+    include_package_data=True,
     entry_points={
         'console_scripts': [
             'kernel_upgrader=KernelUpgrader:main'
