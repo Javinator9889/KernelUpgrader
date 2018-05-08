@@ -127,6 +127,23 @@ def isRunningInBackground():
         return True
 
 
+def cleanupSpace():
+    import subprocess
+    from kernel_upgrader.values.Constants import CLEAN_DOWNLOADS
+    from kernel_upgrader.utils.colors import OutputColors as Colors
+
+    command = CLEAN_DOWNLOADS.format(getHomeDir())
+    clean_process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    clean_process.communicate()
+    return_code = clean_process.returncode
+    if return_code != 0:
+        log = Log.instance()
+        log.e("There was an error while trying to clean data in \"" + getHomeDir() + "\"")
+        raise RuntimeError(Colors.FAIL + "We were not able to clean data in \"" + getHomeDir() + "\". Please, clean it"
+                                                                                                 " up manually"
+                           + Colors.ENDC)
+
+
 @Singleton
 class Log:
     def __init__(self):

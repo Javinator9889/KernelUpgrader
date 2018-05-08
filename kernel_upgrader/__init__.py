@@ -18,7 +18,7 @@ from .data_manager import UnZipper, Compiler
 __program_name = """Kernel Upgrader for Linux"""
 __program_description = """Download, compile and install the latest stable kernel for your Linux system. Automate
  this tool for upgrading your kernel periodically"""
-__program_version = "Current running version: 1.12 - " + REPO_URL
+__program_version = "Current running version: 1.13 - " + REPO_URL
 
 
 def application(arg):
@@ -120,6 +120,8 @@ def application(arg):
                             __log.finish()
                             print(Colors.OKGREEN + "Kernel completely installed. Now you should reboot in order to "
                                                    "apply changes. New version: " + new_version + Colors.ENDC)
+                            animator.animate(Colors.UNDERLINE + "Cleaning up used space..." + Colors.ENDC, None)
+
                             exit(0)
                         else:
                             __log.e("Impossible to copy latest kernel configuration. Aborting...")
