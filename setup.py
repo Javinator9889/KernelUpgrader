@@ -5,29 +5,26 @@ if version < '3':
     raise RuntimeError("Python v3 at least needed")
 
 
-def longDescription():
-    # type: () -> str
-    try:
-        import codecs
-        readme = codecs.open("README.md", encoding="utf-8")
-        long_description = readme.read()
-        readme.close()
-        return long_description
-    except:
-        return ''
+try:
+    import codecs
+    readme = codecs.open("README.rst", encoding="utf-8")
+    long_description = readme.read()
+    readme.close()
+except:
+    long_description = ''
 
 
 setup(
     name='KernelUpgrader',
-    version='1.15',
+    version='1.16',
     packages=find_packages(),
     url='https://goo.gl/ZJ4zP9',
     license='GPL-3.0',
     author='Javinator9889',
     author_email='javialonso007@hotmail.es',
     description='Download, compile and install the latest stable kernel for your Linux system',
-    long_description=longDescription(),
-    long_description_content_type='text/markdown',
+    long_description=long_description,
+    long_description_content_type='text/x-rst',
     include_package_data=True,
     zip_safe=False,
     download_url="https://github.com/Javinator9889/KernelUpgrader/archive/master.zip",
