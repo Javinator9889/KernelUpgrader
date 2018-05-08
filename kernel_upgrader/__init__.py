@@ -1,7 +1,7 @@
 import argparse
 import time
 
-from .utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion, getFreeSpaceAvailable
+from .utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion, getFreeSpaceAvailable, cleanupSpace
 from .utils.colors import OutputColors as Colors
 from .utils.anim import Animation
 from .values.Constants import REPO_URL, USAGE
@@ -117,11 +117,15 @@ def application(arg):
                             animator.stop()
                             __log.d("Finished correctly kernel installation. New version installed: " + new_version)
                             time.sleep(1)
-                            __log.finish()
                             print(Colors.OKGREEN + "Kernel completely installed. Now you should reboot in order to "
                                                    "apply changes. New version: " + new_version + Colors.ENDC)
+                            __log.d("Cleaning-up space for downloaded & compiled files")
                             animator.animate(Colors.UNDERLINE + "Cleaning up used space..." + Colors.ENDC, None)
-
+                            cleanupSpace()
+                            animator.stop()
+                            __log.d("Space cleaned-up")
+                            time.sleep(1)
+                            __log.finish()
                             exit(0)
                         else:
                             __log.e("Impossible to copy latest kernel configuration. Aborting...")

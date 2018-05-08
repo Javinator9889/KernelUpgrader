@@ -81,7 +81,6 @@ class Compiler:
                 self.__log.e("An error occurred while copying latest kernel. Error output: " + terminal_process.stderr
                              .decode("utf-8"))
                 # self.__log.finish()
-                # from kernel_upgrader.utils.colors import OutputColors as Colors
                 raise CopyConfigError(OutputColors.FAIL + "No configuration was found or an error occurred while "
                                                           "copying latest kernel boot configuration. Error output: "
                                       + terminal_process.stderr.decode("utf-8") + OutputColors.ENDC)

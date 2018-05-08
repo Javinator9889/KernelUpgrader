@@ -28,11 +28,6 @@ def getCPUCount():
 
 
 def returnToHomeDir():
-    """import subprocess
-    from values.Constants import GOTO
-
-    command = GOTO.format(getHomeDir())
-    subprocess.run(command.split())"""
     import os
     os.chdir(getHomeDir())
 
@@ -132,7 +127,7 @@ def cleanupSpace():
     from kernel_upgrader.values.Constants import CLEAN_DOWNLOADS
     from kernel_upgrader.utils.colors import OutputColors as Colors
 
-    command = CLEAN_DOWNLOADS.format(getHomeDir())
+    command = CLEAN_DOWNLOADS.format(getHomeDir() + "/*")
     clean_process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     clean_process.communicate()
     return_code = clean_process.returncode
