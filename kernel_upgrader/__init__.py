@@ -18,7 +18,7 @@ from .data_manager import UnZipper, Compiler
 __program_name = """Kernel Upgrader for Linux"""
 __program_description = """Download, compile and install the latest stable kernel for your Linux system. Automate
  this tool for upgrading your kernel periodically"""
-__program_version = "Current running version: 1.13 - " + REPO_URL
+__program_version = "Current running version: 1.14 - " + REPO_URL
 
 
 def application(arg):
@@ -136,7 +136,7 @@ def application(arg):
                 __log.finish()
                 exit(2)
             except Exception as e:
-                # print(e)
+                print(e)
                 animator.force_stop()
                 __log.e("Exception catch | " + str(e))
                 __log.finish()
