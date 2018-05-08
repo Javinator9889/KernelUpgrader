@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from sys import version
 
 if version < '3':
@@ -7,7 +7,7 @@ if version < '3':
 setup(
     name='KernelUpgrader',
     version='1.0',
-    packages=['net', 'utils', 'values', 'exceptions', 'data_manager'],
+    packages=find_packages(),
     url='https://goo.gl/ZJ4zP9',
     license='GPL-3.0',
     author='Javinator9889',

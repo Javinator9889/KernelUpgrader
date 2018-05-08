@@ -1,4 +1,4 @@
-from utils.colors import OutputColors as Colors
+from kernel_upgrader.utils.colors import OutputColors as Colors
 
 # Kernel download parameters
 KERNEL_PAGE = "https://www.kernel.org/"

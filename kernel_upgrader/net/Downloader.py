@@ -1,13 +1,13 @@
-from exceptions import raiserModuleNotFound, raiserContentNotAvailable
-from values.Constants import DOWNLOAD_LENGTH
-from utils import Log
+from kernel_upgrader.exceptions import raiserModuleNotFound, raiserContentNotAvailable
+from kernel_upgrader.values.Constants import DOWNLOAD_LENGTH
+from kernel_upgrader.utils import Log
 
 
 class Downloader:
     def __init__(self, url, version):
         self.__log = Log.instance()
         try:
-            from utils import getHomeDir
+            from kernel_upgrader.utils import getHomeDir
             import datetime
             self.__url = url
             self.__version = version
