@@ -1,1 +1,1 @@
-import kernel_upgrader.values.Constants
+from .Constants import *

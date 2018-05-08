@@ -1,6 +1,6 @@
-import kernel_upgrader.KernelUpgrader
-import kernel_upgrader.data_manager
-import kernel_upgrader.exceptions
-import kernel_upgrader.net
-import kernel_upgrader.utils
-import kernel_upgrader.values
+from .KernelUpgrader import *
+from .data_manager import *
+from .exceptions import *
+from .net import *
+from .utils import *
+from .values import *
