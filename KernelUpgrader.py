@@ -1,15 +1,15 @@
 import argparse
 import time
 
-from kernel_upgrader.utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion, getFreeSpaceAvailable
-from kernel_upgrader.utils.colors import OutputColors as Colors
-from kernel_upgrader.utils.anim import Animation
-from kernel_upgrader.values.Constants import REPO_URL, USAGE
-from kernel_upgrader.exceptions import LinuxSystemNotFound, RootPrivilegesNotGiven, raiserModuleNotFound, NotEnoughFreeSpaceAvailable
-from kernel_upgrader.net.PageInfo import Connection
-from kernel_upgrader.net.Downloader import Downloader
-from kernel_upgrader.net.DependenciesInstaller import Dependencies
-from kernel_upgrader.data_manager import UnZipper, Compiler
+from utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion, getFreeSpaceAvailable
+from utils.colors import OutputColors as Colors
+from utils.anim import Animation
+from values import REPO_URL, USAGE
+from exceptions import LinuxSystemNotFound, RootPrivilegesNotGiven, raiserModuleNotFound, NotEnoughFreeSpaceAvailable
+from net import Connection
+from net import Downloader
+from net.DependenciesInstaller import Dependencies
+from data_manager import UnZipper, Compiler
 
 
 __program_name = """Kernel Upgrader for Linux"""

@@ -1,7 +1,7 @@
 from datetime import datetime
 from threading import Thread, enumerate
 
-from kernel_upgrader.utils.Singleton import Singleton
+from utils.Singleton import Singleton
 
 
 def getHomeDir():
@@ -12,7 +12,7 @@ def getHomeDir():
 def getLinuxVersion():
     # type: () -> str
     import subprocess
-    from kernel_upgrader.values.Constants import UNAME
+    from values import UNAME
 
     command_execution = subprocess.run(UNAME.split(), stdout=subprocess.PIPE)
     return command_execution.stdout.decode("utf-8")
@@ -37,7 +37,7 @@ def returnToHomeDir():
 def isDEBSystem():
     # type: () -> bool
     import subprocess
-    from kernel_upgrader.values.Constants import RPM_OR_DEB
+    from values import RPM_OR_DEB
 
     try:
         process = subprocess.Popen(RPM_OR_DEB.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -53,13 +53,13 @@ def isDEBSystem():
 
 def removeOldKernels():
     import subprocess
-    from kernel_upgrader.values.Constants import CLEAN_KERNELS
+    from values import CLEAN_KERNELS
 
     subprocess.run(CLEAN_KERNELS.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
 
 
 def cleanupOldLogs():
-    from kernel_upgrader.values.Constants import FILE_PATH, FILENAME, COMPILER_FILENAME, TARFILE_FILENAME, TARFILE_COMPILER_FILENAME
+    from values import FILE_PATH, FILENAME, COMPILER_FILENAME, TARFILE_FILENAME, TARFILE_COMPILER_FILENAME
     import tarfile
     import os
 
@@ -113,7 +113,7 @@ def getFreeSpaceAvailable():
 class Log:
     def __init__(self):
         import os
-        from kernel_upgrader.values.Constants import FILE_PATH, FILENAME
+        from values import FILE_PATH, FILENAME
         cleanupOldLogs()
         if not os.path.exists(FILE_PATH):
             os.makedirs(FILE_PATH)
@@ -153,7 +153,7 @@ class Log:
 
 class CompilerLog:
     def __init__(self):
-        from kernel_upgrader.values.Constants import FILE_PATH, COMPILER_FILENAME
+        from values import FILE_PATH, COMPILER_FILENAME
         self.__fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
 
     def add(self, message):

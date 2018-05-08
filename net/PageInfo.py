@@ -1,6 +1,6 @@
-from kernel_upgrader.values.Constants import KERNEL_PAGE, PARSER, ASSIDE_ID, TABLE_ID, LATEST_LINK_ID
-from kernel_upgrader.exceptions import raiserModuleNotFound
-from kernel_upgrader.utils import Log
+from values import KERNEL_PAGE, PARSER, ASSIDE_ID, TABLE_ID, LATEST_LINK_ID
+from exceptions import raiserModuleNotFound
+from utils import Log
 
 
 class Connection:

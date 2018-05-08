@@ -7,8 +7,7 @@ if version < '3':
 setup(
     name='KernelUpgrader',
     version='1.0',
-    packages=['kernel_upgrader.net', 'kernel_upgrader.utils', 'kernel_upgrader.values', 'kernel_upgrader.exceptions',
-              'kernel_upgrader.data_manager'],
+    packages=['net', 'utils', 'values', 'exceptions', 'data_manager'],
     url='https://goo.gl/ZJ4zP9',
     license='GPL-3.0',
     author='Javinator9889',
@@ -17,9 +16,10 @@ setup(
     include_package_data=True,
     entry_points={
         'console_scripts': [
-            'kernel_upgrader=kernel_upgrader.KernelUpgrader:main'
+            'kernel_upgrader=KernelUpgrader:main'
         ]
     }, install_requires=['packaging', 'psutil', 'beautifulsoup4', 'lxml', 'requests', 'clint'],
+    zip_safe=False,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Programming Language :: Python',
