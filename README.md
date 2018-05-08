@@ -19,48 +19,48 @@ You have some alternatives to install this application (*both requires admin acc
 
 + Using `pip`. For that purpose, just run in your terminal:
 ```bash
-:~\# pip install KernelUpgrader # It is important to use "pip" from Python 3
+pip install KernelUpgrader # It is important to use "pip" from Python 3
 ```
 To use *Python 3 PIP*, you must install `pip3`:
 ```bash
-:~\# apt-get install pip3 # Assuming that you have Python 3 installed
+apt-get install pip3 # Assuming that you have Python 3 installed
 ### PYTHON 3 NOT INSTALLED ##
-:~\# apt-get install python3
+apt-get install python3
 ```
 If you find that `pip` installs dependencies in *Python 2*, in most cases the following syntax works:
 ```bash
-:~\# python3 -m pip install KernelUpgrader
+python3 -m pip install KernelUpgrader
 ```
 + Using the `setup.py` file:
 First, you have to *obtain* the correspondant version. You can get it via `wget` or using `git` (as shown below):
-```bash
-:~\# apt-get install wget unzip # If "wget" and "unzip" is not installed
-:~\# wget https://github.com/Javinator9889/KernelUpgrader/archive/master.zip
-:~\# unzip master.zip
-:~\# cd KernelUpgrader-master/
+```shell
+apt-get install wget unzip # If "wget" and "unzip" is not installed
+wget https://github.com/Javinator9889/KernelUpgrader/archive/master.zip
+unzip master.zip
+cd KernelUpgrader-master/
 ```
 ```bash
-:~\# apt-get install git # If "git" is not installed
-:~\# git clone https://github.com/Javinator9889/KernelUpgrader.git
-:~\# cd KernelUpgrader
+apt-get install git # If "git" is not installed
+git clone https://github.com/Javinator9889/KernelUpgrader.git
+cd KernelUpgrader
 ```
 Now, for *both processes*, we just need to run:
 ```bash
-:~\# python3 setup.py install # We are using "python3" as "python" means "Python 2"
+python3 setup.py install # We are using "python3" as "python" means "Python 2"
 ```
 
 ## How to update?
 In order to update to a newer version of *KernelUpgrader*, we must do:
 ```bash
 # If installed via "pip"
-:~\# pip install -U KernelUpgrader
+pip install -U KernelUpgrader
 # If the above one not works
-:~\# python3 -m pip install -U KernelUpgrader
+python3 -m pip install -U KernelUpgrader
 ```
 ```bash
 # If installed via "wget" or "git"
 # We must follow the steps in "How to install" until the "cd" command and then run:
-:~\# python3 setup.py install # This automatically updates the application
+python3 setup.py install # This automatically updates the application
 ```
 
 ## I found an error or I want to contribute
