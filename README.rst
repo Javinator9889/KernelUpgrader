@@ -3,7 +3,7 @@ KernelUpgrader
 
 A Python tool for upgrade your kernel safely from https://kernel.org
 
-.. image :: https://img.shields.io/badge/Package%20-PyPi-green.svg
+.. image :: https://img.shields.io/badge/v1.17%20-PyPi-green.svg
          :target: https://pypi.org/project/KernelUpgrader/
          :alt: PyPi
 .. image :: https://img.shields.io/badge/Package%20-Zip-green.svg
