@@ -1,5 +1,5 @@
 # KernelUpgrader
-A Python tool for upgrade your kernel safetly from https://kernel.org
+A Python tool for upgrade your kernel safely from https://kernel.org
 
 
 [![PyPi](https://img.shields.io/badge/Package%20-PyPi-green.svg)](https://pypi.org/project/KernelUpgrader/)
@@ -23,51 +23,56 @@ If you want to know *what commands* is the program using, you can find them at `
 You have some alternatives to install this application (*both requires admin access  - '#'' means admin access granted*):
 
 + Using `pip`. For that purpose, just run in your terminal:
-```bash
+```commandLine
 pip install KernelUpgrader # It is important to use "pip" from Python 3
 ```
 To use *Python 3 PIP*, you must install `pip3`:
-```bash
+```commandLine
 apt-get install pip3 # Assuming that you have Python 3 installed
 ### PYTHON 3 NOT INSTALLED ##
 apt-get install python3
 ```
 If you find that `pip` installs dependencies in *Python 2*, in most cases the following syntax works:
-```bash
+```commandLine
 python3 -m pip install KernelUpgrader
 ```
 + Using the `setup.py` file:
-First, you have to *obtain* the correspondant version. You can get it via `wget` or using `git` (as shown below):
-```bash
+First, you have to *obtain* the correspondent version. You can get it via `wget` or using `git` (as shown below):
+```commandLine
 apt-get install wget unzip # If "wget" and "unzip" is not installed
 wget https://github.com/Javinator9889/KernelUpgrader/archive/master.zip
 unzip master.zip
 cd KernelUpgrader-master/
 ```
-```bash
+```commandLine
 apt-get install git # If "git" is not installed
 git clone https://github.com/Javinator9889/KernelUpgrader.git
 cd KernelUpgrader
 ```
 Now, for *both processes*, we just need to run:
-```bash
+```commandLine
 python3 setup.py install # We are using "python3" as "python" means "Python 2"
 ```
 
 ## How to update?
 In order to update to a newer version of *KernelUpgrader*, we must do:
-```bash
+```commandLine
 # If installed via "pip"
 pip install -U KernelUpgrader
 # If the above one not works
 python3 -m pip install -U KernelUpgrader
 ```
-```bash
+```commandLine
 # If installed via "wget" or "git"
 # We must follow the steps in "How to install" until the "cd" command and then run:
 python3 setup.py install # This automatically updates the application
 ```
-
+## How to use it?
+Once the application *is installed* you now should be able to run it from command line, typing:
+```commandline
+kernel_upgrader # or
+sudo kernel_upgrader
+```
 ## I found an error or I want to contribute
 I would *love* to see how my application grows up, so feel free to create your **own version** of this app. Just *fork it* and make all the changes you want 😄
 

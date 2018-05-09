@@ -16,7 +16,7 @@ except:
 
 setup(
     name='KernelUpgrader',
-    version='1.16',
+    version='1.17',
     packages=find_packages(),
     url='https://goo.gl/ZJ4zP9',
     license='GPL-3.0',

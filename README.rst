@@ -1,7 +1,7 @@
 KernelUpgrader
 ==============
 
-A Python tool for upgrade your kernel safetly from https://kernel.org
+A Python tool for upgrade your kernel safely from https://kernel.org
 
 .. image :: https://img.shields.io/badge/Package%20-PyPi-green.svg
          :target: https://pypi.org/project/KernelUpgrader/
@@ -53,13 +53,13 @@ admin access - '#'' means admin access granted*):
 
 -  Using ``pip``. For that purpose, just run in your terminal:
 
-   .. code:: bash
+   .. code:: commandLine
 
        pip install KernelUpgrader # It is important to use "pip" from Python 3
 
    To use *Python 3 PIP*, you must install ``pip3``:
 
-   .. code:: bash
+   .. code:: commandLine
 
        apt-get install pip3 # Assuming that you have Python 3 installed
        ### PYTHON 3 NOT INSTALLED ##
@@ -68,22 +68,22 @@ admin access - '#'' means admin access granted*):
    If you find that ``pip`` installs dependencies in *Python 2*, in most
    cases the following syntax works:
 
-   .. code:: bash
+   .. code:: commandLine
 
        python3 -m pip install KernelUpgrader
 
 -  Using the ``setup.py`` file: First, you have to *obtain* the
-   correspondant version. You can get it via ``wget`` or using ``git``
+   correspondent version. You can get it via ``wget`` or using ``git``
    (as shown below):
 
-   .. code:: bash
+   .. code:: commandLine
 
        apt-get install wget unzip # If "wget" and "unzip" is not installed
        wget https://github.com/Javinator9889/KernelUpgrader/archive/master.zip
        unzip master.zip
        cd KernelUpgrader-master/
 
-   .. code:: bash
+   .. code:: commandLine
 
        apt-get install git # If "git" is not installed
        git clone https://github.com/Javinator9889/KernelUpgrader.git
@@ -91,7 +91,7 @@ admin access - '#'' means admin access granted*):
 
    Now, for *both processes*, we just need to run:
 
-   .. code:: bash
+   .. code:: commandLine
 
        python3 setup.py install # We are using "python3" as "python" means "Python 2"
 
@@ -100,14 +100,14 @@ How to update?
 
 In order to update to a newer version of *KernelUpgrader*, we must do:
 
-.. code:: bash
+.. code:: commandLine
 
     # If installed via "pip"
     pip install -U KernelUpgrader
     # If the above one not works
     python3 -m pip install -U KernelUpgrader
 
-.. code:: bash
+.. code:: commandLine
 
     # If installed via "wget" or "git"
     # We must follow the steps in "How to install" until the "cd" command and then run:

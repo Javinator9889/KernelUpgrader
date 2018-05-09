@@ -34,7 +34,6 @@ class UnZipper:
             return path.basename(path.normpath(self.__file_unzip))
         else:
             self.__log.e("There was an error while decompressing 'tar' file located at: " + self.__filename)
-            # self.__log.finish()
             raise ExtractionError(
                 OutputColors.FAIL + "There was a problem while decompressing 'tar' file (file does not "
                                     "exists or is not a dir)" + OutputColors.ENDC)
@@ -128,18 +127,16 @@ class Compiler:
             compiler_log = CompilerLog()
             compiler_log.add("Compiling kernel with " + str(number_of_cores) + " cores")
             compiler_log.add("Compiling kernel available in folder: \"" + self.__kernel_path + "\"")
-            while True:
+            return_code = process.poll()
+            while return_code is None:
                 current_output = process.stdout.readline()
-                if current_output == '' and process.poll() is not None:
-                    break
                 if current_output:
                     compiler_log.add(current_output.strip().decode("utf-8"))
-            return_code = process.poll()
+                return_code = process.poll()
             if return_code != 0:
                 err = process.stderr.read().decode("utf-8")
                 compiler_log.finish()
                 self.__log.e("There was an error while compiling the new kernel. Error output: " + err)
-                # self.__log.finish()
                 raise CompilationError(OutputColors.FAIL + "There was an error while compiling the new kernel. "
                                                            "Error output: " + err + OutputColors.ENDC)
             else:
@@ -148,7 +145,6 @@ class Compiler:
                 self.__log.d("Correctly compiled log")
         else:
             self.__log.e("RPM systems are not supported by this tool")
-            # self.__log.finish()
             raise RPMNotSupported(OutputColors.FAIL + "RPM systems are not supported by this tool right now: it works"
                                                       " only on DEB ones.\nMaybe doing an upgrade of this program solve"
                                                       " this problem (if RPM kernel upgrade is included in the new"
@@ -164,7 +160,6 @@ class Compiler:
                                  cwd=self.__decompressed_path)
         if process.returncode != 0:
             self.__log.e("There was an error while installing kernel. Error: " + process.stderr.decode("utf-8"))
-            # self.__log.finish()
             raise InstallationError(OutputColors.FAIL + "There was an error while installing the new kernel module."
                                                         " Do not reboot your computer as errors can happen and make "
                                                         "your PC unbootable. Error output: " +
