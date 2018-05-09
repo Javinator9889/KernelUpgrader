@@ -18,7 +18,7 @@ from .data_manager import UnZipper, Compiler
 __program_name = """Kernel Upgrader for Linux"""
 __program_description = """Download, compile and install the latest stable kernel for your Linux system. Automate
  this tool for upgrading your kernel periodically"""
-__program_version = "Current running version: 1.17 - " + REPO_URL
+__program_version = "Current running version: 1.17.1 - " + REPO_URL
 
 
 def application(arg):
