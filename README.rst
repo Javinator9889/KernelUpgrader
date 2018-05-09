@@ -53,13 +53,13 @@ admin access - '#'' means admin access granted*):
 
 -  Using ``pip``. For that purpose, just run in your terminal:
 
-   .. code:: commandLine
+   .. code:: bash
 
        pip install KernelUpgrader # It is important to use "pip" from Python 3
 
    To use *Python 3 PIP*, you must install ``pip3``:
 
-   .. code:: commandLine
+   .. code:: bash
 
        apt-get install pip3 # Assuming that you have Python 3 installed
        ### PYTHON 3 NOT INSTALLED ##
@@ -68,7 +68,7 @@ admin access - '#'' means admin access granted*):
    If you find that ``pip`` installs dependencies in *Python 2*, in most
    cases the following syntax works:
 
-   .. code:: commandLine
+   .. code:: bash
 
        python3 -m pip install KernelUpgrader
 
@@ -76,14 +76,14 @@ admin access - '#'' means admin access granted*):
    correspondent version. You can get it via ``wget`` or using ``git``
    (as shown below):
 
-   .. code:: commandLine
+   .. code:: bash
 
        apt-get install wget unzip # If "wget" and "unzip" is not installed
        wget https://github.com/Javinator9889/KernelUpgrader/archive/master.zip
        unzip master.zip
        cd KernelUpgrader-master/
 
-   .. code:: commandLine
+   .. code:: bash
 
        apt-get install git # If "git" is not installed
        git clone https://github.com/Javinator9889/KernelUpgrader.git
@@ -91,7 +91,7 @@ admin access - '#'' means admin access granted*):
 
    Now, for *both processes*, we just need to run:
 
-   .. code:: commandLine
+   .. code:: bash
 
        python3 setup.py install # We are using "python3" as "python" means "Python 2"
 
@@ -100,14 +100,14 @@ How to update?
 
 In order to update to a newer version of *KernelUpgrader*, we must do:
 
-.. code:: commandLine
+.. code:: bash
 
     # If installed via "pip"
     pip install -U KernelUpgrader
     # If the above one not works
     python3 -m pip install -U KernelUpgrader
 
-.. code:: commandLine
+.. code:: bash
 
     # If installed via "wget" or "git"
     # We must follow the steps in "How to install" until the "cd" command and then run:
@@ -139,10 +139,3 @@ License
 This project is under *GNU General Public License v3.0*. You can read
 all **permissions**, **limitations** and **conditions** by `clicking
 here <https://github.com/Javinator9889/KernelUpgrader/blob/master/LICENSE>`__
-
-.. |PyPi| image:: https://img.shields.io/badge/Package%20-PyPi-green.svg
-   :target: https://pypi.org/project/KernelUpgrader/
-.. |ZIP| image:: https://img.shields.io/badge/Package%20-Zip-green.svg
-   :target: https://github.com/Javinator9889/KernelUpgrader/archive/master.zip
-.. |GIT| image:: https://img.shields.io/badge/Package%20-Git-green.svg
-   :target: https://github.com/Javinator9889/KernelUpgrader.git
