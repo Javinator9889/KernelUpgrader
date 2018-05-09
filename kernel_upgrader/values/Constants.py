@@ -34,6 +34,8 @@ INSTALL_NEW_KERNEL = "dpkg -i linux-*.deb"
 
 # Other params
 REPO_URL = "https://goo.gl/ZJ4zP9"
+VERSION = "1.17.2"
+VERSION_RAW = "https://github.com/Javinator9889/KernelUpgrader/raw/master/version.json"
 
 # Program extended usage
 __program_name = """Kernel Upgrader for Linux"""

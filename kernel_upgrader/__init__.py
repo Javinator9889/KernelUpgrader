@@ -1,10 +1,17 @@
 import argparse
 import time
 
-from .utils import isRunningLinux, Log, isUserAdmin, getLinuxVersion, getFreeSpaceAvailable, cleanupSpace
+from .utils import (isRunningLinux,
+                    Log,
+                    isUserAdmin,
+                    getLinuxVersion,
+                    getFreeSpaceAvailable,
+                    cleanupSpace,
+                    isNewVersionAvailable
+                    )
 from .utils.colors import OutputColors as Colors
 from .utils.anim import Animation
-from .values.Constants import REPO_URL, USAGE
+from .values.Constants import REPO_URL, USAGE, VERSION
 from .exceptions import (LinuxSystemNotFound,
                          RootPrivilegesNotGiven,
                          raiserModuleNotFound,
@@ -18,7 +25,7 @@ from .data_manager import UnZipper, Compiler
 __program_name = """Kernel Upgrader for Linux"""
 __program_description = """Download, compile and install the latest stable kernel for your Linux system. Automate
  this tool for upgrading your kernel periodically"""
-__program_version = "Current running version: 1.17.1 - " + REPO_URL
+__program_version = "Current running version: " + VERSION + " - " + REPO_URL
 
 
 def application(arg):
@@ -26,6 +33,11 @@ def application(arg):
     if usage:
         print(USAGE)
     else:
+        if isNewVersionAvailable():
+            print(Colors.HEADER + "New version available" + Colors.ENDC + Colors.OKBLUE + " | Download it with pip"
+                                                                                          " or go to this URL: "
+                  + Colors.ENDC + Colors.UNDERLINE + REPO_URL + Colors.ENDC + "\n")
+            time.sleep(8)
         if not isUserAdmin():
             raise RootPrivilegesNotGiven(Colors.FAIL + "This application needs root rights in order to work properly."
                                                        " Run with \"-u\" option to get more information" + Colors.ENDC)
@@ -35,7 +47,6 @@ def application(arg):
             try:
                 if not isRunningLinux():
                     __log.e("OS is not under a Linux installation. Aborting kernel upgrade...")
-                    # __log.finish()
                     raise LinuxSystemNotFound(Colors.FAIL +
                                               "Your OS is not running under a Linux installation. It is not possible"
                                               " to update the kernel" + Colors.ENDC)

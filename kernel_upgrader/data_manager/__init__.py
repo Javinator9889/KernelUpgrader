@@ -104,7 +104,6 @@ class Compiler:
         if terminal_process.returncode != 0:
             self.__log.e("It was impossible to update the old config. Error output: " + terminal_process.stderr
                          .decode("utf-8"))
-            # self.__log.finish()
             raise OldConfigAdaptationError(OutputColors.FAIL + "There was a problem while trying to update the old "
                                                                "configuration for the new kernel. Please, go to kernel "
                                                                "dir and run \"make menuconfig\" for"

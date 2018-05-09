@@ -1,5 +1,5 @@
 from datetime import datetime
-from threading import Thread, enumerate
+from threading import Thread
 
 from kernel_upgrader.utils.Singleton import Singleton
 from kernel_upgrader.utils.colors import *
@@ -139,6 +139,27 @@ def cleanupSpace():
                            + Colors.ENDC)
 
 
+def exportVersion():
+    import pickle
+    from kernel_upgrader.values.Constants import VERSION
+
+    filename = "version.json"
+    version_dict = {"version": VERSION}
+    with open(filename, "wb") as file:
+        pickle.dump(version_dict, file, pickle.HIGHEST_PROTOCOL)
+
+
+def isNewVersionAvailable():
+    # type: () -> bool
+    import requests
+    import pickle
+    from kernel_upgrader.values.Constants import VERSION, VERSION_RAW
+
+    response = requests.get(VERSION_RAW)
+    version_dict = pickle.loads(response.content)
+    return version_dict["version"] != VERSION
+
+
 @Singleton
 class Log:
     def __init__(self):
@@ -148,21 +169,26 @@ class Log:
         if not os.path.exists(FILE_PATH):
             os.makedirs(FILE_PATH)
         self.__fileLog = open(FILE_PATH + FILENAME, "w")
+        self.__threads = []
 
     def d(self, message=None):
         thread = Thread(target=self.__write, args=("DEBUG", message,))
+        self.__threads.append(thread)
         thread.start()
 
     def i(self, message=None):
         thread = Thread(target=self.__write, args=("INFO", message,))
+        self.__threads.append(thread)
         thread.start()
 
     def e(self, message=None):
         thread = Thread(target=self.__write, args=("ERROR", message,))
+        self.__threads.append(thread)
         thread.start()
 
     def w(self, message=None):
         thread = Thread(target=self.__write, args=("WARNING", message,))
+        self.__threads.append(thread)
         thread.start()
 
     def __write(self, typo=None, message=None):
@@ -171,13 +197,9 @@ class Log:
         self.__fileLog.flush()
 
     def finish(self):
-        current_threads = enumerate()
-        if len(current_threads) != 1:
-            for active_thread in current_threads:
-                try:
-                    active_thread.join()
-                except RuntimeError:
-                    continue
+        for saved_thread in self.__threads:
+            if saved_thread.isAlive():
+                saved_thread.join(1.0)
         self.__fileLog.close()
 
 
@@ -185,9 +207,11 @@ class CompilerLog:
     def __init__(self):
         from kernel_upgrader.values.Constants import FILE_PATH, COMPILER_FILENAME
         self.__fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
+        self.__threads = []
 
     def add(self, message):
         thread = Thread(target=self.__write, args=(message,))
+        self.__threads.append(thread)
         thread.start()
 
     def __write(self, message):
@@ -196,11 +220,7 @@ class CompilerLog:
         self.__fileLog.flush()
 
     def finish(self):
-        current_threads = enumerate()
-        if len(current_threads) != 1:
-            for active_thread in current_threads:
-                try:
-                    active_thread.join()
-                except RuntimeError:
-                    continue
+        for saved_thread in self.__threads:
+            if saved_thread.isAlive():
+                saved_thread.join(1.0)
         self.__fileLog.close()
