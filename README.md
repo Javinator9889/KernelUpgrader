@@ -2,7 +2,7 @@
 A Python tool for upgrade your kernel safely from https://kernel.org
 
 
-[![PyPi](https://img.shields.io/badge/v1.17.2%20-PyPi-green.svg)](https://pypi.org/project/KernelUpgrader/)
+[![PyPi](https://img.shields.io/badge/v1.18%20-PyPi-green.svg)](https://pypi.org/project/KernelUpgrader/)
 [![ZIP](https://img.shields.io/badge/Package%20-Zip-green.svg)](https://github.com/Javinator9889/KernelUpgrader/archive/master.zip)
 [![GIT](https://img.shields.io/badge/Package%20-Git-green.svg)](https://github.com/Javinator9889/KernelUpgrader.git)
 
