@@ -37,7 +37,7 @@ COMPILE_INSTALL_NEW_KERNEL = "dpkg -i linux-*.deb"
 
 # Other params
 OP_REPO_URL = "https://goo.gl/ZJ4zP9"
-OP_VERSION = "1.18"
+OP_VERSION = "1.18.1"
 OP_VERSION_RAW = "https://github.com/Javinator9889/KernelUpgrader/raw/master/version.json"
 
 # Program extended usage
