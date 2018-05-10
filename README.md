@@ -73,6 +73,10 @@ Once the application *is installed* you now should be able to run it from comman
 kernel_upgrader # or
 sudo kernel_upgrader
 ```
+
+Read [GoodPractices](https://github.com/Javinator9889/KernelUpgrader/blob/master/GoodPractices.md) in order to make the 
+usage of this application even easier. 
+
 ## I found an error or I want to contribute
 I would *love* to see how my application grows up, so feel free to create your **own version** of this app. Just *fork it* and make all the changes you want 😄
 
