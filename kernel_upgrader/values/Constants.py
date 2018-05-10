@@ -33,11 +33,12 @@ COMPILE_COPY_BOOT_CONFIG = "cp -v /boot/config-{} {}/.config"
 COMPILE_ADAPT_OLD_CONFIG = "make olddefconfig"
 COMPILE_RPM_OR_DEB = "/usr/bin/rpm -q -f /usr/bin/dpkg"
 COMPILE_COMPILE_NEW_KERNEL = "make -j{} deb-pkg"
-COMPILE_INSTALL_NEW_KERNEL = "dpkg -i linux-*.deb"
+COMPILE_INSTALL_NEW_KERNEL = "dpkg -i"
+COMPILE_DEB_PKG = "linux-*.deb"
 
 # Other params
 OP_REPO_URL = "https://goo.gl/ZJ4zP9"
-OP_VERSION = "1.18.1"
+OP_VERSION = "1.18.2"
 OP_VERSION_RAW = "https://github.com/Javinator9889/KernelUpgrader/raw/master/version.json"
 
 # Program extended usage

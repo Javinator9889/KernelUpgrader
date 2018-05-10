@@ -49,9 +49,9 @@ class Compiler:
                                                         new_kernel_version,
                                                         current_date,
                                                         kernel_folder)
-        self.__decompressed_path = "{}/linux_{}_{}/".format(home_dir,
-                                                            new_kernel_version,
-                                                            current_date)
+        self.__decompressed_path = "{}/linux_{}_{}".format(home_dir,
+                                                           new_kernel_version,
+                                                           current_date)
         self.__log = logging.getLogger(LOG_KERNEL)
         self.__log.debug("Kernel path: \"" + self.__kernel_path + "\"")
         self.__log.debug("Decompressed kernel path: \"" + self.__decompressed_path + "\"")
@@ -83,7 +83,6 @@ class Compiler:
                 self.__log.error(
                     "An error occurred while copying latest kernel. Error output: " + terminal_process.stderr
                     .decode("utf-8"))
-                # self.__log.finish()
                 raise CopyConfigError(OutputColors.FAIL + "No configuration was found or an error occurred while "
                                                           "copying latest kernel boot configuration. Error output: "
                                       + terminal_process.stderr.decode("utf-8") + OutputColors.ENDC)
@@ -93,7 +92,6 @@ class Compiler:
                 return True
         else:
             self.__log.error("No boot configuration found for the current kernel version")
-            # self.__log.finish()
             raise CopyConfigError(OutputColors.FAIL + "No boot configuration was found for the current kernel version."
                                                       " Searching a config for version \"" + kernel_version.rstrip() +
                                   "\" for these files in \"/boot/\" partition\n" + str(files_found) + OutputColors.ENDC)
@@ -154,11 +152,16 @@ class Compiler:
                                   + OutputColors.ENDC)
 
     def installKernel(self):
-        from kernel_upgrader.values.Constants import COMPILE_INSTALL_NEW_KERNEL
+        from glob import glob
+        from kernel_upgrader.values.Constants import COMPILE_INSTALL_NEW_KERNEL, COMPILE_DEB_PKG
 
         returnToHomeDir()
         self.__log.debug("Starting kernel installation | Kernel source installation path: " + self.__decompressed_path)
-        process = subprocess.run(COMPILE_INSTALL_NEW_KERNEL.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE,
+        self.__log.info("Using \"glob\" for applying special chars to command")
+        deb_pkg_glob = glob(COMPILE_DEB_PKG)
+        process = subprocess.run(COMPILE_INSTALL_NEW_KERNEL.split() + deb_pkg_glob,
+                                 stderr=subprocess.PIPE,
+                                 stdout=subprocess.PIPE,
                                  cwd=self.__decompressed_path)
         if process.returncode != 0:
             self.__log.error("There was an error while installing kernel. Error: " + process.stderr.decode("utf-8"))
