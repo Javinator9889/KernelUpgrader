@@ -1,10 +1,8 @@
 from datetime import datetime
 from threading import Thread
 
-from kernel_upgrader.utils.Singleton import Singleton
 from kernel_upgrader.utils.colors import *
 from kernel_upgrader.utils.anim import *
-from kernel_upgrader.utils.Singleton import *
 
 
 def getHomeDir():
@@ -15,9 +13,9 @@ def getHomeDir():
 def getLinuxVersion():
     # type: () -> str
     import subprocess
-    from kernel_upgrader.values.Constants import UNAME
+    from kernel_upgrader.values.Constants import C_UNAME
 
-    command_execution = subprocess.run(UNAME.split(), stdout=subprocess.PIPE)
+    command_execution = subprocess.run(C_UNAME.split(), stdout=subprocess.PIPE)
     return command_execution.stdout.decode("utf-8")
 
 
@@ -35,10 +33,10 @@ def returnToHomeDir():
 def isDEBSystem():
     # type: () -> bool
     import subprocess
-    from kernel_upgrader.values.Constants import RPM_OR_DEB
+    from kernel_upgrader.values.Constants import COMPILE_RPM_OR_DEB
 
     try:
-        process = subprocess.Popen(RPM_OR_DEB.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(COMPILE_RPM_OR_DEB.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         process.communicate()
         return_code = process.returncode
         if return_code != 0:
@@ -51,22 +49,23 @@ def isDEBSystem():
 
 def removeOldKernels():
     import subprocess
-    from kernel_upgrader.values.Constants import CLEAN_KERNELS
+    from kernel_upgrader.values.Constants import C_CLEAN_KERNELS
 
-    subprocess.run(CLEAN_KERNELS.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    subprocess.run(C_CLEAN_KERNELS.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
 
 
 def cleanupOldLogs():
-    from kernel_upgrader.values.Constants import FILE_PATH, FILENAME, COMPILER_FILENAME, TARFILE_FILENAME,\
-        TARFILE_COMPILER_FILENAME
+    from kernel_upgrader.values.Constants import LOG_FILE_PATH, LOG_FILENAME, LOG_COMPILER_FILENAME, \
+        LOG_TARFILE_FILENAME, \
+        LOG_TARFILE_COMPILER_FILENAME
     import tarfile
     import os
 
-    kernel_log_filename = FILE_PATH + FILENAME
-    compiler_log_filename = FILE_PATH + COMPILER_FILENAME
+    kernel_log_filename = LOG_FILE_PATH + LOG_FILENAME
+    compiler_log_filename = LOG_FILE_PATH + LOG_COMPILER_FILENAME
 
-    tar_log_filename = FILE_PATH + TARFILE_FILENAME
-    tar_compiler_log_filename = FILE_PATH + TARFILE_COMPILER_FILENAME
+    tar_log_filename = LOG_FILE_PATH + LOG_TARFILE_FILENAME
+    tar_compiler_log_filename = LOG_FILE_PATH + LOG_TARFILE_COMPILER_FILENAME
 
     if os.path.exists(kernel_log_filename):
         if os.path.exists(tar_log_filename):
@@ -124,16 +123,17 @@ def isRunningInBackground():
 
 def cleanupSpace():
     import subprocess
-    from kernel_upgrader.values.Constants import CLEAN_DOWNLOADS
+    import logging
+    from kernel_upgrader.values.Constants import C_CLEAN_DOWNLOADS, LOG_KERNEL
     from kernel_upgrader.utils.colors import OutputColors as Colors
 
-    command = CLEAN_DOWNLOADS.format(getHomeDir() + "/*")
+    command = C_CLEAN_DOWNLOADS.format(getHomeDir() + "/*")
     clean_process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     clean_process.communicate()
     return_code = clean_process.returncode
     if return_code != 0:
-        log = Log.instance()
-        log.e("There was an error while trying to clean data in \"" + getHomeDir() + "\"")
+        log = logging.getLogger(LOG_KERNEL)
+        log.error("There was an error while trying to clean data in \"" + getHomeDir() + "\"")
         raise RuntimeError(Colors.FAIL + "We were not able to clean data in \"" + getHomeDir() + "\". Please, clean it"
                                                                                                  " up manually"
                            + Colors.ENDC)
@@ -141,10 +141,10 @@ def cleanupSpace():
 
 def exportVersion():
     import pickle
-    from kernel_upgrader.values.Constants import VERSION
+    from kernel_upgrader.values.Constants import OP_VERSION
 
     filename = "version.json"
-    version_dict = {"version": VERSION}
+    version_dict = {"version": OP_VERSION}
     with open(filename, "wb") as file:
         pickle.dump(version_dict, file, pickle.HIGHEST_PROTOCOL)
 
@@ -153,74 +153,8 @@ def isNewVersionAvailable():
     # type: () -> bool
     import requests
     import pickle
-    from kernel_upgrader.values.Constants import VERSION, VERSION_RAW
+    from kernel_upgrader.values.Constants import OP_VERSION, OP_VERSION_RAW
 
-    response = requests.get(VERSION_RAW)
+    response = requests.get(OP_VERSION_RAW)
     version_dict = pickle.loads(response.content)
-    return version_dict["version"] != VERSION
-
-
-@Singleton
-class Log:
-    def __init__(self):
-        import os
-        from kernel_upgrader.values.Constants import FILE_PATH, FILENAME
-        cleanupOldLogs()
-        if not os.path.exists(FILE_PATH):
-            os.makedirs(FILE_PATH)
-        self.__fileLog = open(FILE_PATH + FILENAME, "w")
-        self.__threads = []
-
-    def d(self, message=None):
-        thread = Thread(target=self.__write, args=("DEBUG", message,))
-        self.__threads.append(thread)
-        thread.start()
-
-    def i(self, message=None):
-        thread = Thread(target=self.__write, args=("INFO", message,))
-        self.__threads.append(thread)
-        thread.start()
-
-    def e(self, message=None):
-        thread = Thread(target=self.__write, args=("ERROR", message,))
-        self.__threads.append(thread)
-        thread.start()
-
-    def w(self, message=None):
-        thread = Thread(target=self.__write, args=("WARNING", message,))
-        self.__threads.append(thread)
-        thread.start()
-
-    def __write(self, typo=None, message=None):
-        log_date = datetime.now().strftime("%H:%M:%S@%d/%m/%Y [" + typo + "]: ")
-        self.__fileLog.write(log_date + message + "\n")
-        self.__fileLog.flush()
-
-    def finish(self):
-        for saved_thread in self.__threads:
-            if saved_thread.isAlive():
-                saved_thread.join(1.0)
-        self.__fileLog.close()
-
-
-class CompilerLog:
-    def __init__(self):
-        from kernel_upgrader.values.Constants import FILE_PATH, COMPILER_FILENAME
-        self.__fileLog = open(FILE_PATH + COMPILER_FILENAME, "w")
-        self.__threads = []
-
-    def add(self, message):
-        thread = Thread(target=self.__write, args=(message,))
-        self.__threads.append(thread)
-        thread.start()
-
-    def __write(self, message):
-        log_date = datetime.now().strftime("%H:%M:%S@%d/%m/%Y [COMPILER]: ")
-        self.__fileLog.write(log_date + message + "\n")
-        self.__fileLog.flush()
-
-    def finish(self):
-        for saved_thread in self.__threads:
-            if saved_thread.isAlive():
-                saved_thread.join(1.0)
-        self.__fileLog.close()
+    return version_dict["version"] != OP_VERSION

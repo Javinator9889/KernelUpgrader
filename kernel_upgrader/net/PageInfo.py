@@ -1,6 +1,13 @@
-from kernel_upgrader.values.Constants import KERNEL_PAGE, PARSER, ASSIDE_ID, TABLE_ID, LATEST_LINK_ID
+import logging
+
+from kernel_upgrader.values.Constants import (
+    WI_KERNEL_PAGE,
+    WI_PARSER,
+    WI_ASSIDE_ID,
+    WI_TABLE_ID,
+    WI_LATEST_LINK_ID,
+    LOG_KERNEL)
 from kernel_upgrader.exceptions import raiserModuleNotFound
-from kernel_upgrader.utils import Log
 
 
 class Connection:
@@ -9,23 +16,22 @@ class Connection:
             from bs4 import BeautifulSoup
             import lxml
             import requests
-            saved_page_content = requests.get(KERNEL_PAGE).content
-            self.__soupObject = BeautifulSoup(saved_page_content, PARSER)
+            saved_page_content = requests.get(WI_KERNEL_PAGE).content
+            self.__soupObject = BeautifulSoup(saved_page_content, WI_PARSER)
         except ImportError as e:
-            Log.instance().e("Modules not found. " + str(e))
-            Log.instance().finish()
+            logging.getLogger(LOG_KERNEL).error("Modules not found. " + str(e))
             raiserModuleNotFound(e)
 
     def getLatestVersionCode(self):
-        aside = self.__soupObject.find(id=ASSIDE_ID)
-        table = aside.find(id=TABLE_ID)
-        td = table.find(id=LATEST_LINK_ID)
+        aside = self.__soupObject.find(id=WI_ASSIDE_ID)
+        table = aside.find(id=WI_TABLE_ID)
+        td = table.find(id=WI_LATEST_LINK_ID)
         html_latest_version = td.a
         return html_latest_version.get_text()
 
     def getLatestVersionURL(self):
-        aside = self.__soupObject.find(id=ASSIDE_ID)
-        table = aside.find(id=TABLE_ID)
-        td = table.find(id=LATEST_LINK_ID)
+        aside = self.__soupObject.find(id=WI_ASSIDE_ID)
+        table = aside.find(id=WI_TABLE_ID)
+        td = table.find(id=WI_LATEST_LINK_ID)
         html_latest_link = td.a
         return html_latest_link.get('href')

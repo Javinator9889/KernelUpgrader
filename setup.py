@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 from sys import version
-from kernel_upgrader.values.Constants import VERSION
+from kernel_upgrader.values.Constants import OP_VERSION
 
 if version < '3':
     raise RuntimeError("Python v3 at least needed")
@@ -17,7 +17,7 @@ except:
 
 setup(
     name='KernelUpgrader',
-    version=VERSION,
+    version=OP_VERSION,
     packages=find_packages(),
     url='https://goo.gl/ZJ4zP9',
     license='GPL-3.0',

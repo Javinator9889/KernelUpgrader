@@ -1,11 +1,12 @@
+import logging
+
 from kernel_upgrader.exceptions import raiserModuleNotFound, raiserContentNotAvailable
-from kernel_upgrader.values.Constants import DOWNLOAD_LENGTH
-from kernel_upgrader.utils import Log
+from kernel_upgrader.values.Constants import WD_DOWNLOAD_LENGTH, LOG_KERNEL
 
 
 class Downloader:
     def __init__(self, url, version):
-        self.__log = Log.instance()
+        self.__log = logging.getLogger(LOG_KERNEL)
         try:
             from kernel_upgrader.utils import getHomeDir
             import datetime
@@ -14,8 +15,7 @@ class Downloader:
             self.__HOME = getHomeDir()
             self.__date = datetime.date.today().strftime("%d%m%y")
         except ImportError as e:
-            self.__log.e("Module needed not found -> " + str(e))
-            # self.__log.finish()
+            self.__log.error("Module needed not found -> " + str(e))
             raiserModuleNotFound(e)
 
     def startDownload(self):
@@ -32,13 +32,13 @@ class Downloader:
             if not os.path.exists(partial_path):
                 os.makedirs(partial_path)
             download_path = partial_path + filename
-            self.__log.d("Downloading to: " + download_path)
+            self.__log.debug("Downloading to: " + download_path)
             with open(download_path, "wb") as download:
                 response = requests.get(self.__url, stream=True)
-                total_length = response.headers.get(DOWNLOAD_LENGTH)
+                total_length = response.headers.get(WD_DOWNLOAD_LENGTH)
                 if total_length is None:
                     download.close()
-                    self.__log.e("The kernel is not available actually for download")
+                    self.__log.error("The kernel is not available actually for download")
                     raiserContentNotAvailable(response.content)
                 else:
                     for chunk in progress.bar(response.iter_content(chunk_size=1024),
@@ -48,7 +48,8 @@ class Downloader:
                             download.flush()
                     download.close()
                     length_in_mb = int(total_length) / 1000000
-                    self.__log.i("Downloaded " + str(total_length) + " bytes (" + str("%.2f" % length_in_mb) + " MB)")
+                    self.__log.info(
+                        "Downloaded " + str(total_length) + " bytes (" + str("%.2f" % length_in_mb) + " MB)")
             return download_path, self.__date
         except ImportError as e:
             raiserModuleNotFound(e)
