@@ -49,9 +49,9 @@ class Compiler:
                                                         new_kernel_version,
                                                         current_date,
                                                         kernel_folder)
-        self.__decompressed_path = "{}/linux_{}_{}".format(home_dir,
-                                                           new_kernel_version,
-                                                           current_date)
+        self.__decompressed_path = "{}/linux_{}_{}/".format(home_dir,
+                                                            new_kernel_version,
+                                                            current_date)
         self.__log = logging.getLogger(LOG_KERNEL)
         self.__log.debug("Kernel path: \"" + self.__kernel_path + "\"")
         self.__log.debug("Decompressed kernel path: \"" + self.__decompressed_path + "\"")
@@ -158,7 +158,7 @@ class Compiler:
         returnToHomeDir()
         self.__log.debug("Starting kernel installation | Kernel source installation path: " + self.__decompressed_path)
         self.__log.info("Using \"glob\" for applying special chars to command")
-        deb_pkg_glob = glob(COMPILE_DEB_PKG)
+        deb_pkg_glob = glob(self.__decompressed_path + COMPILE_DEB_PKG)
         process = subprocess.run(COMPILE_INSTALL_NEW_KERNEL.split() + deb_pkg_glob,
                                  stderr=subprocess.PIPE,
                                  stdout=subprocess.PIPE,
