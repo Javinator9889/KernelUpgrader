@@ -122,20 +122,20 @@ def isRunningInBackground():
 
 
 def cleanupSpace():
-    import subprocess
     import logging
-    from kernel_upgrader.values.Constants import C_CLEAN_DOWNLOADS, LOG_KERNEL
+    import shutil
+    from kernel_upgrader.values.Constants import LOG_KERNEL
     from kernel_upgrader.utils.colors import OutputColors as Colors
 
-    command = C_CLEAN_DOWNLOADS.format(getHomeDir() + "/*")
-    clean_process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    clean_process.communicate()
-    return_code = clean_process.returncode
-    if return_code != 0:
+    try:
+        shutil.rmtree(getHomeDir(), ignore_errors=True)
+    except OSError as e:
         log = logging.getLogger(LOG_KERNEL)
-        log.error("There was an error while trying to clean data in \"" + getHomeDir() + "\"")
+        log.error("There was an error while trying to clean data in \"" + getHomeDir() + "\". More info: " + str(e))
         raise RuntimeError(Colors.FAIL + "We were not able to clean data in \"" + getHomeDir() + "\". Please, clean it"
-                                                                                                 " up manually"
+                                                                                                 " up manually.\n"
+                                                                                                 "More info available "
+                                                                                                 "on logs"
                            + Colors.ENDC)
 
 

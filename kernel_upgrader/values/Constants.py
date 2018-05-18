@@ -16,7 +16,6 @@ C_DEPENDENCIES = "apt-get install -y build-essential libncurses5-dev gcc libssl-
 C_CLEAN_KERNELS = "dpkg -l 'linux-*' | sed '/^ii/!d;/'\"$(uname -r " \
                   "| sed \"s/\(.*\)-\([^0-9]\+\)/\1/\")\"'/d;s/^[^ ]* [^ ]* \([^ ]*\).*/\1/;/[0-9]/!d' " \
                   "| xargs apt-get -y purge"
-C_CLEAN_DOWNLOADS = "rm -r {}"
 
 # Log params
 LOG_KERNEL = "kernel_logging"
@@ -38,7 +37,7 @@ COMPILE_DEB_PKG = "linux-*.deb"
 
 # Other params
 OP_REPO_URL = "https://goo.gl/ZJ4zP9"
-OP_VERSION = "1.18.3"
+OP_VERSION = "1.18.4"
 OP_VERSION_RAW = "https://github.com/Javinator9889/KernelUpgrader/raw/master/version.json"
 
 # Program extended usage
