@@ -51,7 +51,10 @@ def removeOldKernels():
     import subprocess
     from kernel_upgrader.values.Constants import C_CLEAN_KERNELS
 
-    subprocess.run(C_CLEAN_KERNELS.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    clean_process = subprocess.run(C_CLEAN_KERNELS, shell=True, executable="/bin/bash",
+                                   stderr=subprocess.PIPE,
+                                   stdout=subprocess.PIPE)
+    return clean_process.returncode == 0, clean_process.stdout.decode("utf-8"), clean_process.stderr.decode("utf-8")
 
 
 def cleanupOldLogs():

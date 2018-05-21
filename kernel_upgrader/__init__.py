@@ -123,7 +123,8 @@ def application(arg):
                         __log.debug("Finished kernel decompression")
                         time.sleep(1)
                         __log.debug("Starting kernel compilation...")
-                        print(Colors.OKBLUE + "Copying old configuration..." + Colors.ENDC)
+                        __log.debug("Cleaning up space of old kernels")
+                        print(Colors.OKBLUE + "Copying old configuration & cleaning up space..." + Colors.ENDC)
                         compiler = Compiler(kernel_folder, new_version, current_date)
                         __log.debug("Copying old kernel boot config")
                         if compiler.copy_latest_config():
