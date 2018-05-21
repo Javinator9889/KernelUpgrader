@@ -197,7 +197,11 @@ def main():
                            action="store_true",
                            help="Only checks if there is any new version available")
     args = arguments.parse_args()
-    application(args)
+    try:
+        application(args)
+    except Exception as e:
+        print(e)
+        exit(-1)
 
 
 if __name__ == '__main__':
