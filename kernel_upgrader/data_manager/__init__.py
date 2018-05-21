@@ -62,7 +62,7 @@ class Compiler:
         if not are_kernels_deleted:
             self.__log.warning("Old data was not deleted or does not exists - more info: " + stderr)
         else:
-            self.__log.warning("Old data successfully removed - more info: " + stdout)
+            self.__log.debug("Old data successfully removed - more info: " + stdout)
 
     def copy_latest_config(self):
         from fnmatch import fnmatch
