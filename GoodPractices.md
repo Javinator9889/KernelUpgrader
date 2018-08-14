@@ -14,7 +14,7 @@ this tool and make everything easier.
 We are going to use a tool called `screen`. This application will let us run *everything we want* in a **background 
 process** or in a **foreground one**. For this purpose:
 
-```commandline
+```bash
 sudo apt-get install screen
 # Create a new screen session with a custom name
 screen -dmS linux-kernel
@@ -22,7 +22,7 @@ screen -dmS linux-kernel
 screen -r linux-kernel
 ```
 Now, at the *created screen session*:
-```commandline
+```bash
 sudo kernel_upgrader
 # This will start the tool - use kernel_upgrader -h to see available options
 ```
@@ -43,11 +43,11 @@ As you may have appreciated, the UI of KernelUpgrader is **very minimalist**: it
 
 So, in order to watch while executing the *real progress and logs*, we can easily run a simple built-in command that 
 will tell us all the information we need:
-```commandline
+```bash
 # For KernelUpgrader progress
 tail -f /var/log/kernel_upgrader.log
 ```
-```commandline
+```bash
 # For kernel compilation process
 tail -f /var/log/kernel_upgrader.compiler.log
 ```
