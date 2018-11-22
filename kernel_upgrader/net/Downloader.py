@@ -33,18 +33,15 @@ class Downloader:
                 os.makedirs(partial_path)
             download_path = partial_path + filename
             self.__log.debug("Downloading to: " + download_path)
+            if "git.kernel.org" in self.__url:
+                raiserContentNotAvailable("KernelUpgrader cannot download from git")
             with open(download_path, "wb") as download:
                 response = requests.get(self.__url, stream=True)
                 total_length = response.headers.get(WD_DOWNLOAD_LENGTH)
                 if total_length is None:
-                    for chunk in response.iter_content(chunk_size=1024):
-                        if chunk:
-                            download.write(chunk)
-                            download.flush()
+                    self.__log.error("The kernel is not available actually for download")
+                    raiserContentNotAvailable(response.content)
                     download.close()
-                    if os.stat(download_path).st_size < 2048:
-                        self.__log.error("The kernel is not available actually for download")
-                        raiserContentNotAvailable(response.content)
                 else:
                     for chunk in progress.bar(response.iter_content(chunk_size=1024),
                                               expected_size=(int(total_length) / 1024) + 1):

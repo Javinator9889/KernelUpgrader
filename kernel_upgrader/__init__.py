@@ -105,8 +105,11 @@ def application(arg):
                         supported_versions = []
                         for release in available_versions:
                             release_version = release.get("release_version", None)
-                            release_version = release_version.replace(" [EOL]", '')
-                            if version.parse(current_version) < version.parse(release_version):
+                            print(release_version)
+                            release_version = release_version.replace("[EOL]", '')
+                            print(release_version)
+                            if version.parse(current_version) < version.parse(release_version) \
+                                    and not version.parse(current_version).is_prerelease:
                                 supported_versions.append(release)
                         if len(supported_versions) == 0:
                             __log.debug("The version installed is the same or greater than the available one. "
