@@ -54,3 +54,32 @@ tail -f /var/log/kernel_upgrader.compiler.log
 Those commands will display all the new lines that are being written to the file chosen.
 
 For stop displaying the output, just run: <kbd>CTRL</kbd> <kbd>C</kbd> (Ctrl + C) - will interrupt command execution.
+
+### Running in interactive mode
+
+With the latest **1.19** update, an *interactive* mode was included. Enabling this will allow you to choose **which 
+kernel version you would like to install**, when possible.
+
+For example, imagine that you currently have kernel `4.9.2`. With older versions, such as `1.18.8`, you can only upgrade 
+your kernel to the **latest version**, which is not always recommended. In this situation, you would like to upgrade to 
+the *latest stable version of the same version code*, which is `4.9.18`. Now, running with the **interactive mode** 
+makes this possible.
+
+You can use it like this:
+
+```bash
+sudo kernel_upgrader --interactive
+```
+
+After executing it, and checking the **available updates**, a little prompt will be shown, so you will be able to select
+which kernel you would like to install:
+
+```bash
+sudo kernel_upgrader --interactive
+0: stable: 4.19.2       | Date: 21/11/2018
+1: stable: 4.18.20      | Date: 21/11/2018
+2: longterm: 4.9.18     | Date: 21/11/2018
+Number of the version to install: 2 # This is the version we want: 4.9.18
+```
+
+If there is **no new kernel update available**, no options will be shown and a message will appear.

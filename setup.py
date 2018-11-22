@@ -1,5 +1,7 @@
-from setuptools import setup, find_packages
 from sys import version
+
+from setuptools import setup, find_packages
+
 from kernel_upgrader.values.Constants import OP_VERSION
 
 if version < '3':
@@ -33,7 +35,7 @@ setup(
         'console_scripts': [
             'kernel_upgrader=kernel_upgrader.__init__:main'
         ]
-    }, install_requires=['packaging', 'psutil', 'beautifulsoup4', 'lxml', 'requests', 'clint'],
+    }, install_requires=['packaging', 'psutil', 'beautifulsoup4', 'lxml', 'requests', 'clint', 'texttable'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Programming Language :: Python',

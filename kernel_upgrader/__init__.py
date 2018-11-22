@@ -19,7 +19,8 @@ from .utils import (isRunningLinux,
                     getFreeSpaceAvailable,
                     cleanupSpace,
                     isNewVersionAvailable,
-                    cleanupOldLogs
+                    cleanupOldLogs,
+                    printKernelTable
                     )
 from .utils.anim import Animation
 from .utils.colors import OutputColors as Colors
@@ -117,18 +118,17 @@ def application(arg):
                             print(Colors.FAIL + "You already have the latest version" + Colors.ENDC)
                             exit(1)
                         __log.info("Supported versions (higher than the current one):\n" + str(supported_versions))
-                        i = 0
-                        for displayed_version in supported_versions:
-                            print(str(i) + ": " + displayed_version.get("release_type") + "\t" +
-                                  displayed_version.get("release_version") + "\t\t| Date: " +
-                                  displayed_version.get("release_date"))
-                            i += 1
+                        printKernelTable(['#', "Release type", "Version", "Date"], supported_versions)
                         is_index_correct = False
                         index = -1
                         while not is_index_correct:
                             index = int(input("Number of the version to install: "))
                             if index < len(supported_versions):
                                 is_index_correct = True
+                            else:
+                                print(Colors.FAIL + "Please, select a number of the version to install. Those numbers "
+                                                    "are the first ones that appears next to the text identifying "
+                                                    "the kernel release type" + Colors.ENDC)
                         chosen_version = supported_versions[index]
                         new_version = chosen_version["release_version"]
                         version_url = chosen_version["release_url"]

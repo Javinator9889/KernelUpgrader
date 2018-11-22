@@ -159,3 +159,17 @@ def isNewVersionAvailable():
     response = requests.get(OP_VERSION_RAW)
     version_dict = pickle.loads(response.content)
     return version.parse(version_dict["version"]) > version.parse(OP_VERSION)
+
+
+def printKernelTable(header, values):
+    from texttable import Texttable
+
+    table = Texttable()
+    rows = [header]
+    i = 0
+    for value in values:
+        current_row = [i, value["release_type"], value["release_version"], value["release_date"]]
+        rows.append(current_row)
+        i += 1
+    table.add_rows(rows)
+    print(table.draw())
