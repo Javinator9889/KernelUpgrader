@@ -1,7 +1,17 @@
 import argparse
-import time
 import logging
+import time
 
+from .data_manager import UnZipper, Compiler
+from .exceptions import (LinuxSystemNotFound,
+                         RootPrivilegesNotGiven,
+                         raiserModuleNotFound,
+                         NotEnoughFreeSpaceAvailable
+                         )
+from .net.DependenciesInstaller import Dependencies
+from .net.Downloader import Downloader
+from .net.KernelVersions import KernelVersions
+from .net.PageInfo import Connection
 from .utils import (isRunningLinux,
                     isUserAdmin,
                     getLinuxVersion,
@@ -10,19 +20,10 @@ from .utils import (isRunningLinux,
                     isNewVersionAvailable,
                     cleanupOldLogs
                     )
-from .utils.colors import OutputColors as Colors
 from .utils.anim import Animation
+from .utils.colors import OutputColors as Colors
 from .utils.logger import setup_logging
 from .values.Constants import OP_REPO_URL, EXU_USAGE, OP_VERSION, LOG_FILE_PATH, LOG_FILENAME, LOG_COMPILER_FILENAME
-from .exceptions import (LinuxSystemNotFound,
-                         RootPrivilegesNotGiven,
-                         raiserModuleNotFound,
-                         NotEnoughFreeSpaceAvailable
-                         )
-from .net.PageInfo import Connection
-from .net.Downloader import Downloader
-from .net.DependenciesInstaller import Dependencies
-from .data_manager import UnZipper, Compiler
 
 __program_name = """Kernel Upgrader for Linux"""
 __program_description = """Download, compile and install the latest stable kernel for your Linux system. Automate
@@ -34,6 +35,7 @@ def application(arg):
     usage = arg.usage
     show_version = arg.version
     check_kernel_updates = arg.check
+    interactive = arg.interactive
     if usage:
         print(EXU_USAGE)
     elif show_version:
@@ -90,22 +92,55 @@ def application(arg):
                     __log.debug("Checking versions")
                     current_version = getLinuxVersion()
                     __log.info("Current version detected: " + current_version)
-                    info = Connection()
-                    new_version = info.getLatestVersionCode()
                     from packaging import version
-                    if version.parse(current_version) >= version.parse(new_version):
+                    if not interactive:
+                        info = Connection()
+                        new_version = info.getLatestVersionCode()
+                        version_url = info.getLatestVersionURL()
+                    else:
+                        interactive_mode = KernelVersions()
+                        available_versions = interactive_mode.obtain_current_available_kernels()
+                        __log.info("Available versions:\n" + str(available_versions))
+                        supported_versions = []
+                        for release in available_versions:
+                            release_version = release.get("release_version", None)
+                            release_version = release_version.replace(" [EOL]", '')
+                            if version.parse(current_version) < version.parse(release_version):
+                                supported_versions.append(release)
+                        if len(supported_versions) == 0:
+                            __log.debug("The version installed is the same or greater than the available one. "
+                                        "Current version: " + current_version)
+                            print(Colors.FAIL + "You already have the latest version" + Colors.ENDC)
+                            exit(1)
+                        __log.info("Supported versions (higher than the current one):\n" + str(supported_versions))
+                        i = 0
+                        for displayed_version in supported_versions:
+                            print(str(i) + ": " + displayed_version.get("release_type") + " " +
+                                  displayed_version.get("release_version") + " | Date: " +
+                                  displayed_version.get("release_date"))
+                            i += 1
+                        is_index_correct = False
+                        index = -1
+                        while not is_index_correct:
+                            index = int(input("Number of the version to install: "))
+                            if index < len(supported_versions):
+                                is_index_correct = True
+                        chosen_version = supported_versions[index]
+                        new_version = chosen_version["release_version"]
+                        version_url = chosen_version["release_url"]
+                    if not interactive and version.parse(current_version) >= version.parse(new_version):
                         __log.debug("The version installed is the same or greater than the available one. "
                                     "Current version: " + current_version + " | Available version: " + new_version)
                         print(Colors.FAIL + "You already have the latest version" + Colors.ENDC)
                         exit(1)
                     else:
                         __log.debug("There is a new version available - new kernel upgrade process started")
-                        print(Colors.OKGREEN + "There is a new version available." +
-                              Colors.ENDC)
+                        if not interactive:
+                            print(Colors.OKGREEN + "There is a new version available." +
+                                  Colors.ENDC)
                         print(Colors.OKBLUE + "Downloading new version... " + Colors.ENDC + "| New version: " +
                               new_version)
                         __log.debug("Starting new version download... | New version: " + new_version)
-                        version_url = info.getLatestVersionURL()
                         __log.info("Downloading from: " + version_url)
                         downloader = Downloader(version_url, new_version)
                         download_path, current_date = downloader.startDownload()
@@ -196,6 +231,11 @@ def main():
                            "--check",
                            action="store_true",
                            help="Only checks if there is any new version available")
+    arguments.add_argument("-i",
+                           "--interactive",
+                           action="store_true",
+                           help="Launches the KernelUpgrader tool with interactive mode for selecting the kernel "
+                                "you want to install")
     args = arguments.parse_args()
     try:
         application(args)
