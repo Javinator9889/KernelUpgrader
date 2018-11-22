@@ -118,7 +118,7 @@ def application(arg):
                         i = 0
                         for displayed_version in supported_versions:
                             print(str(i) + ": " + displayed_version.get("release_type") + "\t" +
-                                  displayed_version.get("release_version") + "\t| Date: " +
+                                  displayed_version.get("release_version") + "\t\t| Date: " +
                                   displayed_version.get("release_date"))
                             i += 1
                         is_index_correct = False
@@ -211,8 +211,12 @@ def application(arg):
                 __log.error("User pressed keyboard interrupt. Stopping program...")
                 exit(2)
             except Exception as e:
+                print("Ooops!! There was an unexpected error :O\n\nPlease, refer to: "
+                      ">> https://github.com/Javinator9889/KernelUpgrader/issues << and submit the following red code:")
+                print(Colors.FAIL)
                 print(e)
                 traceback.print_exc()
+                print(Colors.ENDC)
                 animator.force_stop()
                 __log.error("Exception catch | " + str(e))
                 exit(3)
