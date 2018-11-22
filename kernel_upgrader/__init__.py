@@ -37,6 +37,7 @@ def application(arg):
     usage = arg.usage
     show_version = arg.version
     check_kernel_updates = arg.check
+    cores = arg.cores if arg.cores != 0 else None
     interactive = arg.interactive
     if usage:
         print(EXU_USAGE)
@@ -90,6 +91,10 @@ def application(arg):
                                                                         "drive which mounts \"/home\"  20GB are needed "
                                                                         "at least" + Colors.ENDC)
                     __log.info("There is enough free space available. Current free space: " + str(free_space) + " GB")
+                    if cores is not None:
+                        __log.info("Using predefined number of cores: " + str(cores))
+                    else:
+                        __log.info("Using default number of cores (system available cores)")
                     __log.info("Starting kernel compiling")
                     __log.debug("Checking versions")
                     current_version = getLinuxVersion()
@@ -164,7 +169,7 @@ def application(arg):
                         __log.debug("Starting kernel compilation...")
                         __log.debug("Cleaning up space of old kernels")
                         print(Colors.OKBLUE + "Copying old configuration & cleaning up space..." + Colors.ENDC)
-                        compiler = Compiler(kernel_folder, new_version, current_date)
+                        compiler = Compiler(kernel_folder, new_version, current_date, cores)
                         __log.debug("Copying old kernel boot config")
                         if compiler.copy_latest_config():
                             __log.debug("Copied old kernel boot configuration")
@@ -243,8 +248,13 @@ def main():
                            "--check",
                            action="store_true",
                            help="Only checks if there is any new version available")
-    arguments.add_argument("-i",
-                           "--interactive",
+    arguments.add_argument("-j",
+                           "--cores",
+                           type=int,
+                           default=0,
+                           help="Use a predefined number of cores for thread compilation. Default: 0 (uses the number"
+                                "of cores available on your system)")
+    arguments.add_argument("--interactive",
                            action="store_true",
                            help="Launches the KernelUpgrader tool with interactive mode for selecting the kernel "
                                 "you want to install")

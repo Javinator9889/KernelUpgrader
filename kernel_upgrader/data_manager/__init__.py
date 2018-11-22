@@ -42,7 +42,7 @@ class UnZipper:
 
 
 class Compiler:
-    def __init__(self, kernel_folder, new_kernel_version, current_date):
+    def __init__(self, kernel_folder, new_kernel_version, current_date, number_of_cores=None):
         returnToHomeDir()
         home_dir = getHomeDir()
         self.__kernel_path = "{}/linux_{}_{}/{}".format(home_dir,
@@ -53,6 +53,7 @@ class Compiler:
                                                             new_kernel_version,
                                                             current_date)
         self.__log = logging.getLogger(LOG_KERNEL)
+        self.__number_of_cores = number_of_cores
         self.__log.debug("Kernel path: \"" + self.__kernel_path + "\"")
         self.__log.debug("Decompressed kernel path: \"" + self.__decompressed_path + "\"")
         self.__log.debug(
@@ -125,7 +126,7 @@ class Compiler:
 
         returnToHomeDir()
         self.__log.debug("Starting kernel compilation - log available on \"kernel_upgrader.compiler.log\"")
-        number_of_cores = getCPUCount()
+        number_of_cores = getCPUCount() if self.__number_of_cores is None else self.__number_of_cores
         if isDEBSystem():
             command = COMPILE_COMPILE_NEW_KERNEL.format(number_of_cores)
             process = subprocess.Popen(command.split(), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
