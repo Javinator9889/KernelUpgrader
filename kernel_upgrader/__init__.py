@@ -1,6 +1,7 @@
 import argparse
 import logging
 import time
+import traceback
 
 from .data_manager import UnZipper, Compiler
 from .exceptions import (LinuxSystemNotFound,
@@ -210,14 +211,13 @@ def application(arg):
                 exit(2)
             except Exception as e:
                 print(e)
+                traceback.print_exc()
                 animator.force_stop()
                 __log.error("Exception catch | " + str(e))
                 exit(3)
 
 
 def main():
-    import traceback
-
     arguments = argparse.ArgumentParser(prog=__program_name,
                                         description=__program_description,
                                         epilog=__program_version)

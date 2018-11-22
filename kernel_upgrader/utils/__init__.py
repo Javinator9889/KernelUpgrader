@@ -158,4 +158,4 @@ def isNewVersionAvailable():
 
     response = requests.get(OP_VERSION_RAW)
     version_dict = pickle.loads(response.content)
-    return version.parse(version_dict["version"]) < version.parse(OP_VERSION)
+    return version.parse(version_dict["version"]) > version.parse(OP_VERSION)
