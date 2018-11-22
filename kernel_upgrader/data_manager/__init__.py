@@ -1,6 +1,6 @@
+import logging
 import os
 import subprocess
-import logging
 
 from kernel_upgrader.exceptions import (
     ExtractionError,
@@ -156,14 +156,19 @@ class Compiler:
                                   + OutputColors.ENDC)
 
     def installKernel(self):
-        from glob import glob
+        # from glob import glob1
+        from fnmatch import filter
         from kernel_upgrader.values.Constants import COMPILE_INSTALL_NEW_KERNEL, COMPILE_DEB_PKG
 
         returnToHomeDir()
         self.__log.debug("Starting kernel installation | Kernel source installation path: " + self.__decompressed_path)
         self.__log.info("Using \"glob\" for applying special chars to command")
-        deb_pkg_glob = glob(self.__decompressed_path + COMPILE_DEB_PKG)
-        process = subprocess.run(COMPILE_INSTALL_NEW_KERNEL.split() + deb_pkg_glob,
+        # from glob import glob
+        # deb_pkg_glob = glob(self.__decompressed_path + COMPILE_DEB_PKG)
+        # -- OLD REPRESENTATION NOT WORKING WITH LATEST UPDATES
+        all_files = os.listdir(self.__decompressed_path)
+        deb_pkg_files = filter(all_files, COMPILE_DEB_PKG)
+        process = subprocess.run(COMPILE_INSTALL_NEW_KERNEL.split() + deb_pkg_files,
                                  stderr=subprocess.PIPE,
                                  stdout=subprocess.PIPE,
                                  cwd=self.__decompressed_path)

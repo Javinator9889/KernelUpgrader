@@ -95,10 +95,12 @@ def application(arg):
                     __log.info("Current version detected: " + current_version)
                     from packaging import version
                     if not interactive:
+                        __log.info("Running in non-interactive mode")
                         info = Connection()
                         new_version = info.getLatestVersionCode()
                         version_url = info.getLatestVersionURL()
                     else:
+                        __log.info("Running in interactive mode")
                         interactive_mode = KernelVersions()
                         available_versions = interactive_mode.obtain_current_available_kernels()
                         __log.info("Available versions:\n" + str(available_versions))
@@ -217,6 +219,9 @@ def application(arg):
                 print(e)
                 traceback.print_exc()
                 print(Colors.ENDC)
+                print("Also you can include the logs that are found at: \n"
+                      "\t/var/log/kernel_upgrader.log & \n"
+                      "\t/var/log/kernel_upgrader.compiler.log")
                 animator.force_stop()
                 __log.error("Exception catch | " + str(e))
                 exit(3)
