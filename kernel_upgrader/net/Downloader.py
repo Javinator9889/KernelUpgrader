@@ -37,9 +37,14 @@ class Downloader:
                 response = requests.get(self.__url, stream=True)
                 total_length = response.headers.get(WD_DOWNLOAD_LENGTH)
                 if total_length is None:
+                    for chunk in response.iter_content(chunk_size=1024):
+                        if chunk:
+                            download.write(chunk)
+                            download.flush()
                     download.close()
-                    self.__log.error("The kernel is not available actually for download")
-                    raiserContentNotAvailable(response.content)
+                    if os.stat(download_path).st_size < 2048:
+                        self.__log.error("The kernel is not available actually for download")
+                        raiserContentNotAvailable(response.content)
                 else:
                     for chunk in progress.bar(response.iter_content(chunk_size=1024),
                                               expected_size=(int(total_length) / 1024) + 1):
