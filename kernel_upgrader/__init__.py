@@ -105,9 +105,7 @@ def application(arg):
                         supported_versions = []
                         for release in available_versions:
                             release_version = release.get("release_version", None)
-                            print(release_version)
                             release_version = release_version.replace("[EOL]", '')
-                            print(release_version)
                             if version.parse(current_version) < version.parse(release_version) \
                                     and not version.parse(release_version).is_prerelease:
                                 supported_versions.append(release)
@@ -119,8 +117,8 @@ def application(arg):
                         __log.info("Supported versions (higher than the current one):\n" + str(supported_versions))
                         i = 0
                         for displayed_version in supported_versions:
-                            print(str(i) + ": " + displayed_version.get("release_type") + " " +
-                                  displayed_version.get("release_version") + " | Date: " +
+                            print(str(i) + ": " + displayed_version.get("release_type") + "\t" +
+                                  displayed_version.get("release_version") + "\t| Date: " +
                                   displayed_version.get("release_date"))
                             i += 1
                         is_index_correct = False
