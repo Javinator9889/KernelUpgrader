@@ -2,13 +2,9 @@ from kernel_upgrader.net.PageInfo import Connection
 
 
 class KernelVersions(Connection):
-    def __init__(self):
-        super(KernelVersions, self).__init__()
-        self.__soupObject = super(KernelVersions, self).getSoupObject()
-
     def obtain_current_available_kernels(self):
         # type: () -> list
-        releases = self.__soupObject.find("table", {"id": "releases"})
+        releases = super(KernelVersions, self).getSoupObject().find("table", {"id": "releases"})
         versions = releases.find_all("tr")
         result = []
         for version in versions:
