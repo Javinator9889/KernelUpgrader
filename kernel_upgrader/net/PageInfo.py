@@ -36,5 +36,5 @@ class Connection:
         html_latest_link = td.a
         return html_latest_link.get('href')
 
-    def _getSoupObject(self):
+    def getSoupObject(self):
         return self.__soupObject
