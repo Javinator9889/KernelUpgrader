@@ -5,6 +5,7 @@ A Python tool for upgrade your kernel safely from https://kernel.org
 [![PyPi](https://img.shields.io/badge/v1.18.8%20-PyPi-green.svg)](https://pypi.org/project/KernelUpgrader/)
 [![ZIP](https://img.shields.io/badge/Package%20-Zip-green.svg)](https://github.com/Javinator9889/KernelUpgrader/archive/master.zip)
 [![GIT](https://img.shields.io/badge/Package%20-Git-green.svg)](https://github.com/Javinator9889/KernelUpgrader.git)
+[![Downloads](https://pepy.tech/badge/kernelupgrader)](https://pepy.tech/project/kernelupgrader)
 
 ## How it works?
 First of all, I designed this tool for *speed-up* kernel installation process, as the user has to perform a lot of commands and be careful (the process can crash your system if any step is not correctly completed).
@@ -23,53 +24,53 @@ If you want to know *what commands* is the program using, you can find them at `
 You have some alternatives to install this application (*both requires admin access  - '#'' means admin access granted*):
 
 + Using `pip`. For that purpose, just run in your terminal:
-```commandLine
+```bash
 pip install KernelUpgrader # It is important to use "pip" from Python 3
 ```
 To use *Python 3 PIP*, you must install `pip3`:
-```commandLine
+```bash
 apt-get install pip3 # Assuming that you have Python 3 installed
 ### PYTHON 3 NOT INSTALLED ##
 apt-get install python3
 ```
 If you find that `pip` installs dependencies in *Python 2*, in most cases the following syntax works:
-```commandLine
+```bash
 python3 -m pip install KernelUpgrader
 ```
 + Using the `setup.py` file:
 First, you have to *obtain* the correspondent version. You can get it via `wget` or using `git` (as shown below):
-```commandLine
+```bash
 apt-get install wget unzip # If "wget" and "unzip" is not installed
 wget https://github.com/Javinator9889/KernelUpgrader/archive/master.zip
 unzip master.zip
 cd KernelUpgrader-master/
 ```
-```commandLine
+```bash
 apt-get install git # If "git" is not installed
 git clone https://github.com/Javinator9889/KernelUpgrader.git
 cd KernelUpgrader
 ```
 Now, for *both processes*, we just need to run:
-```commandLine
+```bash
 python3 setup.py install # We are using "python3" as "python" means "Python 2"
 ```
 
 ## How to update?
 In order to update to a newer version of *KernelUpgrader*, we must do:
-```commandLine
+```bash
 # If installed via "pip"
 pip install -U KernelUpgrader
 # If the above one not works
 python3 -m pip install -U KernelUpgrader
 ```
-```commandLine
+```bash
 # If installed via "wget" or "git"
 # We must follow the steps in "How to install" until the "cd" command and then run:
 python3 setup.py install # This automatically updates the application
 ```
 ## How to use it?
 Once the application *is installed* you now should be able to run it from command line, typing:
-```commandline
+```bash
 kernel_upgrader # or
 sudo kernel_upgrader
 ```
