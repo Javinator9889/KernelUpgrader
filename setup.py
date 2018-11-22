@@ -1,3 +1,4 @@
+from os import path
 from sys import version
 
 from setuptools import setup, find_packages
@@ -7,15 +8,9 @@ from kernel_upgrader.values.Constants import OP_VERSION
 if version < '3':
     raise RuntimeError("Python v3 at least needed")
 
-
-try:
-    import codecs
-    readme = codecs.open("README.rst", encoding="utf-8")
-    long_description = readme.read()
-    readme.close()
-except:
-    long_description = ''
-
+this = path.abspath(path.dirname(__file__))
+with open(path.join(this, "README.md"), encoding="utf-8") as f:
+    long_description = f.read()
 
 setup(
     name='KernelUpgrader',
@@ -27,7 +22,7 @@ setup(
     author_email='javialonso007@hotmail.es',
     description='Download, compile and install the latest stable kernel for your Linux system',
     long_description=long_description,
-    long_description_content_type='text/x-rst',
+    long_description_content_type='text/markdown',
     include_package_data=True,
     zip_safe=False,
     download_url="https://github.com/Javinator9889/KernelUpgrader/archive/master.zip",

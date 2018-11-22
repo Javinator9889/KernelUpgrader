@@ -239,24 +239,24 @@ def main():
     arguments.add_argument("-u",
                            "--usage",
                            action="store_true",
-                           help="Show full usage of this program")
+                           help="show full usage of this program")
     arguments.add_argument("-v",
                            "--version",
                            action="store_true",
-                           help="Show program version")
+                           help="show program version")
     arguments.add_argument("-c",
                            "--check",
                            action="store_true",
-                           help="Only checks if there is any new version available")
+                           help="only checks if there is any new version available")
     arguments.add_argument("-j",
                            "--cores",
                            type=int,
                            default=0,
-                           help="Use a predefined number of cores for thread compilation. Default: 0 (uses the number"
+                           help="use a predefined number of cores for thread compilation. Default: 0 (uses the number"
                                 "of cores available on your system)")
     arguments.add_argument("--interactive",
                            action="store_true",
-                           help="Launches the KernelUpgrader tool with interactive mode for selecting the kernel "
+                           help="launches the KernelUpgrader tool with interactive mode for selecting the kernel "
                                 "you want to install")
     args = arguments.parse_args()
     try:
