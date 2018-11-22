@@ -1,5 +1,6 @@
 import logging
 
+from kernel_upgrader.exceptions import raiserModuleNotFound
 from kernel_upgrader.values.Constants import (
     WI_KERNEL_PAGE,
     WI_PARSER,
@@ -7,7 +8,6 @@ from kernel_upgrader.values.Constants import (
     WI_TABLE_ID,
     WI_LATEST_LINK_ID,
     LOG_KERNEL)
-from kernel_upgrader.exceptions import raiserModuleNotFound
 
 
 class Connection:
@@ -35,3 +35,6 @@ class Connection:
         td = table.find(id=WI_LATEST_LINK_ID)
         html_latest_link = td.a
         return html_latest_link.get('href')
+
+    def _getSoupObject(self):
+        return self.__soupObject
