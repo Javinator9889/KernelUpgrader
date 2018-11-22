@@ -4,7 +4,7 @@ from kernel_upgrader.net.PageInfo import Connection
 class KernelVersions(Connection):
     def __init__(self):
         super(KernelVersions, self).__init__()
-        self.__soupObject = super(KernelVersions, self)._getSoupObject()
+        self.__soupObject = super(KernelVersions, self).getSoupObject()
 
     def obtain_current_available_kernels(self):
         # type: () -> list
