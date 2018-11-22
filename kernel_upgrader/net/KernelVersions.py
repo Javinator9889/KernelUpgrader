@@ -10,7 +10,7 @@ class KernelVersions(Connection):
         for version in versions:
             parts = version.find_all("td")
             if parts[3].find('a') is not None:
-                result.append({"release_type": parts[0].get_text(strip=True),
+                result.append({"release_type": parts[0].get_text(strip=True).replace(':', ''),
                                "release_version": parts[1].get_text(strip=True),
                                "release_date": parts[2].get_text(strip=True),
                                "release_url": parts[3].find("a").get("href")})
