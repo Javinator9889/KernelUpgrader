@@ -10,7 +10,7 @@ class KernelVersions(Connection):
         for version in versions:
             parts = version.find_all("td")
             result.append({"release_type": parts[0].get_text(strip=True),
-                           "release_version": parts[1].get("strong").get_text(strip=True),
+                           "release_version": parts[1].get_text(strip=True),
                            "release_date": parts[2].get_text(strip=True),
-                           "release_url": parts[3].get("a").get("href")})
+                           "release_url": parts[3].find("a").get("href")})
         return result
