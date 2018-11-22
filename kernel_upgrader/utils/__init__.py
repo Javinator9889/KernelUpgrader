@@ -1,8 +1,5 @@
-from datetime import datetime
-from threading import Thread
-
-from kernel_upgrader.utils.colors import *
 from kernel_upgrader.utils.anim import *
+from kernel_upgrader.utils.colors import *
 
 
 def getHomeDir():
@@ -156,8 +153,9 @@ def isNewVersionAvailable():
     # type: () -> bool
     import requests
     import pickle
+    from packaging import version
     from kernel_upgrader.values.Constants import OP_VERSION, OP_VERSION_RAW
 
     response = requests.get(OP_VERSION_RAW)
     version_dict = pickle.loads(response.content)
-    return version_dict["version"] != OP_VERSION
+    return version.parse(version_dict["version"]) < version.parse(OP_VERSION)

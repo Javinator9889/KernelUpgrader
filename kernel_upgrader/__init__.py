@@ -216,6 +216,8 @@ def application(arg):
 
 
 def main():
+    import traceback
+
     arguments = argparse.ArgumentParser(prog=__program_name,
                                         description=__program_description,
                                         epilog=__program_version)
@@ -241,6 +243,7 @@ def main():
         application(args)
     except Exception as e:
         print(e)
+        traceback.print_exc()
         exit(-1)
 
 
